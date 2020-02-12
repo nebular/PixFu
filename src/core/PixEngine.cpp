@@ -6,6 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
+#include <lib/PixEngine_launcher/opengl/gl3stub.h>
 #include "PixEngine.hpp"
 #include "OpenGL.h"
 #include "OpenGlUtils.h"
@@ -15,10 +16,10 @@
 using namespace rgl;
 
 std::string PixEnginePlatform::ROOTPATH = "";
+PixEngine *PixEnginePlatform::BOOTINSTANCE = nullptr;
 
-PixEngine::PixEngine(int width, int height, PixEnginePlatform *platform, std::string shader)
-: WIDTH(width), HEIGHT(height), sShaderName(shader) {
-	init(platform);
+PixEngine::PixEngine(PixEnginePlatform *platform, std::string shader) : sShaderName(shader) {
+	initPlatform(platform);
 }
 
 PixEngine::~PixEngine() {
@@ -44,8 +45,13 @@ PixEngine::~PixEngine() {
 
 }
 
+bool PixEngine::init(int width, int height) {
+	nScreenWidth = width;
+	nScreenHeight = height;
+	return true;
+}
 
-bool PixEngine::init(PixEnginePlatform *platform) {
+bool PixEngine::initPlatform(PixEnginePlatform *platform) {
 	
 	pPlatform = platform;
 	pPlatform->setEngine(this);
@@ -107,7 +113,7 @@ void PixEngine::loop() {
 
 bool PixEngine::loop_init() {
 	
-	pSurface = new Surface(WIDTH, HEIGHT, sShaderName);
+	pSurface = new Surface(nScreenWidth, nScreenHeight, sShaderName);
 	pSurface->init_opengl();
 	pSurface->init_texture();
 	

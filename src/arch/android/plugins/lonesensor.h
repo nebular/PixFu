@@ -8,7 +8,7 @@
 #include "android/sensor.h"
 #include <dlfcn.h>
 #include <cassert>
-#include <arch/android/androidapi.h>
+#include "arch/android/androidapi.h"
 
 
 class LoneSensor {

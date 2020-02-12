@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 #ifndef _COCOA_WINDOWING_H_
 #define _COCOA_WINDOWING_H_
 
@@ -226,4 +227,5 @@ enum CMouse : size_t
     RIGHT = 1,
 };
 
+#endif
 #endif

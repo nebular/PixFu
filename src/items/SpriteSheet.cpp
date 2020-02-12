@@ -21,7 +21,7 @@ SpriteSheet::SpriteSheet(PixEngine *engine, std::string spriteAtlas, int numx, i
 	pShader = new Shader(shader);
 	pTexture = new Texture2D(spriteAtlas);
 	SPRSIZE = {pTexture->width()/NUMX, pTexture->height()/NUMY};
-	mProjection = glm::ortho(0.0f, (float)engine->WIDTH, (float)engine->HEIGHT, 0.0f, -1.0f, 1.0f);
+	mProjection = glm::ortho(0.0f, (float)engine->nScreenWidth, (float)engine->nScreenHeight, 0.0f, -1.0f, 1.0f);
 }
 
 SpriteSheet::~SpriteSheet() {

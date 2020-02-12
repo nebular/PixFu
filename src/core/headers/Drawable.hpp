@@ -13,46 +13,59 @@
 
 namespace rgl {
 
-struct Pixel {
-	
-	union {
-		uint32_t n = 0xFF000000;
-		struct {
-			uint8_t r;
-			uint8_t g;
-			uint8_t b;
-			uint8_t a;
+	struct Pixel {
+
+		union {
+			uint32_t n = 0xFF000000;
+			struct {
+				uint8_t r;
+				uint8_t g;
+				uint8_t b;
+				uint8_t a;
+			};
 		};
+
+		Pixel();
+
+		Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255);
+
+		Pixel(uint32_t p);
+
+		Pixel scale(float mult);
 	};
 
-	Pixel();
-	Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255);
-	Pixel(uint32_t p);
-};
+	class Colors {
+	public:
+		static Pixel RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW, BLACK, GREY, WHITE;
+	};
 
 
-class Drawable {
 
-	Pixel *pData;
+	class Drawable {
 
-public:
+		Pixel *pData;
 
-	const int width, height;
+	public:
 
-	Drawable(int w, int h);
-	~Drawable();
-	Pixel *getData();
+		const int width, height;
 
-	void setPixel(int x, int y, Pixel pix);
-	Pixel getPixel(int x, int y);
+		Drawable(int w, int h);
 
-	void clear(Pixel color);
+		~Drawable();
 
-	static Drawable *fromFile(std::string name);
+		Pixel *getData();
 
-};
+		void setPixel(int x, int y, Pixel pix);
 
-inline Pixel *Drawable::getData() { return pData; }
+		Pixel getPixel(int x, int y);
+
+		void clear(Pixel color);
+
+		static Drawable *fromFile(std::string name);
+
+	};
+
+	inline Pixel *Drawable::getData() { return pData; }
 
 };
 #endif /* Drawable_hpp */

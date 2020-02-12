@@ -13,9 +13,7 @@
 
 namespace rgl {
 
-class Keyboard : public InputDevice {
-	
-	enum KeyNames {
+	enum Keys {
 		NONE,
 		A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
 		K0, K1, K2, K3, K4, K5, K6, K7, K8, K9,
@@ -26,7 +24,10 @@ class Keyboard : public InputDevice {
 		BACK, ESCAPE, RETURN, ENTER, PAUSE, SCROLL,
 		SHIFT, CTRL
 	};
+
+	class Keyboard : public InputDevice {
 	
+
 	static Keyboard *pInstance;
 	
 	const int NUMKEYS;
@@ -38,18 +39,18 @@ class Keyboard : public InputDevice {
 	bool *pStateHeld;
 	
 	Keyboard(int numkeys);
-	bool _isPressed(KeyNames key);
-	bool _isHeld(KeyNames key);
-	bool _isReleased(KeyNames key);
+	bool _isPressed(Keys key);
+	bool _isHeld(Keys key);
+	bool _isReleased(Keys key);
 	
 public:
 	
 	static void enable(int numkeys = 67);
 	static void disable();
 	static Keyboard *instance();
-	static bool isPressed(KeyNames key);
-	static bool isHeld(KeyNames key);
-	static bool isReleased(KeyNames key);
+	static bool isPressed(Keys key);
+	static bool isHeld(Keys key);
+	static bool isReleased(Keys key);
 	
 	~Keyboard();
 	void update();
@@ -57,14 +58,14 @@ public:
 };
 
 // query key position
-inline bool Keyboard::_isPressed(KeyNames key) { return pStatePressed[key];}
-inline bool Keyboard::_isReleased(KeyNames key) { return pStateReleased[key];}
-inline bool Keyboard::_isHeld(KeyNames key) { return pStateHeld[key];}
+inline bool Keyboard::_isPressed(Keys key) { return pStatePressed[key];}
+inline bool Keyboard::_isReleased(Keys key) { return pStateReleased[key];}
+inline bool Keyboard::_isHeld(Keys key) { return pStateHeld[key];}
 
 // query key position (static)
-inline bool Keyboard::isPressed(KeyNames key) { return pInstance->pStatePressed[key];}
-inline bool Keyboard::isReleased(KeyNames key) { return pInstance->pStateReleased[key];}
-inline bool Keyboard::isHeld(KeyNames key) { return pInstance->pStateHeld[key];}
+inline bool Keyboard::isPressed(Keys key) { return pInstance->pStatePressed[key];}
+inline bool Keyboard::isReleased(Keys key) { return pInstance->pStateReleased[key];}
+inline bool Keyboard::isHeld(Keys key) { return pInstance->pStateHeld[key];}
 
 }
 #endif /* Keyboard_hpp */

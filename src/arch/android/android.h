@@ -8,7 +8,7 @@
 #ifdef ANDROID
 
 #include "png.h"
-#include "arch/android/androidapi.h"
+#include "androidapi.h"
 #include "plugins/lonesensor.h"
 #include "plugins/lonescreenkey.h"
 typedef struct sMotionEvent {
