@@ -7,24 +7,45 @@
 #define PIXENGINE_ANDROID_ANDROIDLAYER_H
 
 #include "OpenGL.h"
+#include "plugins/lonescreenkey.h"
+#include "plugins/lonesensor.h"
 
-class PixEngineAndroid : public rgl::PixEnginePlatform {
+namespace rgl {
 
+	typedef struct sMotionEvent {
+		int PointersCount, Action, PointerId, RawAction;
+		int32_t X0, Y0, X1, Y1;
+	} MotionEvent_t;
 
-	bool init();
+	class PixEngineAndroid : public PixEnginePlatform {
 
-	std::pair<bool, bool> events();
+		ASensorEvent tCurrentEvent;            	// current sensor event
 
-	void commit();
+		LoneScreenKey *cLoneKeys;            	// screenkeys helper class
+		LoneSensor *pLoneSensor;            	// gyroscope joystick helper class
 
-	void deinit();
+		MotionEvent_t tCurrentMotionEvent;
 
-	void onFps(int fps);
+		bool init();
 
-	std::string getPath(std::string relpath);
+		std::pair<bool, bool> events();
 
-};
+		void commit();
 
+		void deinit();
+
+		void onFps(int fps);
+
+	public:
+
+		static PixEngine *BOOTINSTANCE;    // OLC engine to run
+
+		~PixEngineAndroid();
+
+		void inputMotionEvent(MotionEvent_t event);
+
+	};
+}
 #endif
 
 #endif //PIXENGINE_ANDROID_ANDROIDLAYER_H

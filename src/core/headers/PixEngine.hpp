@@ -37,6 +37,9 @@ namespace rgl {
 		static std::string ROOTPATH;
 
 	public:
+
+		virtual ~PixEnginePlatform();
+
 		void setEngine(PixEngine *engine);
 
 		virtual bool init() = 0;
@@ -53,10 +56,9 @@ namespace rgl {
 
 		static void setPath(std::string rootpath);
 
-		static PixEngine *BOOTINSTANCE;
-
 	};
 
+	inline PixEnginePlatform::~PixEnginePlatform() {}
 	inline void PixEnginePlatform::setEngine(PixEngine *engine) { pEngine = engine; }
 
 	inline std::string PixEnginePlatform::getPath(std::string relpath) {
@@ -92,6 +94,7 @@ namespace rgl {
 
 		bool bLoopActive = false;
 		bool bIsFocused = false;
+		bool bInited = false;
 
 		int nFrameCount = 0;
 		float fFrameTimer = 1.0f;
@@ -135,6 +138,8 @@ namespace rgl {
 
 		bool init(int width, int height);
 		void start();
+
+
 
 	};
 

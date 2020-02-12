@@ -13,7 +13,8 @@ namespace rgl {
 
 	LoneScreenKey *LoneScreenKey::currentInstance = nullptr;
 
-	LoneScreenKey::LoneScreenKey(int resolution) : fResolution(resolution) {}
+	LoneScreenKey::LoneScreenKey(int resolution) : fResolution(resolution) {
+	}
 
 	int LoneScreenKey::input(int32_t x, int32_t y) {
 		x /= fResolution;
@@ -57,25 +58,26 @@ namespace rgl {
 			canvas->drawCircle(Mouse::x(), Mouse::y(), 40.0, Colors::RED);
 
 		for (ScreenKey_t key : vKeys) {
-			if (((!key.mouse && engine->GetKey(static_cast<olc::Key>(key.code)).bHeld)
+			if (((!key.mouse && Keyboard::instance()->isHeld(static_cast<rgl::Keys>(key.code)))
 				 || (key.mouse && aMyMouseStats[key.code])))
-				engine->FillRect(key.x0, key.y0, key.w, key.h, color);
+				canvas->fillRect(key.x0, key.y0, key.w, key.h, color);
 			else
-				engine->DrawRect(key.x0, key.y0, key.w, key.h, color);
+				canvas->drawRect(key.x0, key.y0, key.w, key.h, color);
 		}
 
 	}
 
-#define MAXBUTTONS 2
 
 	void LoneScreenKey::reset() {
-		for (int i = 0; i < MAXBUTTONS; i++) aMyMouseStats[i] = false;
+		for (int i = 0; i < Mouse::instance()->BUTTONS; i++) aMyMouseStats[i] = false;
 	}
 
 // todo
 	int
-	LoneScreenKey::sync(int32_t x0, int32_t y0, int32_t x1, int32_t y1, bool keystats[],
-						bool isUp) {
+	LoneScreenKey::sync(int32_t x0, int32_t y0, int32_t x1, int32_t y1, bool isUp) {
+
+		int MAXBUTTONS = Mouse::instance()->BUTTONS;
+		bool *keystats = Keyboard::instance()->pNextState;
 
 		x0 /= fResolution;
 		y0 /= fResolution;

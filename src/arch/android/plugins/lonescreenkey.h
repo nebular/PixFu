@@ -30,8 +30,7 @@ namespace rgl {
 
 		int input(int32_t x, int32_t y);
 
-		int
-		sync(int32_t x0, int32_t y0, int32_t x1, int32_t y1, bool keystats[], bool isUp = false);
+		int sync(int32_t x0, int32_t y0, int32_t x1, int32_t y1, bool isUp = false);
 
 		void add(ScreenKey_t key);
 

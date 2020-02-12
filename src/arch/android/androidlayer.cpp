@@ -9,71 +9,150 @@
 #include "Keyboard.hpp"
 #include "androidlayer.h"
 #include <iostream>
+namespace rgl {
 
-bool PixEngineAndroid::init() {
+	static constexpr int ACTION_UP = 1;
+	static constexpr int ACTION_DOWN = 0;
+	static constexpr int ACTION_MOVE = 2;
+	static constexpr int ACTION_CANCEL = 3;
+
+// other than primary finger
+	static constexpr int ACTION_POINTER_DOWN = 5;
+	static constexpr int ACTION_POINTER_UP = 6;
+
+	PixEngine *PixEngineAndroid::BOOTINSTANCE = nullptr;
+
+	PixEngineAndroid::~PixEngineAndroid() {
+		deinit();
+	}
+
+	bool PixEngineAndroid::init() {
+
+		Mouse::enable();
+		Keyboard::enable();
+
+		cLoneKeys = new LoneScreenKey(1);
+		LoneScreenKey::currentInstance = cLoneKeys; // todo singleton
+
+		pLoneSensor = new LoneSensor();
+		pLoneSensor->init();
+		cLoneKeys->reset();
+
+		return true;
+
+	}
+
+	std::pair<bool, bool> PixEngineAndroid::events() {
+		// onpause will route here
+		bool focused = true; // window_is_focused();
+		bool active = true; // !get_window_is_closing();
+		return {active, focused};
+	}
+
+	void PixEngineAndroid::commit() {
+		// no frame commit, android does that after returning from tick
+	}
+
+	void PixEngineAndroid::deinit() {
+		// something will come here for sure
+	}
+
+	void PixEngineAndroid::onFps(int fps) {
+		std::string sTitle = "PixEngine - FPS: " + std::to_string(fps);
+	}
+
+	void Mouse::update() {
+		// already done
+	}
+
+	void Keyboard::update() {
+
+	}
+
+	void PixEngine::start() {
+		// this platform does not run a loop
+	}
 
 
-	cLoneKeys = new LoneScreenKey(1);
-	LoneScreenKey::currentInstance = cLoneKeys; // todo singleton
+	// called from Launcher to send a MotionEvent (Touch)
+	void PixEngineAndroid::inputMotionEvent(MotionEvent_t event) {
 
-	nWindowHeight = nScreenHeight;
-	nWindowWidth = nScreenWidth;
 
-	pLoneSensor = new LoneSensor();
-	pLoneSensor->init();
-	cLoneKeys->reset();
+		Mouse *mouse = Mouse::instance();
 
-	return true;
+		if (mouse == nullptr) return;
 
-}
 
-std::pair<bool,bool> PixEngineAndroid::events() {
-	bool focused = window_is_focused();
-	process_window_events();
-	bool active = !get_window_is_closing();
-	return {active, focused};
-}
+		// we have touch information
+		// lets simulate a mouse
+		//
+		// I tried an elaborate routine to simulate clicks on touch but it was getting too complicated and prone to fail
+		// I came up with this simple approach that kind of works pretty well. It uses LoneKeys to paint
+		// 2 virtual mouse buttons on screen, and multitouch is supported so you can move the pointer with one finger
+		// and use the buttons with other. For implementing another mouse behavior, you have all details in tCurrentMotionEvent
+		//
 
-void PixEngineAndroid::commit() {
-	refresh_window();
-}
+		tCurrentMotionEvent = event;
+		int action = event.RawAction;
 
-void PixEngineAndroid::deinit() {
-	close_window();
-	close_application();
-}
+		// Iterate through virtual keys and set their state.
+		// will return 0 -> key pressed with primary pointer (X0Y0), 1 -> with secondary (X1Y1), -1 No key pressed.
+		int keysRegion = cLoneKeys->sync(tCurrentMotionEvent.X0, tCurrentMotionEvent.Y0,
+										 tCurrentMotionEvent.X1, tCurrentMotionEvent.Y1,
+										 tCurrentMotionEvent.Action == ACTION_UP);
 
-void PixEngineAndroid::onFps(int fps) {
-	std::string sTitle = "PixEngine - FPS: " + std::to_string(fps);
-	set_window_name(sTitle.c_str());
-}
+		bool twoFingers = event.PointersCount > 1;
+		// ALOGV ("Event: buttons %d, action %d, index %d", tCurrentMotionEvent.PointersCount, tCurrentMotionEvent.RawAction, tCurrentMotionEvent.PointerId);
 
-void rgl::Mouse::update() {
-	input(get_mouse_position_x(), get_mouse_position_y());
-	inputWheel(get_mouse_scroll_x(), get_mouse_scroll_y());
-	for (char i = 0; i < BUTTONS; i++) inputButton(i, get_mouse_button(i));
-}
+		switch (action) {
 
-void rgl::Keyboard::update() {
+			case ACTION_POINTER_UP:
 
-	for (int i = 0; i < NUMKEYS; i++) {
-		if (get_key_down(::Key::All[i])) {
-			pNextState[i] = true;
-		}
-		if (get_key_up(::Key::All[i])) {
-			pNextState[i] = false;
+				for (int i = 0; i < mouse->BUTTONS; i++)
+					mouse->inputButton(i, false);
+
+				break;
+
+			case ACTION_UP:
+			case ACTION_CANCEL:
+
+				// end touch (no fingers on screen)
+				// reset virtual mouse button status
+				cLoneKeys->reset();
+
+				// break through to update coordinates and real state (that we have reset here)
+
+			case ACTION_DOWN:
+			case ACTION_POINTER_DOWN:
+
+				if (twoFingers)
+					for (int i = 0; i < mouse->BUTTONS; i++)
+						mouse->inputButton(i, cLoneKeys->GetFakeMouse(i));
+
+			case ACTION_MOVE:
+
+				// These actions update the engine mouse button status from
+				// our local copy in cLoneKeys
+
+				if (twoFingers)
+					for (int i = 0; i < mouse->BUTTONS; i++)
+						mouse->inputButton(i, cLoneKeys->GetFakeMouse(i));
+
+				// then updates the right coordinates: One of them is the finger in the buttons area,
+				// the other the pointer finger. We select the right one !
+
+				if (keysRegion != 0)
+					mouse->input(tCurrentMotionEvent.X0, tCurrentMotionEvent.Y0);
+				else if (twoFingers) // may happen that only one finger is pressing buttons but none is pointing
+					mouse->input(tCurrentMotionEvent.X1, tCurrentMotionEvent.Y1);
+				break;
+			default:
+				break;
 		}
 	}
 
-	if (get_modifier_key_down(::SHIFT)) pNextState[Keys::SHIFT] = true;
-	if (get_modifier_key_up(::SHIFT)) pNextState[Keys::SHIFT] = false;
-	if (get_modifier_key_down(::CONTROL)) pNextState[Keys::CTRL] = true;
-	if (get_modifier_key_up(::CONTROL)) pNextState[Keys::CTRL] = false;
 
-}
 
-bool rgl::PixEngine::start() {
-	return true;
 }
 
 #endif

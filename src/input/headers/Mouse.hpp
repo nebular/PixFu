@@ -14,10 +14,11 @@
 namespace rgl {
 
 class Mouse : public InputDevice {
-	
+
+	friend class PixEngineAndroid;
+
 	static Mouse *pInstance;
 	
-	const int BUTTONS;
 	int nX = 0, nY=0, nWheelX=0, nWheelY=0;
 	int nNewX=0, nNewY=0, nNewWheelX=0, nNewWheelY=0;
 	bool *pNextButtonState = nullptr;
@@ -31,6 +32,7 @@ class Mouse : public InputDevice {
 	bool _isPressed(int button);
 	bool _isHeld(int button);
 	bool _isReleased(int button);
+	bool *getBuffer();
 
 	void input(int px, int py);
 	void inputWheel(int sx, int sy);
@@ -39,6 +41,9 @@ class Mouse : public InputDevice {
 	Mouse(int buttons = 2);
 	
 public:
+
+	const int BUTTONS;
+
 	// singleton: enable mouse
 	static void enable(int buttons = 2);
 	// singleton: disable mouse
@@ -51,12 +56,14 @@ public:
 	static bool isPressed(int button);
 	static bool isHeld(int button);
 	static bool isReleased(int button);
-	
+
 	~Mouse();
 	void update();
 	void sync();
 	
 };
+
+inline bool *Mouse::getBuffer() { return pNextButtonState; }
 
 // query mouse position (instance)
 inline int Mouse::_x() { return nX; }
