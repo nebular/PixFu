@@ -7,7 +7,6 @@
 #define NUM_OF_MOUSE_BUTTONS 2
 #define NUM_OF_KEYS 69
 
-#include "../../olcPixelGameEngine.h"
 #include "android.h"
 
 unsigned int load_shader();

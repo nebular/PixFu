@@ -1,3 +1,4 @@
+#ifdef __APPLE__
 //
 // Created by rodo on 2020-01-24.
 //
@@ -21,3 +22,4 @@ class PixEngineApple : public rgl::PixEnginePlatform {
 };
 
 #endif //GLES3JNI_APPLE_H
+#endif
