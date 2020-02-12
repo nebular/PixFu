@@ -20,6 +20,10 @@ long now() { return std::chrono::duration_cast< std::chrono::milliseconds >(std:
 
 SpriteSheet::~SpriteSheet() {
 	glDeleteVertexArrays(1, &this->quadVAO);
+	delete pShader;
+	delete pTexture;
+	pShader = nullptr;
+	pTexture = nullptr;
 }
 
 SpriteSheet::SpriteSheet(PixEngine *engine, std::string spriteAtlas, int numx, int numy, std::string shader)

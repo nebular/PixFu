@@ -87,7 +87,8 @@ public:
 	const int WIDTH, HEIGHT;
 
 	PixEngine(int width, int height, PixEnginePlatform *platform, std::string shader = "default");
-	
+	~PixEngine();
+
 	virtual bool onUserCreate();
 	virtual bool onUserUpdate(float fElapsedTime);
 	virtual bool onUserDestroy();

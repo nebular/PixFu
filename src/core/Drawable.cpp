@@ -37,6 +37,11 @@ Drawable::Drawable(int x, int y):width(x),height(y) {
 	std::cerr << "New Drawable "<<width<<","<<height<<std::endl;
 }
 
+Drawable::~Drawable() {
+	delete pData;
+	pData = nullptr;
+}
+
 void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
 	if (x<width && y<height && x>=0 && y>=0)
 		pData[y * width + x] = pix;

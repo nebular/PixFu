@@ -19,6 +19,14 @@ Keyboard::Keyboard(int numkeys):NUMKEYS(numkeys) {
 	for (int i = 0; i<NUMKEYS; i++) pThisState[i] = pNextState[i]=pStatePressed[i]=pStateHeld[i]=false;
 };
 
+Keyboard::~Keyboard() {
+	delete pNextState;
+	delete pThisState;
+	delete pStateHeld;
+	delete pStatePressed;
+	delete pStateReleased;
+}
+
 bool Keyboard::isPressed(KeyNames key) { return pStatePressed[key];}
 bool Keyboard::isReleased(KeyNames key) { return pStateReleased[key];}
 bool Keyboard::isHeld(KeyNames key) { return pStateHeld[key];}

@@ -19,6 +19,16 @@ PixEngine::PixEngine(int width, int height, PixEnginePlatform *platform, std::st
 	init(platform);
 }
 
+PixEngine::~PixEngine() {
+	delete pMouse;
+	delete pKeyboard;
+	delete pSurface;
+	pMouse = nullptr;
+	pKeyboard = nullptr;
+	pSurface = nullptr;
+}
+
+
 bool PixEngine::init(PixEnginePlatform *platform) {
 	
 	pPlatform = platform;

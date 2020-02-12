@@ -12,13 +12,14 @@
 
 namespace rgl {
 class Font {
-
+	
 	Drawable *pTarget;
 	Drawable *pFontSprite;
 	int nWidth, nHeight;
-
+	
 public:
 	Font(std::string filename, int charWidth=8, int charHeight=8);
+	~Font();
 	void drawString(Drawable *target, int32_t x, int32_t y, std::string sText, rgl::Pixel col, uint32_t scale);
 };
 }

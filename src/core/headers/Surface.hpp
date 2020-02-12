@@ -44,6 +44,7 @@ class Surface {
 public:
 
 	Surface(int width, int height, std::string shader);
+	~Surface();
 
 	bool init_opengl();
 	void init_texture();

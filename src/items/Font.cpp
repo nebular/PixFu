@@ -16,6 +16,12 @@ Font::Font(std::string filename, int w, int h) {
 	nHeight = h;
 }
 
+Font::~Font() {
+	delete pFontSprite;
+	pFontSprite = nullptr;
+}
+
+
 void Font::drawString(Drawable *target, int32_t x, int32_t y, std::string sText, rgl::Pixel col, uint32_t scale)
 {
 	int sx = 0;

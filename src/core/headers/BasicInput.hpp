@@ -69,6 +69,7 @@ class Keyboard {
 	
 public:
 	Keyboard(int numkeys);
+	~Keyboard();
 	void update();
 	void sync();
 	bool isPressed(KeyNames key);

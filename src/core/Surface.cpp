@@ -22,6 +22,13 @@ Surface::Surface(int width, int height, std::string name):nWidth(width), nHeight
 	pActiveDrawable = new Drawable(width, height);
 }
 
+Surface::~Surface() {
+	delete pShader;
+	delete pActiveDrawable;
+	pShader = nullptr;
+	pActiveDrawable = nullptr;
+}
+
 bool Surface::init_opengl() {
 	
 	glGenVertexArrays(1, &vao);

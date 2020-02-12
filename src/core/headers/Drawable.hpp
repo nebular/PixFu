@@ -36,8 +36,11 @@ class Drawable {
 	Pixel *pData;
 
 public:
+
 	const int width, height;
+
 	Drawable(int w, int h);
+	~Drawable();
 	Pixel *getData();
 
 	void setPixel(int x, int y, Pixel pix);
