@@ -9,6 +9,8 @@
 #include "PixEngine.hpp"
 #include "OpenGL.h"
 #include "OpenGlUtils.h"
+#include "Mouse.hpp"
+#include "Keyboard.hpp"
 
 using namespace rgl;
 
@@ -20,12 +22,26 @@ PixEngine::PixEngine(int width, int height, PixEnginePlatform *platform, std::st
 }
 
 PixEngine::~PixEngine() {
-	delete pMouse;
-	delete pKeyboard;
+
+	// destroy primary surface
+	
 	delete pSurface;
-	pMouse = nullptr;
-	pKeyboard = nullptr;
 	pSurface = nullptr;
+
+	// destroy input devices
+
+	for (InputDevice *device:vInputDevices)
+		delete device;
+	
+	vInputDevices.clear();
+
+	// destroy all extensions
+
+	for (PixEngineExtension *extension:vExtensions)
+		delete extension;
+	
+	vExtensions.clear();
+
 }
 
 
@@ -33,9 +49,13 @@ bool PixEngine::init(PixEnginePlatform *platform) {
 	
 	pPlatform = platform;
 	pPlatform->setEngine(this);
-	
-	pMouse = new Mouse(2);
-	pKeyboard = new Keyboard(67);
+
+	Mouse::enable();
+	Keyboard::enable();
+
+	addInputDevice(Mouse::instance());
+	addInputDevice(Keyboard::instance());
+
 	return pPlatform->init();
 }
 
@@ -48,7 +68,7 @@ void PixEngine::loop() {
 	}
 	
 	auto tp1 = std::chrono::system_clock::now();
-	auto tp2 = std::chrono::system_clock::now();
+	auto tp2 = tp1;
 	
 	bLoopActive = true;
 	
@@ -67,7 +87,6 @@ void PixEngine::loop() {
 			
 			bLoopActive = loop_tick(fElapsedTime);
 			
-			// Update Title Bar
 			fFrameTimer += fElapsedTime;
 			nFrameCount++;
 			
@@ -113,9 +132,9 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	if (bLoopActive) {
-		
-		pKeyboard->sync();
-		pMouse->sync();
+
+		for (InputDevice *device:vInputDevices)
+			device->sync();
 		
 		// Handle Frame Update
 		bLoopActive = onUserUpdate(fElapsedTime);
@@ -127,8 +146,8 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 
 		pPlatform->commit();
 
-		pMouse->update();
-		pKeyboard->update();
+		for (InputDevice *device:vInputDevices)
+			device->update();
 
 	}
 

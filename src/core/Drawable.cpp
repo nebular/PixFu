@@ -6,10 +6,10 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include "Drawable.hpp"
 #include "png.h"
+
+#include "Drawable.hpp"
 #include "PixEngine.hpp"
-#include <string>
 
 using namespace rgl;
 
@@ -31,10 +31,9 @@ Pixel::Pixel(uint32_t p) {
 	n = p;
 }
 
-
 Drawable::Drawable(int x, int y):width(x),height(y) {
 	pData = new rgl::Pixel[x*y];
-	std::cerr << "New Drawable "<<width<<","<<height<<std::endl;
+	std::cerr << "New Drawable " << width << "," << height << std::endl;
 }
 
 Drawable::~Drawable() {
@@ -128,5 +127,5 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 
 void Drawable::clear(Pixel color) {
 	for (int i = 0, l = width * height; i<l; i++)
-		pData[i]=color;
+		pData[i] = color;
 }

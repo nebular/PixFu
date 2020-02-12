@@ -9,7 +9,6 @@
 #ifndef PixEngine_hpp
 #define PixEngine_hpp
 
-#include "BasicInput.hpp"
 #include "OpenGL.h"
 #include "Surface.hpp"
 #include <string>
@@ -21,12 +20,13 @@ class PixEngine;
 
 class PixEngineExtension {
 public:
+	virtual ~PixEngineExtension();
 	virtual bool onUserCreate(PixEngine *engine) = 0;
 	virtual void onUserUpdate(PixEngine *engine, float fElapsedTime) = 0;
 };
+inline PixEngineExtension::~PixEngineExtension() {}
 
 class PixEnginePlatform {
-
 
 protected:
 	PixEngine *pEngine;
@@ -45,9 +45,19 @@ public:
 
 	
 };
+
 inline void PixEnginePlatform::setEngine(PixEngine *engine) { pEngine = engine; }
 inline std::string PixEnginePlatform::getPath(std::string relpath) { return ROOTPATH + relpath; }
 inline void PixEnginePlatform::onFps(int fps) {}
+
+class InputDevice {
+public:
+	virtual ~InputDevice();
+	virtual void update() = 0;
+	virtual void sync() = 0;
+};
+
+inline InputDevice::~InputDevice() {}
 
 class PixEngine {
 	
@@ -57,7 +67,8 @@ class PixEngine {
 
 	Surface *pSurface;
 	std::vector<PixEngineExtension *> vExtensions;
-	
+	std::vector<InputDevice *> vInputDevices;
+
 	bool bLoopActive = false;
 	bool bIsFocused = false;
 	
@@ -78,9 +89,8 @@ class PixEngine {
 protected:
 
 	void addExtension(PixEngineExtension *extension);
+	void addInputDevice(InputDevice *inputDevice);
 	Drawable *buffer();
-	Mouse *pMouse;
-	Keyboard *pKeyboard;
 
 public:
 	
@@ -98,6 +108,7 @@ public:
 };
 
 inline void PixEngine::addExtension(PixEngineExtension *e) { vExtensions.push_back(e);}
+inline void PixEngine::addInputDevice(InputDevice *inputDevice) { vInputDevices.push_back(inputDevice);}
 
 inline Drawable *PixEngine::buffer() { return pSurface->buffer(); }
 

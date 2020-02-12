@@ -19,7 +19,7 @@ class Shader {
 	
 public:
 	
-	Shader(std::string name);
+	Shader(const std::string &name);
 	
 	void use();
 	
@@ -35,9 +35,10 @@ public:
 	void setMat4(const std::string &name, const float *mat4) const;
 };
 
-inline Shader::Shader(std::string name) {
+inline Shader::Shader(const std::string &name) {
 	ID = openglutils::load_shader(name);
 }
+
 inline void Shader::use() {
 	glUseProgram(ID);
 }

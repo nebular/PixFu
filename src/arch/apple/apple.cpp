@@ -5,6 +5,8 @@
 //
 
 #include "PixEngine.hpp"
+#include "Mouse.hpp"
+#include "Keyboard.hpp"
 #include "apple.h"
 #include <iostream>
 
