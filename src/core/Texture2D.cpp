@@ -38,11 +38,8 @@ void Texture2D::bind() {
 }
 
 void Texture2D::update() {
-	// TODO: This is a bit slow (especially in debug, but 100x faster in release mode???)
-	// Copy pixel array into texture
-	glActiveTexture(openglutils::getGlTexture(glChannel));
+	bind();
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, pBuffer->width, pBuffer->height, GL_RGBA, GL_UNSIGNED_BYTE, pBuffer->getData());
-	glBindTexture(GL_TEXTURE_2D, glChannel);
 }
 
 }

@@ -114,7 +114,8 @@ bool PixEngine::loop_init() {
 	// Create user resources as part of this thread
 	if (!onUserCreate())
 		return false;
-		
+
+	// initialize PixEngine Extensions
 	for (PixEngineExtension *extension : vExtensions)
 		if (!extension->onUserCreate(this)) return false;
 
@@ -133,6 +134,7 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 	
 	if (bLoopActive) {
 
+		// snapshot inputdevices values
 		for (InputDevice *device:vInputDevices)
 			device->sync();
 		
@@ -141,11 +143,14 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 		
 		pSurface->tick();
 		
+		// update PixEngine Extensions
 		for (PixEngineExtension *extension : vExtensions)
 			extension->onUserUpdate(this, fElapsedTime);
 
+		// swap frames
 		pPlatform->commit();
 
+		// update inputDevices values
 		for (InputDevice *device:vInputDevices)
 			device->update();
 
@@ -154,6 +159,7 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 	return bLoopActive;
 }
 
+// TODO !!!
 bool PixEngine::loop_reinit(int newWidth, int newHeight) {
 	/*
 	 // so even screen dimensions might change on Android
