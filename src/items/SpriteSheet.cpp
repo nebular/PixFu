@@ -19,7 +19,7 @@ namespace rgl {
 SpriteSheet::SpriteSheet(PixEngine *engine, std::string spriteAtlas, int numx, int numy, std::string shader)
 :NUMX(numx),NUMY(numy) {
 	pShader = new Shader(shader);
-	pTexture = new Texture2D(spriteAtlas, GL_TEXTURE1);
+	pTexture = new Texture2D(spriteAtlas);
 	SPRSIZE = {pTexture->width()/NUMX, pTexture->height()/NUMY};
 	mProjection = glm::ortho(0.0f, (float)engine->WIDTH, (float)engine->HEIGHT, 0.0f, -1.0f, 1.0f);
 }
@@ -143,7 +143,7 @@ bool SpriteSheet::onUserCreate(PixEngine *engine) {
 	init();
 	lStartTime = nowms();
 	
-	bool success = pTexture->onUserCreate();
+	bool success = pTexture->upload();
 	
 	if (success) {
 		// the spritesheet (all sprites in one image)

@@ -12,6 +12,7 @@
 #include "OpenGL.h"
 #include "Drawable.hpp"
 #include "Shader.hpp"
+#include "Texture2D.hpp"
 
 namespace rgl {
 
@@ -35,7 +36,7 @@ class Surface {
 
 	GLuint glBuffer;
 	Shader *pShader;
-	Drawable *pActiveDrawable;
+	Texture2D *pActiveTexture;
 
 	unsigned int vao;
 	unsigned int vbo;
@@ -48,7 +49,6 @@ public:
 
 	bool init_opengl();
 	void init_texture();
-	void reset_texture();
 	void tick();
 	void deinit();
 	

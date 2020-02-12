@@ -57,6 +57,7 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	////////////////////////////////////////////////////////////////////////////
 	// Use libpng, Thanks to Guillaume Cottenceau
 	// https://gist.github.com/niw/5963798
+	
 	png_structp png;
 	png_infop info;
 	

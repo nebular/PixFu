@@ -11,6 +11,7 @@
 #include "png.h"
 #include "PixEngine.hpp"
 #include "Shader.hpp"
+#include "Texture2D.hpp"
 
 using namespace rgl;
 
@@ -19,14 +20,14 @@ constexpr unsigned int Surface::indices[6];
 
 Surface::Surface(int width, int height, std::string name):nWidth(width), nHeight(height) {
 	pShader = new Shader(name);
-	pActiveDrawable = new Drawable(width, height);
+	pActiveTexture = new Texture2D(width, height);
 }
 
 Surface::~Surface() {
 	delete pShader;
-	delete pActiveDrawable;
+	delete pActiveTexture;
 	pShader = nullptr;
-	pActiveDrawable = nullptr;
+	pActiveTexture = nullptr;
 }
 
 bool Surface::init_opengl() {
@@ -57,37 +58,14 @@ bool Surface::init_opengl() {
 }
 
 void Surface::init_texture() {
-	
-	glGenTextures(1, &glBuffer);
-	glActiveTexture(GL_TEXTURE0);
-	
-	glBindTexture(GL_TEXTURE_2D, glBuffer);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	
-#if !defined __APPLE__ && !defined ANDROID
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-#endif
-	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, nWidth, nHeight, 0, GL_RGBA,
-				 GL_UNSIGNED_BYTE, pActiveDrawable->getData());
-	
+	pActiveTexture->upload();
 	pShader->use();
-	pShader->setInt("glbuffer", 0);
-}
-
-void Surface::reset_texture() {
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, glBuffer);
+	pShader->setInt("glbuffer", pActiveTexture->unit());
 }
 
 void Surface::tick() {
-	
-	// TODO: This is a bit slow (especially in debug, but 100x faster in release mode???)
 	// Copy pixel array into texture
-	glActiveTexture(GL_TEXTURE0);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, nWidth, nHeight, GL_RGBA, GL_UNSIGNED_BYTE, pActiveDrawable->getData());
-	glBindTexture(GL_TEXTURE_2D, glBuffer);
+	pActiveTexture->update();
 	pShader->use();
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -102,4 +80,4 @@ void Surface::deinit() {
 	glDeleteBuffers(1, &ebo);
 }
 
-Drawable *Surface::buffer() { return pActiveDrawable; }
+Drawable *Surface::buffer() { return pActiveTexture->buffer(); }
