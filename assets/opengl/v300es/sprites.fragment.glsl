@@ -34,7 +34,7 @@ void main()
 	coords += (spsheetoff / iSpriteSheet.xy);
 
 	// sample the sprite pixel
-	vec4 fincolor = texture(sampler, coords);
+	vec4 fincolor = texture2D(sampler, coords);
 
 	if (fincolor.w > 0.) {
 
