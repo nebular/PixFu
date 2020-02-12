@@ -6,7 +6,6 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include <lib/PixEngine_launcher/opengl/gl3stub.h>
 #include "PixEngine.hpp"
 #include "OpenGL.h"
 #include "OpenGlUtils.h"
@@ -19,7 +18,8 @@ std::string PixEnginePlatform::ROOTPATH = "";
 PixEngine *PixEnginePlatform::BOOTINSTANCE = nullptr;
 
 PixEngine::PixEngine(PixEnginePlatform *platform, std::string shader) : sShaderName(shader) {
-	initPlatform(platform);
+	pPlatform = platform;
+	pPlatform->setEngine(this);
 }
 
 PixEngine::~PixEngine() {
@@ -46,21 +46,15 @@ PixEngine::~PixEngine() {
 }
 
 bool PixEngine::init(int width, int height) {
+
 	nScreenWidth = width;
 	nScreenHeight = height;
-	return true;
-}
 
-bool PixEngine::initPlatform(PixEnginePlatform *platform) {
-	
-	pPlatform = platform;
-	pPlatform->setEngine(this);
+	if (Mouse::instance() != nullptr)
+		addInputDevice(Mouse::instance());
 
-	Mouse::enable();
-	Keyboard::enable();
-
-	addInputDevice(Mouse::instance());
-	addInputDevice(Keyboard::instance());
+	if (Keyboard::instance() != nullptr)
+		addInputDevice(Keyboard::instance());
 
 	return pPlatform->init();
 }

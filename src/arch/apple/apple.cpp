@@ -21,7 +21,7 @@ bool PixEngineApple::init() {
 	std::string currentDir(get_current_working_directory());
 	ROOTPATH = currentDir + "/";
 	
-	int width = pEngine->nScreenWidth, height = pEngine->nScreenHeight;
+	int width = pEngine->screenWidth(), height = pEngine->screenHeight();
 	create_window("Tests", width, height);
 	std::cerr << "sw " << get_screen_width() << " sh " << get_screen_height() << std::endl;
 	

@@ -98,8 +98,6 @@ namespace rgl {
 
 		int nScreenWidth, nScreenHeight;
 
-		bool initPlatform(PixEnginePlatform *platform);
-
 		// loop control
 
 		void loop();
@@ -122,10 +120,13 @@ namespace rgl {
 
 	public:
 
-		PixEngine(PixEnginePlatform *platform, std::string shader);
+		PixEngine(PixEnginePlatform *platform, std::string shader="default");
 
 		~PixEngine();
 
+		int screenWidth();
+		int screenHeight();
+		
 		virtual bool onUserCreate();
 
 		virtual bool onUserUpdate(float fElapsedTime);
@@ -133,9 +134,13 @@ namespace rgl {
 		virtual bool onUserDestroy();
 
 		bool init(int width, int height);
-		bool start();
+		void start();
 
 	};
+
+	inline int PixEngine::screenWidth() { return nScreenWidth; }
+
+	inline int PixEngine::screenHeight() { return nScreenHeight; }
 
 	inline void PixEngine::addExtension(PixEngineExtension *e) { vExtensions.push_back(e); }
 
