@@ -15,6 +15,7 @@
 #include "Texture2D.hpp"
 #include "PixEngine.hpp"
 #include <vector>
+#include <map>
 
 namespace rgl {
 
@@ -31,6 +32,7 @@ class PixEngine;
 class SpriteSheet : public PixEngineExtension {
 	
 	const int NUMX, NUMY;
+	int nIdCounter=0;
 	
 	
 public:
@@ -54,6 +56,8 @@ public:
 				  int totalx = 1,			// number of sprites wide
 				  int totaly = 1			// number of sprites high
 	);
+	
+	bool remove(int spriteId);
 
 	/**
 	 * Tints existing sprite
@@ -88,10 +92,10 @@ private:
 	
 	long lStartTime;
 	
-	std::vector<SpriteMeta_t> vSprites;
+	std::map<int,SpriteMeta_t> mSprites;
 	
 	void init();
-	void drawSprite(int spriteId);
+	void drawSprite(SpriteMeta_t &spriteMeta);
 	glm::vec4 getTinter(TintMode_t tintMode, Pixel replacement);
 };
 

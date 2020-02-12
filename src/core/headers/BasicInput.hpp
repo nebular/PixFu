@@ -14,10 +14,13 @@ namespace rgl {
 class Mouse {
 	
 	const int BUTTONS;
-	int x=0, y=0, wx=0, wy=0;
-	int nx=0, ny=0, nwx=0, nwy=0;
+	int nX = 0, nY=0, nWheelX=0, nWheelY=0;
+	int nNewX=0, nNewY=0, nNewWheelX=0, nNewWheelY=0;
 	bool *pNextButtonState = nullptr;
 	bool *pButtonState = nullptr;
+	bool *pStatePressed;
+	bool *pStateReleased;
+	bool *pStateHeld;
 	
 	void input(int px, int py);
 	void inputWheel(int sx, int sy);
@@ -27,7 +30,20 @@ public:
 	Mouse(int buttons = 2);
 	void update();
 	void sync();
+	
+	int x();
+	int y();
+	bool isPressed(int button);
+	bool isHeld(int button);
+	bool isReleased(int button);
 };
+
+inline int Mouse::x() { return nX; }
+inline int Mouse::y() { return nY; }
+
+inline bool Mouse::isPressed(int button) { return pStatePressed[button]; }
+inline bool Mouse::isHeld(int button) { return pStateHeld[button]; }
+inline bool Mouse::isReleased(int button) { return pStateReleased[button]; }
 
 class Keyboard {
 	

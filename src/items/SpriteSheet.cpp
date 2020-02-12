@@ -61,6 +61,10 @@ glm::vec4 SpriteSheet::getTinter(TintMode_t tintMode, Pixel replacement) {
 	return { (float)replacement.r/255, (float)replacement.g/255, (float)replacement.b/255, tintMode};
 }
 
+bool SpriteSheet::remove(int spriteId) {
+	return mSprites.erase(spriteId) > 0;
+}
+
 int SpriteSheet::create(
 						   int sheetIndex,
 						   glm::vec2 position,
@@ -74,12 +78,14 @@ int SpriteSheet::create(
 	glm::vec4 spriteDef = { sheetIndex, height, totalx, totaly };
 	glm::vec4 spriteFx = getTinter(NO_TINT, Pixel(0,0,0,0));
 	SpriteMeta_t meta = { spritePos, spriteDef, spriteFx };
-	vSprites.push_back(meta);
-	return (int)vSprites.size() - 1;
+
+	mSprites[nIdCounter]=meta;
+	
+	return nIdCounter++;
 }
 
 void SpriteSheet::tint(int spriteId, TintMode_t tintMode, Pixel color) {
-	SpriteMeta_t &meta = vSprites.at(spriteId);
+	SpriteMeta_t &meta = mSprites.at(spriteId);
 	meta.fx = getTinter(tintMode, color);
 }
 
@@ -90,7 +96,9 @@ void SpriteSheet::update(
 							   float scale,
 							   float rotation,
 							   float height) {
-	SpriteMeta_t &meta = vSprites.at(spriteId);
+	
+	SpriteMeta_t &meta = mSprites.at(spriteId);
+	
 	if (spriteIndex>=0) meta.def.x = spriteIndex;
 	meta.pos.x = position.x;
 	meta.pos.y = position.y;
@@ -99,10 +107,8 @@ void SpriteSheet::update(
 	meta.def.y = height;
 }
 
-void SpriteSheet::drawSprite(int spriteId) {
-	
-	SpriteMeta_t &meta = vSprites.at(spriteId);
-	
+void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
+		
 	float scale = meta.pos.z;
 	float rotation = meta.pos.w;
 
@@ -172,9 +178,11 @@ void SpriteSheet::onUserUpdate(PixEngine *engine, float fElapsedTime) {
 	pTexture->bind();
 
 	glEnable(GL_BLEND);
-	for (int i=0, l = (int)vSprites.size(); i<l; i++) {
-		drawSprite(i);
-	}
+	
+	std::map<int,SpriteMeta_t>::iterator it;
+	for ( it=mSprites.begin(); it!=mSprites.end(); ++it)
+		drawSprite(it->second);
+
 	glDisable(GL_BLEND);
 }
 

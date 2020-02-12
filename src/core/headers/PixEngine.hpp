@@ -55,8 +55,6 @@ class PixEngine {
 	
 	PixEnginePlatform *pPlatform;
 
-	Mouse *pMouse;
-	Keyboard *pKeyboard;
 	Surface *pSurface;
 	std::vector<PixEngineExtension *> vExtensions;
 	
@@ -78,8 +76,11 @@ class PixEngine {
 	bool loop_reinit(int newWidth, int newHeight);
 
 protected:
+
 	void addExtension(PixEngineExtension *extension);
 	Drawable *buffer();
+	Mouse *pMouse;
+	Keyboard *pKeyboard;
 
 public:
 	

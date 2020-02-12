@@ -10,7 +10,6 @@
 
 using namespace rgl;
 
-
 Keyboard::Keyboard(int numkeys):NUMKEYS(numkeys) {
 	pNextState = new bool[NUMKEYS];
 	pThisState = new bool[NUMKEYS];
@@ -47,14 +46,33 @@ void Keyboard::sync() {
 	
 }
 
-void Mouse::input(int px, int py) { nx=px; ny = py; }
-void Mouse::inputWheel(int px, int py) { nwx=px; nwy = py; }
+void Mouse::input(int px, int py) { nNewX=px; nNewY = py; }
+void Mouse::inputWheel(int px, int py) { nNewWheelX=px; nNewWheelY = py; }
 void Mouse::inputButton(int b, bool stat) { pNextButtonState[b] = stat; }
+
 Mouse::Mouse(int buttons):BUTTONS(buttons) {
 	pNextButtonState= new bool[BUTTONS];
 	pButtonState= new bool[BUTTONS];
+	pStateHeld= new bool[BUTTONS];
+	pStatePressed= new bool[BUTTONS];
+	pStateReleased= new bool[BUTTONS];
 };
 void Mouse::sync() {
-	x=nx; y=ny; wx=nwx; wy=nwy;
-	for (int i=0; i<BUTTONS; i++) pButtonState[i]=pNextButtonState[i];
+	nX=nNewX; nY=nNewY; nWheelX=nNewWheelX; nWheelY=nNewWheelY;
+	for (int i=0; i<BUTTONS; i++) {
+		
+		pStateReleased[i]=pStatePressed[i]=false;
+		
+		if (pNextButtonState[i] != pButtonState[i]) {
+			if (pNextButtonState[i]) {
+				pStatePressed[i] = !pStateHeld[i];
+				pStateHeld[i] = true;
+			} else {
+				pStateReleased[i] = true;
+				pStateHeld[i] = false;
+			}
+		}
+		
+		pButtonState[i] = pNextButtonState[i];
+	}
 }
