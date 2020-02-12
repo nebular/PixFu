@@ -6,7 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include "Font.h"
+#include "Font.hpp"
 
 namespace rgl {
 

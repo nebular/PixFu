@@ -22,7 +22,11 @@ namespace rgl {
 }
 
 class openglutils {
+
 public:
+
+	static std::string VERSION;
+
 	static std::string load_shader_file(const std::string& sFilename);
 	static unsigned int compile_shader (unsigned int type, const std::string& source);
 	static unsigned int load_shader (const std::string& vertexShader, const std::string& fragementShader);

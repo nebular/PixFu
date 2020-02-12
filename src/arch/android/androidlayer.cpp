@@ -7,8 +7,10 @@
 #include "PixEngine.hpp"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
-#include "androidlayer.h"
+#include "androidlayer.hpp"
+#include "OpenGlUtils.h"
 #include <iostream>
+
 namespace rgl {
 
 	static constexpr int ACTION_UP = 1;
@@ -21,6 +23,10 @@ namespace rgl {
 	static constexpr int ACTION_POINTER_UP = 6;
 
 	PixEngine *PixEngineAndroid::BOOTINSTANCE = nullptr;
+
+	PixEngineAndroid::PixEngineAndroid() {
+		openglutils::VERSION="v300es";
+	}
 
 	PixEngineAndroid::~PixEngineAndroid() {
 		deinit();
@@ -150,7 +156,6 @@ namespace rgl {
 				break;
 		}
 	}
-
 
 
 }

@@ -14,9 +14,11 @@
 
 // Convenience methods
 
+std::string openglutils::VERSION = "v330core";
+
 std::string openglutils::load_shader_file(const std::string& sFile)
 {
-	std::string sFilename = rgl::PixEnginePlatform::getPath("/opengl/"+sFile);
+	std::string sFilename = rgl::PixEnginePlatform::getPath("/opengl/"+VERSION+"/"+sFile);
 
 	std::ifstream file(sFilename, std::ios::in | std::ios::binary);
 	std::ifstream file2(sFilename, std::ios::in | std::ios::binary);

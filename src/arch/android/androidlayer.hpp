@@ -40,6 +40,7 @@ namespace rgl {
 
 		static PixEngine *BOOTINSTANCE;    // OLC engine to run
 
+		PixEngineAndroid();
 		~PixEngineAndroid();
 
 		void inputMotionEvent(MotionEvent_t event);
