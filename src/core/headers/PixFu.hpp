@@ -52,7 +52,6 @@ namespace rgl {
 
 	public:
 
-
 		virtual ~PixFuPlatform();
 
 		virtual bool init(rgl::PixFu *engine) = 0;
@@ -68,7 +67,6 @@ namespace rgl {
 
 		/** FPS info */
 		virtual void onFps(int fps);
-	;
 
 		/** Initializes the platform */
 		static void init(PixFuPlatform *platform);

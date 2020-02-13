@@ -25,15 +25,15 @@ namespace rgl {
 
 		PixFu *pBootInstance;
 
-		bool init(rgl::PixFu *engine);
+		bool init(PixFu *engine) override;
 
-		std::pair<bool, bool> events();
+		std::pair<bool, bool> events() override;
 
-		void commit();
+		void commit() override;
 
-		void deinit();
+		void deinit() override;
 
-		void onFps(int fps);
+		void onFps(int fps) override;
 
 
 	public:

@@ -43,7 +43,7 @@ namespace rgl {
 		deinit();
 	}
 
-	bool PixFuPlatformAndroid::init(rgl::PixFu *engine) {
+	bool PixFuPlatformAndroid::init(PixFu *engine)  {
 
 		Mouse::enable();
 		Keyboard::enable();
@@ -72,7 +72,7 @@ namespace rgl {
 		// something will come here for sure
 	}
 
-	void PixFuPlatformAndroid::onFps(int fps) {
+	void PixFuPlatformAndroid::onFps(int fps)  {
 		std::string sTitle = "PixFu - FPS: " + std::to_string(fps);
 	}
 
