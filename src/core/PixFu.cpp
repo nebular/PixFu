@@ -11,17 +11,38 @@
 #include "OpenGlUtils.h"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
+#include "Utils.hpp"
 
 using namespace rgl;
 
-std::string PixFuPlatform::ROOTPATH = "";
-const std::string PixFu::TAG="PixFu";
-const std::string PixFuPlatform::TAG="PixFuPlaf";
+const std::string PixFuPlatform::TAG = "PixFuPlaf";
 
-PixFu::PixFu(PixFuPlatform *platform, std::string shader) : sShaderName(shader) {
-	pPlatform = platform;
-	pPlatform->setEngine(this);
+PixFuPlatform *PixFuPlatform::spCurrentInstance = nullptr;
+std::string PixFuPlatform::ROOTPATH = "";
+
+PixFuPlatform *PixFuPlatform::instance() {
+
+	if (spCurrentInstance == nullptr)
+		throw "No platform initialized.";
+
+	return spCurrentInstance;
+
 }
+
+void PixFuPlatform::init(PixFuPlatform *platform) {
+
+	if (DBG) LogV(TAG, "Initing Platform");
+
+	if (spCurrentInstance == nullptr)
+		spCurrentInstance = platform;
+
+	else throw "Already have a platform set";
+
+}
+
+PixFu::PixFu(std::string shader) : sShaderName(shader) {}
+
+const std::string PixFu::TAG = "PixFu";
 
 PixFu::~PixFu() {
 
@@ -39,7 +60,7 @@ PixFu::~PixFu() {
 
 	// destroy all extensions
 
-	for (PixEngineExtension *extension:vExtensions)
+	for (PixFuExtension *extension:vExtensions)
 		delete extension;
 
 	vExtensions.clear();
@@ -51,6 +72,8 @@ PixFu::~PixFu() {
 
 bool PixFu::init(int width, int height) {
 
+	pPlatform = PixFuPlatform::instance();
+	
 	nScreenWidth = width;
 	nScreenHeight = height;
 
@@ -130,7 +153,7 @@ bool PixFu::loop_init() {
 	if (DBG) LogV(TAG, "Initing Extensions");
 
 	// initialize PixFu Extensions
-	for (PixEngineExtension *extension : vExtensions)
+	for (PixFuExtension *extension : vExtensions)
 		if (!extension->init(this)) return false;
 
 	return true;
@@ -158,7 +181,7 @@ bool PixFu::loop_tick(float fElapsedTime) {
 		pSurface->tick();
 
 		// update PixFu Extensions
-		for (PixEngineExtension *extension : vExtensions)
+		for (PixFuExtension *extension : vExtensions)
 			extension->tick(this, fElapsedTime);
 
 		// swap frames

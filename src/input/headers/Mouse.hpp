@@ -16,7 +16,7 @@ namespace rgl {
 
 class Mouse : public InputDevice {
 
-	friend class PixEngineAndroid;
+	friend class PixFuPlatformAndroid;
 
 	static Mouse *pInstance;
 	

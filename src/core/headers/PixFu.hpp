@@ -23,35 +23,37 @@ namespace rgl {
 	 * a PixEngine extension. Extensions are added with PixEngine::addExtension.
 	 */
 
-	class PixEngineExtension {
+	class PixFuExtension {
 
 	public:
-		virtual ~PixEngineExtension();
+		virtual ~PixFuExtension();
 
 		virtual bool init(PixFu *engine) = 0;
 
 		virtual void tick(PixFu *engine, float fElapsedTime) = 0;
 	};
 
-	inline PixEngineExtension::~PixEngineExtension() {}
+	inline PixFuExtension::~PixFuExtension() {}
 
 	/**
 	 * The platform-dependent part of PixEngine
 	 */
+
 	class PixFuPlatform {
+
 		static const std::string TAG;
+		static PixFuPlatform *spCurrentInstance;
+
 
 	protected:
-		PixFu *pEngine;
 
 		// App CWD
 		static std::string ROOTPATH;
 
 	public:
 
-		virtual ~PixFuPlatform();
 
-		void setEngine(PixFu *engine);
+		virtual ~PixFuPlatform();
 
 		virtual bool init() = 0;
 
@@ -66,6 +68,13 @@ namespace rgl {
 
 		/** FPS info */
 		virtual void onFps(int fps);
+	;
+
+		/** Initializes the platform */
+		static void init(PixFuPlatform *platform);
+
+		/** Gets platform instance */
+		static PixFuPlatform *instance();
 
 		/** Get file path */
 		static std::string getPath(std::string relpath);
@@ -76,8 +85,6 @@ namespace rgl {
 	};
 
 	inline PixFuPlatform::~PixFuPlatform() {}
-
-	inline void PixFuPlatform::setEngine(PixFu *engine) { pEngine = engine; }
 
 	inline std::string PixFuPlatform::getPath(std::string relpath) {
 		return ROOTPATH + relpath;
@@ -118,7 +125,7 @@ namespace rgl {
 		PixFuPlatform *pPlatform;                        // platform layer
 
 		Surface *pSurface;                                    // primary surface
-		std::vector<PixEngineExtension *> vExtensions;        // extensions
+		std::vector<PixFuExtension *> vExtensions;        // extensions
 		std::vector<InputDevice *> vInputDevices;            // input devices
 
 		bool bLoopActive = false;                            // whether loop is active
@@ -144,7 +151,7 @@ namespace rgl {
 
 	protected:
 
-		void addExtension(PixEngineExtension *extension);    // adds extension to the engine
+		void addExtension(PixFuExtension *extension);    // adds extension to the engine
 
 		void addInputDevice(InputDevice *inputDevice);        // adds input devide to the engine
 
@@ -152,7 +159,7 @@ namespace rgl {
 
 	public:
 
-		PixFu(PixFuPlatform *platform, std::string shader = "default");
+		PixFu(std::string shader = "default");
 
 		~PixFu();
 
@@ -178,7 +185,7 @@ namespace rgl {
 
 	inline int PixFu::screenHeight() { return nScreenHeight; }
 
-	inline void PixFu::addExtension(PixEngineExtension *e) { vExtensions.push_back(e); }
+	inline void PixFu::addExtension(PixFuExtension *e) { vExtensions.push_back(e); }
 
 	inline void PixFu::addInputDevice(InputDevice *inputDevice) {
 		vInputDevices.push_back(inputDevice);

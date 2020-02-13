@@ -27,7 +27,7 @@ namespace rgl {
 
 	class Keyboard : public InputDevice {
 
-		friend class PixEngineAndroid;
+		friend class PixFuPlatformAndroid;
 		friend class LoneScreenKey;
 
 		static Keyboard *pInstance;

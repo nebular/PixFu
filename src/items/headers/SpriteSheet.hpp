@@ -29,7 +29,7 @@ typedef struct sSpriteMeta {
 
 class PixFu;
 
-class SpriteSheet : public PixEngineExtension {
+class SpriteSheet : public PixFuExtension {
 	
 	const int NUMX, NUMY;
 	int nIdCounter=0;

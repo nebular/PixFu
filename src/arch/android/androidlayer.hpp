@@ -17,11 +17,13 @@ namespace rgl {
 		int32_t X0, Y0, X1, Y1;
 	} MotionEvent_t;
 
-	class PixEngineAndroid : public PixFuPlatform {
+	class PixFuPlatformAndroid : public PixFuPlatform {
 
 		LoneScreenKey *cLoneKeys;                // screenkeys helper class
 
 		MotionEvent_t tCurrentMotionEvent;
+
+		PixFu *pBootInstance;
 
 		bool init();
 
@@ -33,17 +35,21 @@ namespace rgl {
 
 		void onFps(int fps);
 
+
 	public:
 
-		static PixFu *BOOTINSTANCE;    // OLC engine to run
+		PixFuPlatformAndroid(PixFu *bootInstance);
 
-		PixEngineAndroid();
+		~PixFuPlatformAndroid();
 
-		~PixEngineAndroid();
+		PixFu *engine();
 
 		void inputMotionEvent(MotionEvent_t event);
 
 	};
+
+	inline PixFu* PixFuPlatformAndroid::engine() { return pBootInstance; }
+
 }
 #endif
 

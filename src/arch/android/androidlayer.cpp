@@ -34,17 +34,16 @@ namespace rgl {
 	static constexpr int ACTION_POINTER_DOWN = 5;
 	static constexpr int ACTION_POINTER_UP = 6;
 
-	PixFu *PixEngineAndroid::BOOTINSTANCE = nullptr;
-
-	PixEngineAndroid::PixEngineAndroid() {
+	PixFuPlatformAndroid::PixFuPlatformAndroid(PixFu *bootInstance) {
 		openglutils::VERSION="v300es";
+		pBootInstance = bootInstance;
 	}
 
-	PixEngineAndroid::~PixEngineAndroid() {
+	PixFuPlatformAndroid::~PixFuPlatformAndroid() {
 		deinit();
 	}
 
-	bool PixEngineAndroid::init() {
+	bool PixFuPlatformAndroid::init() {
 
 		Mouse::enable();
 		Keyboard::enable();
@@ -58,22 +57,22 @@ namespace rgl {
 
 	}
 
-	std::pair<bool, bool> PixEngineAndroid::events() {
+	std::pair<bool, bool> PixFuPlatformAndroid::events() {
 		// onpause will route here
 		bool focused = true; // window_is_focused();
 		bool active = true; // !get_window_is_closing();
 		return {active, focused};
 	}
 
-	void PixEngineAndroid::commit() {
+	void PixFuPlatformAndroid::commit() {
 		// no frame commit, android does that after returning from tick
 	}
 
-	void PixEngineAndroid::deinit() {
+	void PixFuPlatformAndroid::deinit() {
 		// something will come here for sure
 	}
 
-	void PixEngineAndroid::onFps(int fps) {
+	void PixFuPlatformAndroid::onFps(int fps) {
 		std::string sTitle = "PixFu - FPS: " + std::to_string(fps);
 	}
 
@@ -91,7 +90,7 @@ namespace rgl {
 
 
 	// called from Launcher to send a MotionEvent (Touch)
-	void PixEngineAndroid::inputMotionEvent(MotionEvent_t event) {
+	void PixFuPlatformAndroid::inputMotionEvent(MotionEvent_t event) {
 
 
 		Mouse *mouse = Mouse::instance();

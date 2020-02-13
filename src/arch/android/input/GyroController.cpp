@@ -39,6 +39,7 @@ namespace rgl {
 			return status > 0;
 		} else {
 			ASensorEventQueue_disableSensor(rotationEventQueue, rotation);
+			return true;
 		}
 	}
 
