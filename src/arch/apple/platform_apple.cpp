@@ -7,7 +7,7 @@
 #include "PixFu.hpp"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
-#include "apple.h"
+#include "platform_apple.hpp"
 #include <iostream>
 
 namespace rgl {
