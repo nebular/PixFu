@@ -48,7 +48,14 @@ namespace rgl {
 
 		void fillTriangle(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3,
 						  Pixel p);
+
+		int width();
+		int height();
+
 	};
+
+	inline int Canvas2D::width() { return pTarget->width; }
+	inline int Canvas2D::height() { return pTarget->height; }
 
 }
 #endif /* Geometry2D_hpp */

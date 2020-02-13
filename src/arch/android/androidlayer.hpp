@@ -8,7 +8,6 @@
 
 #include "OpenGL.h"
 #include "plugins/lonescreenkey.h"
-#include "plugins/lonesensor.h"
 #include "Utils.hpp"
 
 namespace rgl {
@@ -20,10 +19,7 @@ namespace rgl {
 
 	class PixEngineAndroid : public PixEnginePlatform {
 
-		ASensorEvent tCurrentEvent;                // current sensor event
-
 		LoneScreenKey *cLoneKeys;                // screenkeys helper class
-		LoneSensor *pLoneSensor;                // gyroscope joystick helper class
 
 		MotionEvent_t tCurrentMotionEvent;
 

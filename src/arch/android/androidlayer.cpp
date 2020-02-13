@@ -10,6 +10,8 @@
 #include "androidlayer.hpp"
 #include "OpenGlUtils.h"
 #include "Utils.hpp"
+#include "androidapi.h"
+
 #include <iostream>
 
 namespace rgl {
@@ -50,8 +52,6 @@ namespace rgl {
 		cLoneKeys = new LoneScreenKey(1);
 		LoneScreenKey::currentInstance = cLoneKeys; // todo singleton
 
-		pLoneSensor = new LoneSensor();
-		pLoneSensor->init();
 		cLoneKeys->reset();
 
 		return true;

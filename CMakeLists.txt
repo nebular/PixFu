@@ -45,10 +45,11 @@ add_library(pixEngine_core SHARED
         src/items/Font.cpp
         src/items/SpriteSheet.cpp
         src/input/Keyboard.cpp
+        src/input/AxisController.cpp
         src/input/Mouse.cpp
         src/arch/android/androidlayer.cpp
         src/arch/android/plugins/lonescreenkey.cpp
-        src/arch/android/plugins/lonesensor.cpp
+        src/arch/android/input/GyroController.cpp
         )
 
 # Include libraries needed for gles3jni lib
