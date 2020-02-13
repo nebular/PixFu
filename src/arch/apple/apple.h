@@ -11,10 +11,10 @@
 
 namespace rgl {
 
-	class PixEngineApple : public PixFuPlatform {
+	class PixFuPlatformApple : public PixFuPlatform {
 
 
-		bool init();
+		bool init(PixFu *engine);
 
 		std::pair<bool, bool> events();
 
