@@ -40,8 +40,8 @@ public:
 	SpriteSheet(PixEngine *engine, std::string spriteAtlas, int numX, int numY, std::string shader="sprites");
 	~SpriteSheet();
 	
-	bool onUserCreate(PixEngine *engine);
-	void onUserUpdate(PixEngine *engine, float fElapsedTime);
+	bool init(PixEngine *engine);
+	void tick(PixEngine *engine, float fElapsedTime);
 	
 	/**
 	 * Adds a new sprite into the screen

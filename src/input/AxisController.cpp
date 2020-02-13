@@ -8,19 +8,17 @@
 
 namespace rgl {
 
-//	AxisController *AxisController::pCurrentInstance = nullptr;
-
 	AxisController::AxisController(int axisXlen, int axisYlen) : nAxisXLength(axisXlen),
 																 nAxisYLength(axisYlen) {}
 
 	AxisController::~AxisController() {}
 
-	void AxisController::DrawSelf(Canvas2D *canvas, Pixel color) {
+	void AxisController::drawSelf(Canvas2D *canvas, Pixel color) {
 
 
 		int
-				SH2 = canvas->width() / 2,
-				SW2 = canvas->height() / 2;
+				SW2 = canvas->width() / 2,
+				SH2 = canvas->height() / 2;
 
 		int
 				MARGINV = 20,

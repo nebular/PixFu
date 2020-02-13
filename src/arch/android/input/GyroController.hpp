@@ -35,7 +35,9 @@ namespace rgl {
 
 		bool enable(bool enable);
 
-		void update();
+		void poll();
+
+		ASensorEvent raw();
 
 		static void enable(int xlen, int ylen);
 
@@ -45,6 +47,7 @@ namespace rgl {
 
 	};
 
+	inline ASensorEvent GyroController::raw() { return tCurrentEvent; }
 
 	inline GyroController *GyroController::currentInstance() { return pCurrentInstance; }
 

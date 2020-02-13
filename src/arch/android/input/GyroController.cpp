@@ -9,6 +9,8 @@ namespace rgl {
 
 	const int LOOPER_ID_USER = 3;
 
+	GyroController *GyroController::pCurrentInstance = nullptr;
+
 	GyroController::GyroController(int xlen, int ylen, bool autoStart) : AxisController(xlen, ylen) {
 
 		sensorManager = AcquireASensorManagerInstance();
@@ -57,7 +59,7 @@ namespace rgl {
 		return getInstanceFunc();
 	}
 
-	void GyroController::update() {
+	void GyroController::poll() {
 		ASensorEventQueue_getEvents(rotationEventQueue, &tCurrentEvent, 1) ;
 		inputGyroscope(tCurrentEvent.vector.azimuth, tCurrentEvent.vector.pitch);
 	}

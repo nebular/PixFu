@@ -136,7 +136,7 @@ void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	
 }
 
-bool SpriteSheet::onUserCreate(PixEngine *engine) {
+bool SpriteSheet::init(PixEngine *engine) {
 	
 	if (pTexture == nullptr) return false;
 	
@@ -159,7 +159,7 @@ bool SpriteSheet::onUserCreate(PixEngine *engine) {
 	
 }
 
-void SpriteSheet::onUserUpdate(PixEngine *engine, float fElapsedTime) {
+void SpriteSheet::tick(PixEngine *engine, float fElapsedTime) {
 	
 	long ms = nowms();
 	

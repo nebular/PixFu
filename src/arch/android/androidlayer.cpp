@@ -77,11 +77,11 @@ namespace rgl {
 		std::string sTitle = "PixEngine - FPS: " + std::to_string(fps);
 	}
 
-	void Mouse::update() {
+	void Mouse::poll() {
 		// already done
 	}
 
-	void Keyboard::update() {
+	void Keyboard::poll() {
 
 	}
 

@@ -18,8 +18,8 @@ using namespace rgl;
 constexpr float Surface::vertices[32] ;
 constexpr unsigned int Surface::indices[6];
 
-Surface::Surface(int width, int height, std::string name):nWidth(width), nHeight(height) {
-	pShader = new Shader(name);
+Surface::Surface(int width, int height, std::string samplerName, std::string shaderName):nWidth(width), nHeight(height), sSamplerName(samplerName) {
+	pShader = new Shader(shaderName);
 	pActiveTexture = new Texture2D(width, height);
 }
 
@@ -60,7 +60,12 @@ bool Surface::init_opengl() {
 void Surface::init_texture() {
 	pActiveTexture->upload();
 	pShader->use();
-	pShader->setInt("glbuffer", pActiveTexture->unit());
+	pShader->setInt(sSamplerName, pActiveTexture->unit());
+}
+
+bool Surface::init() {
+	if (!init_opengl()) return false;
+	init_texture();
 }
 
 void Surface::tick() {

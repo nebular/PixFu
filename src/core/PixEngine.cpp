@@ -115,9 +115,8 @@ void PixEngine::loop() {
 
 bool PixEngine::loop_init() {
 
-	pSurface = new Surface(nScreenWidth, nScreenHeight, sShaderName);
-	pSurface->init_opengl();
-	pSurface->init_texture();
+	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", sShaderName);
+	pSurface->init();
 
 	// Create user resources as part of this thread
 	if (!onUserCreate())
@@ -125,7 +124,7 @@ bool PixEngine::loop_init() {
 
 	// initialize PixEngine Extensions
 	for (PixEngineExtension *extension : vExtensions)
-		if (!extension->onUserCreate(this)) return false;
+		if (!extension->init(this)) return false;
 
 	return true;
 }
@@ -153,14 +152,14 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 
 		// update PixEngine Extensions
 		for (PixEngineExtension *extension : vExtensions)
-			extension->onUserUpdate(this, fElapsedTime);
+			extension->tick(this, fElapsedTime);
 
 		// swap frames
 		pPlatform->commit();
 
 		// update inputDevices values
 		for (InputDevice *device:vInputDevices)
-			device->update();
+			device->poll();
 
 	}
 

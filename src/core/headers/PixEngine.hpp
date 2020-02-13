@@ -19,12 +19,13 @@ namespace rgl {
 	class PixEngine;
 
 	class PixEngineExtension {
+
 	public:
 		virtual ~PixEngineExtension();
 
-		virtual bool onUserCreate(PixEngine *engine) = 0;
+		virtual bool init(PixEngine *engine) = 0;
 
-		virtual void onUserUpdate(PixEngine *engine, float fElapsedTime) = 0;
+		virtual void tick(PixEngine *engine, float fElapsedTime) = 0;
 	};
 
 	inline PixEngineExtension::~PixEngineExtension() {}
@@ -59,6 +60,7 @@ namespace rgl {
 	};
 
 	inline PixEnginePlatform::~PixEnginePlatform() {}
+
 	inline void PixEnginePlatform::setEngine(PixEngine *engine) { pEngine = engine; }
 
 	inline std::string PixEnginePlatform::getPath(std::string relpath) {
@@ -73,7 +75,7 @@ namespace rgl {
 	public:
 		virtual ~InputDevice();
 
-		virtual void update() = 0;
+		virtual void poll() = 0;
 
 		virtual void sync() = 0;
 	};
@@ -123,13 +125,14 @@ namespace rgl {
 
 	public:
 
-		PixEngine(PixEnginePlatform *platform, std::string shader="default");
+		PixEngine(PixEnginePlatform *platform, std::string shader = "default");
 
 		~PixEngine();
 
 		int screenWidth();
+
 		int screenHeight();
-		
+
 		virtual bool onUserCreate();
 
 		virtual bool onUserUpdate(float fElapsedTime);
@@ -137,11 +140,10 @@ namespace rgl {
 		virtual bool onUserDestroy();
 
 		bool init(int width, int height);
+
 		void start();
-
-
-
 	};
+
 
 	inline int PixEngine::screenWidth() { return nScreenWidth; }
 

@@ -27,15 +27,11 @@ namespace rgl {
 
 		void inputNormalized(float xAxis, float yAxis);
 
-		void DrawSelf(Canvas2D *canvas, Pixel color);
+		void drawSelf(Canvas2D *canvas, Pixel color);
 
 		float xNorm();
 
 		float yNorm();
-
-		float xRads(float max);
-
-		float yRads(float max);
 
 		void sync();
 	};
@@ -43,11 +39,6 @@ namespace rgl {
 	inline float AxisController::xNorm() { return fAxisX; }
 
 	inline float AxisController::yNorm() { return fAxisY; }
-
-	inline float AxisController::xRads(float maxRads) { return fAxisX * maxRads / 2.0f; }
-
-	inline float AxisController::yRads(float maxRads) { return fAxisY * maxRads / 2.0f; }
-
 
 }
 #endif //OLCPGE_LONEKART_ANDROID_AXISCONTROLLER_H

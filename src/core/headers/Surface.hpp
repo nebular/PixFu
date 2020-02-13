@@ -34,21 +34,23 @@ class Surface {
 
 	const int nWidth, nHeight;
 
-	GLuint glBuffer;
 	Shader *pShader;
 	Texture2D *pActiveTexture;
+	std::string sSamplerName;
 
 	unsigned int vao;
 	unsigned int vbo;
 	unsigned int ebo;
 
-public:
-
-	Surface(int width, int height, std::string shader);
-	~Surface();
-
 	bool init_opengl();
 	void init_texture();
+
+public:
+
+	Surface(int width, int height, std::string samplerName="glbuffer", std::string shaderName="default");
+	~Surface();
+
+	bool init();
 	void tick();
 	void deinit();
 	

@@ -67,7 +67,7 @@ namespace rgl {
 
 		~Keyboard();
 
-		void update();
+		void poll();
 
 		void sync();
 	};

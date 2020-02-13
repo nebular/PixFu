@@ -59,7 +59,7 @@ public:
 	static bool isReleased(int button);
 
 	~Mouse();
-	void update();
+	void poll();
 	void sync();
 	
 };
