@@ -14,7 +14,6 @@ namespace rgl {
 
 	class GyroController : public AxisController {
 
-
 		const char *kPackageName = "com.android.accelerometergraph";
 
 		ALooper *looper;

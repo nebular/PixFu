@@ -14,16 +14,16 @@ namespace rgl {
 	GyroController::GyroController(int xlen, int ylen, bool autoStart) : AxisController(xlen, ylen) {
 
 		sensorManager = AcquireASensorManagerInstance();
-		if (sensorManager == NULL) throw 1;
+		if (sensorManager == nullptr) throw 1;
 		rotation = ASensorManager_getDefaultSensor(sensorManager,
 												   ASENSOR_TYPE_GAME_ROTATION_VECTOR);
-		if (rotation == NULL) throw 2;
+		if (rotation == nullptr) throw 2;
 		looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
-		if (looper == NULL) throw 3;
+		if (looper == nullptr) throw 3;
 
 		rotationEventQueue = ASensorManager_createEventQueue(sensorManager, looper, LOOPER_ID_USER,
-															 NULL, NULL);
-		if (rotationEventQueue == NULL) throw 4;
+															 nullptr, nullptr);
+		if (rotationEventQueue == nullptr) throw 4;
 
 		if (autoStart) enable(true);
 
