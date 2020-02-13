@@ -6,21 +6,26 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include "Surface.hpp"
-#include "OpenGlUtils.h"
 #include "png.h"
-#include "PixEngine.hpp"
+#include "Utils.hpp"
 #include "Shader.hpp"
+#include "Surface.hpp"
+#include "PixEngine.hpp"
 #include "Texture2D.hpp"
+#include "OpenGlUtils.h"
 
 using namespace rgl;
 
-constexpr float Surface::vertices[32] ;
-constexpr unsigned int Surface::indices[6];
+const std::string Surface::TAG = "Surface";
 
-Surface::Surface(int width, int height, std::string samplerName, std::string shaderName):nWidth(width), nHeight(height), sSamplerName(samplerName) {
+constexpr float Surface::VERTICES[32];
+constexpr unsigned int Surface::INDICES[6];
+
+Surface::Surface(int width, int height, std::string samplerName, std::string shaderName) : nWidth(
+		width), nHeight(height), sSamplerName(samplerName) {
 	pShader = new Shader(shaderName);
 	pActiveTexture = new Texture2D(width, height);
+	LogV(TAG, SF("Creating %d, %d, %s, %s", width, height, samplerName.c_str(), shaderName.c_str()));
 }
 
 Surface::~Surface() {
@@ -30,31 +35,33 @@ Surface::~Surface() {
 	pActiveTexture = nullptr;
 }
 
-bool Surface::init_opengl() {
-	
+void Surface::init_opengl() {
+
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
-	
+
 	glBindVertexArray(vao);
-	
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Surface::vertices), Surface::vertices, GL_STATIC_DRAW);
-	
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Surface::VERTICES), Surface::VERTICES, GL_STATIC_DRAW);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Surface::indices), Surface::indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Surface::INDICES), Surface::INDICES,
+				 GL_STATIC_DRAW);
 	// pos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) 0);
 	glEnableVertexAttribArray(0);
 	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
+						  (void *) (3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	// texture coord attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
+						  (void *) (6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
-	
+
 	glClearColor(0.0, 0.0, 0.0, 1);
-	return true;
 }
 
 void Surface::init_texture() {
@@ -64,8 +71,9 @@ void Surface::init_texture() {
 }
 
 bool Surface::init() {
-	if (!init_opengl()) return false;
+	init_opengl();
 	init_texture();
+	return pShader != nullptr && pActiveTexture != nullptr;
 }
 
 void Surface::tick() {
@@ -83,6 +91,8 @@ void Surface::deinit() {
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
+
+	LogV(TAG, "deinit");
 }
 
 Drawable *Surface::buffer() { return pActiveTexture->buffer(); }

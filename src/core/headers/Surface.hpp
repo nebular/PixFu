@@ -17,9 +17,16 @@
 namespace rgl {
 
 
+/**
+ *
+ * A surface is memory bitmap rendered into an openGL texture.
+ *
+ */
+
 class Surface {
 
-	static constexpr float vertices[32] {
+	static const std::string TAG;
+	static constexpr float VERTICES[32] {
 			// positions          // colors           // texture coords
 			1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
 			1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
@@ -27,7 +34,7 @@ class Surface {
 			-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
 	};
 	
-	static constexpr unsigned int indices[6]{
+	static constexpr unsigned int INDICES[6]{
 			0, 1, 3, // first triangle
 			1, 2, 3  // second triangle
 	};
@@ -42,7 +49,7 @@ class Surface {
 	unsigned int vbo;
 	unsigned int ebo;
 
-	bool init_opengl();
+	void init_opengl();
 	void init_texture();
 
 public:

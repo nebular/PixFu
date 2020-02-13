@@ -15,6 +15,8 @@
 using namespace rgl;
 
 std::string PixEnginePlatform::ROOTPATH = "";
+const std::string PixEngine::TAG="PixEngine";
+const std::string PixEnginePlatform::TAG="PixEnginePlaf";
 
 PixEngine::PixEngine(PixEnginePlatform *platform, std::string shader) : sShaderName(shader) {
 	pPlatform = platform;
@@ -52,6 +54,8 @@ bool PixEngine::init(int width, int height) {
 	nScreenWidth = width;
 	nScreenHeight = height;
 
+	if (DBG) LogV(TAG, SF("Init %d, %d, already %d", width, height, bInited));
+
 	if (!bInited) {
 
 		bInited = pPlatform->init();
@@ -70,8 +74,7 @@ bool PixEngine::init(int width, int height) {
 void PixEngine::loop() {
 
 	if (!loop_init()) {
-		// error
-		std::cerr << "Error: engine init" << std::endl;
+		if (DBG) LogE(TAG, "Error in egine init");
 		return;
 	}
 
@@ -118,9 +121,13 @@ bool PixEngine::loop_init() {
 	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", sShaderName);
 	pSurface->init();
 
+	if (DBG) LogV(TAG, "Calling userCreate()");
+
 	// Create user resources as part of this thread
 	if (!onUserCreate())
 		return false;
+
+	if (DBG) LogV(TAG, "Initing Extensions");
 
 	// initialize PixEngine Extensions
 	for (PixEngineExtension *extension : vExtensions)
@@ -171,6 +178,7 @@ bool PixEngine::loop_reinit(int newWidth, int newHeight) {
 
 	// so even screen dimensions might change on Android
 	if (screenWidth() != newWidth || screenHeight() != newHeight) {
+		if (DBG) LogV(TAG, SF("Reiniting loop, screen size changedto %d,%d", newWidth, newHeight));
 		loop_deinit();
 		init(newWidth, newHeight);
 		return loop_init();
@@ -185,10 +193,14 @@ bool PixEngine::loop_reinit(int newWidth, int newHeight) {
 }
 
 void PixEngine::loop_deinit() {
+
+	if (DBG) LogV(TAG, "Loop deinit");
 	bLoopActive = false;
-	pSurface->deinit();
-	delete pSurface;
-	pSurface = nullptr;
+	if (pSurface != nullptr) {
+		pSurface->deinit();
+		delete pSurface;
+		pSurface = nullptr;
+	}
 //	pPlatform->deinit(); to destructor
 }
 

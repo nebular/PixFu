@@ -35,11 +35,10 @@ include_directories(${CMAKE_SOURCE_DIR})
 ## PIXENGINE
 
 add_library(pixEngine_core SHARED
-        src/core/Drawable.cpp
-        src/core/OpenGlUtils.cpp
+        src/core/Surface.cpp
         src/core/Drawable.cpp
         src/core/PixEngine.cpp
-        src/core/Surface.cpp
+        src/core/OpenGlUtils.cpp
         src/core/Texture2D.cpp
         src/items/Canvas2D.cpp
         src/items/Font.cpp
