@@ -11,7 +11,7 @@
 
 namespace rgl {
 
-	class PixEngineApple : public PixEnginePlatform {
+	class PixEngineApple : public PixFuPlatform {
 
 
 		bool init();

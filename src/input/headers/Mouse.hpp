@@ -1,6 +1,6 @@
 //
 //  Mouse.hpp
-//  PixEngine
+//  PixFu
 //
 //  Created by rodo on 12/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
@@ -9,7 +9,7 @@
 #ifndef Mouse_hpp
 #define Mouse_hpp
 
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 #include "Utils.hpp"
 
 namespace rgl {

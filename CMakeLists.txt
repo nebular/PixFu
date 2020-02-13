@@ -37,7 +37,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 add_library(pixFu SHARED
         src/core/Surface.cpp
         src/core/Drawable.cpp
-        src/core/PixEngine.cpp
+        src/core/PixFu.cpp
         src/core/OpenGlUtils.cpp
         src/core/Texture2D.cpp
         src/items/Canvas2D.cpp

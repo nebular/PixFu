@@ -11,12 +11,12 @@
 #include "glm.hpp"
 #include "ext.hpp"
 #include "Texture2D.hpp"
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 #include "Utils.hpp"
 
 namespace rgl {
 
-SpriteSheet::SpriteSheet(PixEngine *engine, std::string spriteAtlas, int numx, int numy, std::string shader)
+SpriteSheet::SpriteSheet(PixFu *engine, std::string spriteAtlas, int numx, int numy, std::string shader)
 :NUMX(numx),NUMY(numy) {
 	pShader = new Shader(shader);
 	pTexture = new Texture2D(spriteAtlas);
@@ -136,7 +136,7 @@ void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	
 }
 
-bool SpriteSheet::init(PixEngine *engine) {
+bool SpriteSheet::init(PixFu *engine) {
 	
 	if (pTexture == nullptr) return false;
 	
@@ -159,7 +159,7 @@ bool SpriteSheet::init(PixEngine *engine) {
 	
 }
 
-void SpriteSheet::tick(PixEngine *engine, float fElapsedTime) {
+void SpriteSheet::tick(PixFu *engine, float fElapsedTime) {
 	
 	long ms = nowms();
 	

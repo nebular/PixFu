@@ -1,6 +1,6 @@
 //
 //  Drawable.cpp
-//  PixEngine
+//  PixFu
 //
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
@@ -9,7 +9,7 @@
 #include "png.h"
 
 #include "Drawable.hpp"
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 
 using namespace rgl;
 
@@ -75,7 +75,7 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	png_structp png;
 	png_infop info;
 
-	sImageFile = PixEnginePlatform::getPath(sImageFile);
+	sImageFile = PixFuPlatform::getPath(sImageFile);
 
 	FILE *f = fopen(sImageFile.c_str(), "rb");
 	if (!f) return nullptr;

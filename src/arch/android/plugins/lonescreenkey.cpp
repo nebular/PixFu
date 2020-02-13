@@ -4,7 +4,7 @@
 
 #include "lib/pixFu_launcher/Launcher.h"
 #include "lonescreenkey.h"
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 #include "Keyboard.hpp"
 #include "Canvas2D.hpp"
 #include "Mouse.hpp"

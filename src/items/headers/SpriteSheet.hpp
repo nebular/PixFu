@@ -13,7 +13,7 @@
 #include "glm.hpp"
 #include "Drawable.hpp"
 #include "Texture2D.hpp"
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 #include <vector>
 #include <map>
 
@@ -27,7 +27,7 @@ typedef struct sSpriteMeta {
 	glm::vec4 pos, def, fx;
 } SpriteMeta_t;
 
-class PixEngine;
+class PixFu;
 
 class SpriteSheet : public PixEngineExtension {
 	
@@ -37,11 +37,11 @@ class SpriteSheet : public PixEngineExtension {
 	
 public:
 	
-	SpriteSheet(PixEngine *engine, std::string spriteAtlas, int numX, int numY, std::string shader="sprites");
+	SpriteSheet(PixFu *engine, std::string spriteAtlas, int numX, int numY, std::string shader="sprites");
 	~SpriteSheet();
 	
-	bool init(PixEngine *engine);
-	void tick(PixEngine *engine, float fElapsedTime);
+	bool init(PixFu *engine);
+	void tick(PixFu *engine, float fElapsedTime);
 	
 	/**
 	 * Adds a new sprite into the screen

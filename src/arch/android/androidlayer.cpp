@@ -4,7 +4,7 @@
 // Created by rodo on 2020-01-24.
 //
 
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
 #include "androidlayer.hpp"
@@ -34,7 +34,7 @@ namespace rgl {
 	static constexpr int ACTION_POINTER_DOWN = 5;
 	static constexpr int ACTION_POINTER_UP = 6;
 
-	PixEngine *PixEngineAndroid::BOOTINSTANCE = nullptr;
+	PixFu *PixEngineAndroid::BOOTINSTANCE = nullptr;
 
 	PixEngineAndroid::PixEngineAndroid() {
 		openglutils::VERSION="v300es";
@@ -74,7 +74,7 @@ namespace rgl {
 	}
 
 	void PixEngineAndroid::onFps(int fps) {
-		std::string sTitle = "PixEngine - FPS: " + std::to_string(fps);
+		std::string sTitle = "PixFu - FPS: " + std::to_string(fps);
 	}
 
 	void Mouse::poll() {
@@ -85,7 +85,7 @@ namespace rgl {
 
 	}
 
-	void PixEngine::start() {
+	void PixFu::start() {
 		// this platform does not run a loop
 	}
 

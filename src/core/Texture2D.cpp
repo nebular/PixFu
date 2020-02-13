@@ -1,6 +1,6 @@
 //
 //  Texture2D.cpp
-//  PixEngine
+//  PixFu
 //
 //  Created by rodo on 12/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.

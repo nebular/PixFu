@@ -1,6 +1,6 @@
 //
-//  PixEngine.hpp
-//  PixEngine
+//  PixFu.hpp
+//  PixFu
 //
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
@@ -17,7 +17,7 @@
 
 namespace rgl {
 
-	class PixEngine;
+	class PixFu;
 
 	/**
 	 * a PixEngine extension. Extensions are added with PixEngine::addExtension.
@@ -28,9 +28,9 @@ namespace rgl {
 	public:
 		virtual ~PixEngineExtension();
 
-		virtual bool init(PixEngine *engine) = 0;
+		virtual bool init(PixFu *engine) = 0;
 
-		virtual void tick(PixEngine *engine, float fElapsedTime) = 0;
+		virtual void tick(PixFu *engine, float fElapsedTime) = 0;
 	};
 
 	inline PixEngineExtension::~PixEngineExtension() {}
@@ -38,20 +38,20 @@ namespace rgl {
 	/**
 	 * The platform-dependent part of PixEngine
 	 */
-	class PixEnginePlatform {
+	class PixFuPlatform {
 		static const std::string TAG;
 
 	protected:
-		PixEngine *pEngine;
+		PixFu *pEngine;
 
 		// App CWD
 		static std::string ROOTPATH;
 
 	public:
 
-		virtual ~PixEnginePlatform();
+		virtual ~PixFuPlatform();
 
-		void setEngine(PixEngine *engine);
+		void setEngine(PixFu *engine);
 
 		virtual bool init() = 0;
 
@@ -75,20 +75,20 @@ namespace rgl {
 
 	};
 
-	inline PixEnginePlatform::~PixEnginePlatform() {}
+	inline PixFuPlatform::~PixFuPlatform() {}
 
-	inline void PixEnginePlatform::setEngine(PixEngine *engine) { pEngine = engine; }
+	inline void PixFuPlatform::setEngine(PixFu *engine) { pEngine = engine; }
 
-	inline std::string PixEnginePlatform::getPath(std::string relpath) {
+	inline std::string PixFuPlatform::getPath(std::string relpath) {
 		return ROOTPATH + relpath;
 	}
 
-	inline void PixEnginePlatform::setPath(std::string abspath) {
+	inline void PixFuPlatform::setPath(std::string abspath) {
 		if (DBG) LogV(TAG, SF("Local Path Root is %s", abspath.c_str()));
 		ROOTPATH = abspath;
 	}
 
-	inline void PixEnginePlatform::onFps(int fps) {}
+	inline void PixFuPlatform::onFps(int fps) {}
 
 	/**
 	 * An input device. Input devices are added with PixEngine::addInputDevice
@@ -107,7 +107,7 @@ namespace rgl {
 
 	inline InputDevice::~InputDevice() {}
 
-	class PixEngine {
+	class PixFu {
 
 		static const std::string TAG;
 
@@ -115,7 +115,7 @@ namespace rgl {
 
 		const std::string sShaderName;                        // shader filename
 
-		PixEnginePlatform *pPlatform;                        // platform layer
+		PixFuPlatform *pPlatform;                        // platform layer
 
 		Surface *pSurface;                                    // primary surface
 		std::vector<PixEngineExtension *> vExtensions;        // extensions
@@ -152,9 +152,9 @@ namespace rgl {
 
 	public:
 
-		PixEngine(PixEnginePlatform *platform, std::string shader = "default");
+		PixFu(PixFuPlatform *platform, std::string shader = "default");
 
-		~PixEngine();
+		~PixFu();
 
 		bool init(int width, int height);                    // initializes the engine
 
@@ -174,17 +174,17 @@ namespace rgl {
 	};
 
 
-	inline int PixEngine::screenWidth() { return nScreenWidth; }
+	inline int PixFu::screenWidth() { return nScreenWidth; }
 
-	inline int PixEngine::screenHeight() { return nScreenHeight; }
+	inline int PixFu::screenHeight() { return nScreenHeight; }
 
-	inline void PixEngine::addExtension(PixEngineExtension *e) { vExtensions.push_back(e); }
+	inline void PixFu::addExtension(PixEngineExtension *e) { vExtensions.push_back(e); }
 
-	inline void PixEngine::addInputDevice(InputDevice *inputDevice) {
+	inline void PixFu::addInputDevice(InputDevice *inputDevice) {
 		vInputDevices.push_back(inputDevice);
 	}
 
-	inline Drawable *PixEngine::buffer() { return pSurface->buffer(); }
+	inline Drawable *PixFu::buffer() { return pSurface->buffer(); }
 
 }
 #endif /* PixEngine_hpp*/

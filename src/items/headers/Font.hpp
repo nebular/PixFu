@@ -8,7 +8,7 @@
 
 #ifndef Font_hpp
 #define Font_hpp
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 
 namespace rgl {
 class Font {

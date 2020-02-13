@@ -1,12 +1,12 @@
 //
-//  PixEngine.cpp
-//  PixEngine
+//  PixFu.cpp
+//  PixFu
 //
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 #include "OpenGL.h"
 #include "OpenGlUtils.h"
 #include "Mouse.hpp"
@@ -14,16 +14,16 @@
 
 using namespace rgl;
 
-std::string PixEnginePlatform::ROOTPATH = "";
-const std::string PixEngine::TAG="PixEngine";
-const std::string PixEnginePlatform::TAG="PixEnginePlaf";
+std::string PixFuPlatform::ROOTPATH = "";
+const std::string PixFu::TAG="PixFu";
+const std::string PixFuPlatform::TAG="PixFuPlaf";
 
-PixEngine::PixEngine(PixEnginePlatform *platform, std::string shader) : sShaderName(shader) {
+PixFu::PixFu(PixFuPlatform *platform, std::string shader) : sShaderName(shader) {
 	pPlatform = platform;
 	pPlatform->setEngine(this);
 }
 
-PixEngine::~PixEngine() {
+PixFu::~PixFu() {
 
 	// destroy primary surface
 
@@ -49,7 +49,7 @@ PixEngine::~PixEngine() {
 
 }
 
-bool PixEngine::init(int width, int height) {
+bool PixFu::init(int width, int height) {
 
 	nScreenWidth = width;
 	nScreenHeight = height;
@@ -71,7 +71,7 @@ bool PixEngine::init(int width, int height) {
 	return bInited;
 }
 
-void PixEngine::loop() {
+void PixFu::loop() {
 
 	if (!loop_init()) {
 		if (DBG) LogE(TAG, "Error in egine init");
@@ -116,7 +116,7 @@ void PixEngine::loop() {
 
 }
 
-bool PixEngine::loop_init() {
+bool PixFu::loop_init() {
 
 	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", sShaderName);
 	pSurface->init();
@@ -129,14 +129,14 @@ bool PixEngine::loop_init() {
 
 	if (DBG) LogV(TAG, "Initing Extensions");
 
-	// initialize PixEngine Extensions
+	// initialize PixFu Extensions
 	for (PixEngineExtension *extension : vExtensions)
 		if (!extension->init(this)) return false;
 
 	return true;
 }
 
-bool PixEngine::loop_tick(float fElapsedTime) {
+bool PixFu::loop_tick(float fElapsedTime) {
 
 	// todo
 	std::pair<bool, bool> status = pPlatform->events();
@@ -157,7 +157,7 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 
 		pSurface->tick();
 
-		// update PixEngine Extensions
+		// update PixFu Extensions
 		for (PixEngineExtension *extension : vExtensions)
 			extension->tick(this, fElapsedTime);
 
@@ -174,7 +174,7 @@ bool PixEngine::loop_tick(float fElapsedTime) {
 }
 
 // TODO !!!
-bool PixEngine::loop_reinit(int newWidth, int newHeight) {
+bool PixFu::loop_reinit(int newWidth, int newHeight) {
 
 	// so even screen dimensions might change on Android
 	if (screenWidth() != newWidth || screenHeight() != newHeight) {
@@ -192,7 +192,7 @@ bool PixEngine::loop_reinit(int newWidth, int newHeight) {
 
 }
 
-void PixEngine::loop_deinit() {
+void PixFu::loop_deinit() {
 
 	if (DBG) LogV(TAG, "Loop deinit");
 	bLoopActive = false;
@@ -204,14 +204,14 @@ void PixEngine::loop_deinit() {
 //	pPlatform->deinit(); to destructor
 }
 
-bool PixEngine::onUserCreate() {
+bool PixFu::onUserCreate() {
 	return true;
 }
 
-bool PixEngine::onUserUpdate(float fElapsedTime) {
+bool PixFu::onUserUpdate(float fElapsedTime) {
 	return true;
 }
 
-bool PixEngine::onUserDestroy() {
+bool PixFu::onUserDestroy() {
 	return true;
 }

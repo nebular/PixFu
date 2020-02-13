@@ -1,6 +1,6 @@
 //
 //  Surface.cpp
-//  PixEngine
+//  PixFu
 //
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
@@ -10,7 +10,7 @@
 #include "Utils.hpp"
 #include "Shader.hpp"
 #include "Surface.hpp"
-#include "PixEngine.hpp"
+#include "PixFu.hpp"
 #include "Texture2D.hpp"
 #include "OpenGlUtils.h"
 
