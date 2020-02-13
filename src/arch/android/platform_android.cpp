@@ -7,7 +7,7 @@
 #include "PixFu.hpp"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
-#include "androidlayer.hpp"
+#include "platform_android.hpp"
 #include "OpenGlUtils.h"
 #include "Utils.hpp"
 #include "androidapi.h"
