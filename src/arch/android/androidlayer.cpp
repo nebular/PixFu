@@ -43,7 +43,7 @@ namespace rgl {
 		deinit();
 	}
 
-	bool PixFuPlatformAndroid::init() {
+	bool PixFuPlatformAndroid::init(rgl::PixFu *engine) {
 
 		Mouse::enable();
 		Keyboard::enable();

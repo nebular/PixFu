@@ -55,7 +55,7 @@ namespace rgl {
 
 		virtual ~PixFuPlatform();
 
-		virtual bool init() = 0;
+		virtual bool init(rgl::PixFu *engine) = 0;
 
 		/** Process events and return <isLoopRunning,...> */
 		virtual std::pair<bool, bool> events() = 0;

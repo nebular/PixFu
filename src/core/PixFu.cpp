@@ -73,7 +73,7 @@ PixFu::~PixFu() {
 bool PixFu::init(int width, int height) {
 
 	pPlatform = PixFuPlatform::instance();
-	
+
 	nScreenWidth = width;
 	nScreenHeight = height;
 
@@ -81,7 +81,7 @@ bool PixFu::init(int width, int height) {
 
 	if (!bInited) {
 
-		bInited = pPlatform->init();
+		bInited = pPlatform->init(this);
 
 		if (Mouse::instance() != nullptr)
 			addInputDevice(Mouse::instance());

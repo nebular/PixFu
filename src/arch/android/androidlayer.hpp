@@ -25,7 +25,7 @@ namespace rgl {
 
 		PixFu *pBootInstance;
 
-		bool init();
+		bool init(rgl::PixFu *engine);
 
 		std::pair<bool, bool> events();
 
