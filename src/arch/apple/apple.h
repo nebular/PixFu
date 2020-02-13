@@ -6,20 +6,27 @@
 #ifndef GLES3JNI_APPLE_H
 #define GLES3JNI_APPLE_H
 #include "cocoawindowing.h"
+#include "Utils.hpp"
 #include "OpenGL.h"
 
-class PixEngineApple : public rgl::PixEnginePlatform {
-	
-	
-	bool init();
-	std::pair<bool,bool> events();
-	void commit();
-	void deinit();
+namespace rgl {
 
-	void onFps(int fps);
-	std::string getPath(std::string relpath);
+	class PixEngineApple : public rgl::PixEnginePlatform {
 
-};
 
+		bool init();
+
+		std::pair<bool, bool> events();
+
+		void commit();
+
+		void deinit();
+
+		void onFps(int fps);
+
+		std::string getPath(std::string relpath);
+
+	};
+}
 #endif //GLES3JNI_APPLE_H
 #endif

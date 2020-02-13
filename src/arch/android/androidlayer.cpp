@@ -9,9 +9,19 @@
 #include "Keyboard.hpp"
 #include "androidlayer.hpp"
 #include "OpenGlUtils.h"
+#include "Utils.hpp"
 #include <iostream>
 
 namespace rgl {
+
+	void LogV(std::string tag, std::string text) {
+		ALOGV("[%s] %s", tag.c_str(), text.c_str());
+	}
+
+	void LogE(std::string tag, std::string text) {
+		ALOGE("[%s] %s", tag.c_str(), text.c_str());
+	}
+
 
 	static constexpr int ACTION_UP = 1;
 	static constexpr int ACTION_DOWN = 0;
@@ -108,7 +118,7 @@ namespace rgl {
 										 tCurrentMotionEvent.Action == ACTION_UP);
 
 		bool twoFingers = event.PointersCount > 1;
-		// ALOGV ("Event: buttons %d, action %d, index %d", tCurrentMotionEvent.PointersCount, tCurrentMotionEvent.RawAction, tCurrentMotionEvent.PointerId);
+//		LogV ("ANDR", SF("Event: buttons %d, action %d, index %d", tCurrentMotionEvent.PointersCount, tCurrentMotionEvent.RawAction, tCurrentMotionEvent.PointerId));
 
 		switch (action) {
 

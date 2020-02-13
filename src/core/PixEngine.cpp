@@ -53,13 +53,15 @@ bool PixEngine::init(int width, int height) {
 	nScreenHeight = height;
 
 	if (!bInited) {
+
+		bInited = pPlatform->init();
+
 		if (Mouse::instance() != nullptr)
 			addInputDevice(Mouse::instance());
 
 		if (Keyboard::instance() != nullptr)
 			addInputDevice(Keyboard::instance());
 
-		bInited = pPlatform->init();
 	}
 
 	return bInited;

@@ -10,6 +10,7 @@
 #define Mouse_hpp
 
 #include "PixEngine.hpp"
+#include "Utils.hpp"
 
 namespace rgl {
 

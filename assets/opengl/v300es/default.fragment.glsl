@@ -7,9 +7,3 @@ uniform sampler2D glbuffer;
 void main() {
 	gl_FragColor = texture2D(glbuffer, TexCoord);
 }
-
-/*
-
-in vec -> varying vec
-
-*/

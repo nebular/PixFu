@@ -7,6 +7,7 @@
 //
 
 #include "Keyboard.hpp"
+#include "Utils.hpp"
 
 namespace rgl {
 
@@ -55,15 +56,17 @@ void Keyboard::sync() {
 	
 	for (int i = 0; i < NUMKEYS; i++) {
 		
-		pStateHeld[i] = pStatePressed[i] = false;
+		pStateReleased[i] = pStatePressed[i] = false;
 		
 		if (pNextState[i] != pThisState[i]) {
 			if (pNextState[i]) {
 				pStatePressed[i] = !pStateHeld[i];
 				pStateHeld[i] = true;
+				LogV("keyb", SF("next IS P, code %d old %d new %d pressed %d held %d", i, pThisState[i], pNextState[i], pStatePressed[i], pStateHeld[i]));
 			} else {
 				pStateReleased[i] = true;
 				pStateHeld[i] = false;
+				LogV("keyb", SF("next NOTP, code %d old %d new %d pressed %d held %d", i, pThisState[i], pNextState[i], pStatePressed[i], pStateHeld[i]));
 			}
 		}
 		

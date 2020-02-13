@@ -1,4 +1,4 @@
-#ifdef __APPLE__
+#ifndef __APPLE__
 
 //
 // Created by rodo on 2020-01-24.
@@ -10,7 +10,18 @@
 #include "apple.h"
 #include <iostream>
 
-bool PixEngineApple::init() {
+namespace rgl {
+
+	void LogV(std::string tag, std::string text) {
+		std::cerr << "["<<tag<<"] V "<<text<<std::endl;
+	}
+
+	void LogE(std::string tag, std::string text) {
+		std::cerr << "["<<tag<<"] E "<<text<<std::endl;
+	}
+
+
+	bool PixEngineApple::init() {
 	
 	try {
 		init_application();
@@ -57,13 +68,13 @@ void PixEngineApple::onFps(int fps) {
 	set_window_name(sTitle.c_str());
 }
 
-void rgl::Mouse::update() {
+void Mouse::update() {
 	input(get_mouse_position_x(), get_mouse_position_y());
 	inputWheel(get_mouse_scroll_x(), get_mouse_scroll_y());
 	for (char i = 0; i < BUTTONS; i++) inputButton(i, get_mouse_button(i));
 }
 
-void rgl::Keyboard::update() {
+void Keyboard::update() {
 	
 	for (int i = 0; i < NUMKEYS; i++) {
 		if (get_key_down(::Key::All[i])) {
@@ -81,8 +92,9 @@ void rgl::Keyboard::update() {
 	
 }
 
-void rgl::PixEngine::start() {
+void PixEngine::start() {
 	loop();
+}
 }
 
 #endif
