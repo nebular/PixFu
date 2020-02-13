@@ -34,7 +34,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 ## PIXENGINE
 
-add_library(pixEngine_core SHARED
+add_library(pixFu SHARED
         src/core/Surface.cpp
         src/core/Drawable.cpp
         src/core/PixEngine.cpp
@@ -53,7 +53,7 @@ add_library(pixEngine_core SHARED
 
 # Include libraries needed for gles3jni lib
 
-target_link_libraries(pixEngine_core
+target_link_libraries(pixFu
         ${OPENGL_LIB}
         android
         EGL
