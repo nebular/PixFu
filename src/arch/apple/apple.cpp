@@ -1,4 +1,4 @@
-#ifndef __APPLE__
+#ifdef __APPLE__
 
 //
 // Created by rodo on 2020-01-24.
@@ -12,16 +12,15 @@
 
 namespace rgl {
 
-	void LogV(std::string tag, std::string text) {
-		std::cerr << "["<<tag<<"] V "<<text<<std::endl;
-	}
+void LogV(std::string tag, std::string text) {
+	std::cerr << "["<<tag<<"] V "<<text<<std::endl;
+}
 
-	void LogE(std::string tag, std::string text) {
-		std::cerr << "["<<tag<<"] E "<<text<<std::endl;
-	}
+void LogE(std::string tag, std::string text) {
+	std::cerr << "["<<tag<<"] E "<<text<<std::endl;
+}
 
-
-	bool PixEngineApple::init() {
+bool PixEngineApple::init() {
 	
 	try {
 		init_application();
@@ -95,6 +94,7 @@ void Keyboard::update() {
 void PixEngine::start() {
 	loop();
 }
+
 }
 
 #endif

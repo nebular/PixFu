@@ -11,7 +11,7 @@
 
 namespace rgl {
 
-	class PixEngineApple : public rgl::PixEnginePlatform {
+	class PixEngineApple : public PixEnginePlatform {
 
 
 		bool init();
