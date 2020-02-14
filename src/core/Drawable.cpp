@@ -42,10 +42,16 @@ Pixel Pixel::scale(float mult) {
 }
 
 Pixel Colors::RED = Pixel(255, 0, 0);
+Pixel Colors::ORANGE = Pixel(255, 128, 0);
+
 Pixel Colors::GREEN = Pixel(0, 255, 0);
 Pixel Colors::BLUE = Pixel(0, 0, 255);
 Pixel Colors::CYAN = Pixel(0, 255, 255);
+Pixel Colors::LIGHTBLUE = Pixel(0, 128, 255);
+Pixel Colors::LIGHTGREEN = Pixel(0, 255, 128);
 Pixel Colors::MAGENTA = Pixel(255, 0, 255);
+Pixel Colors::VIOLET = Pixel(128, 0, 255);
+Pixel Colors::PINK = Pixel(255, 128, 255);
 Pixel Colors::YELLOW = Pixel(255, 255, 0);
 Pixel Colors::GREY = Pixel(128, 128, 128);
 Pixel Colors::WHITE = Pixel(255, 255, 255);

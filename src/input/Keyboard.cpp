@@ -54,7 +54,7 @@ namespace rgl {
 			pInstance = nullptr;
 	}
 
-	void Keyboard::sync() {
+	void Keyboard::sync(float fElapsedTime) {
 
 		for (int i = 0; i < NUMKEYS; i++) {
 

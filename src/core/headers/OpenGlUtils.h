@@ -28,16 +28,16 @@ public:
 	static std::string TAG;
 	static std::string VERSION;
 
-	static std::string load_shader_file(const std::string &sFilename);
+	static std::string loadShaderFile(const std::string &sFile);
 
-	static unsigned int compile_shader(unsigned int type, const std::string &source);
+	static unsigned int compileShader(unsigned int type, const std::string &source);
 
 	static unsigned int
-	load_shader(const std::string &vertexShader, const std::string &fragementShader);
+	loadShader(const std::string &vertexShader, const std::string &fragementShader);
 
-	static unsigned int load_shader(const std::string &filename);
+	static unsigned int loadShader(const std::string &filename);
 
-	static void glerror(std::string tag);
+	static void glError(const std::string &tag);
 
 	static GLuint getGlTexture(GLuint glChannel);
 

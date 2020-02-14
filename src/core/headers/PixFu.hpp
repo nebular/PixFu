@@ -6,6 +6,10 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma ide diagnostic ignored "OCSimplifyInspection"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #ifndef PixEngine_hpp
 #define PixEngine_hpp
 
@@ -113,7 +117,7 @@ namespace rgl {
 		virtual void poll() = 0;
 
 		// snapshot current values, these values will be used during a frame loop.
-		virtual void sync() = 0;
+		virtual void sync(float fElapsedTime) = 0;
 	};
 
 	inline InputDevice::~InputDevice() {}
@@ -123,6 +127,10 @@ namespace rgl {
 	class PixFu {
 
 		static const std::string TAG;
+
+		// RendererPix belongs to the Android Launcher interface, we will
+		// be calling the parts of the loop directly, but don't want to export
+		// those functions as it doesn't make sense for the rest of platforms
 
 		friend class RendererPix;
 
@@ -145,23 +153,42 @@ namespace rgl {
 
 		// loop control
 
-		void loop();                                        // runs the loop synchronously
+		/** Runs the loop synchronously if applies */
+		void loop();
 
-		bool loop_init();                                    // async loop: init
+		/** Async loop: init */
+		bool loop_init();
 
-		bool loop_tick(float fElapsedTime);                    // async loop: tick
+		/** async loop: tick */
+		bool loop_tick(float fElapsedTime);
 
-		void loop_deinit();                                    // async loop: deinit
+		/** async loop: deinit */
+		void loop_deinit();
 
-		bool loop_reinit(int newWidth, int newHeight);        // reinit stopped loop
+		/** reinit stopped loop */
+		bool loop_reinit(int newWidth, int newHeight);
 
 	protected:
 
-		void addExtension(PixFuExtension *extension);    // adds extension to the engine
+		/**
+		 * Adds an extension to the engine. Added extensions are integrated into the loop
+		 * and can paint in OpenGL.
+		 * @param extension The instantiated extension to add
+		 */
+		void addExtension(PixFuExtension *extension);
 
-		void addInputDevice(InputDevice *inputDevice);        // adds input devide to the engine
+		/**
+		 * Adds an input device
+		 * @param inputDevice The instantiated input device (Mouse, Keyboard, AxisController ...)
+		 */
 
-		Drawable *buffer();                                    // get primary surface
+		void addInputDevice(InputDevice *inputDevice);
+
+		/**
+		 * Gets the memory-backing buffer
+		 * @return The buffer you can write to
+		 */
+		Drawable *buffer();
 
 	public:
 
@@ -169,14 +196,31 @@ namespace rgl {
 
 		~PixFu();
 
-		bool init(int width, int height);                    // initializes the engine
+		/**
+		 * Initializes the engine
+		 * @param width  Screen Widtg
+		 * @param height Screen Height
+		 * @return success
+		 */
+		bool init(int width, int height);
 
-		void
-		start();                                        // runs the loop if this platforms uses it
+		/**
+		 * Runs the loop if this platform uses it. This function would then be blocking.
+		 */
+		void start();
 
-		int screenWidth();                                    // get screen width
+		/**
+		 * Get screen width
+		 * @return screen width in pixels
+		 */
+		int screenWidth();
 
-		int screenHeight();                                    // get screen height
+		/**
+		 * Get screen height
+		 * @return screen height in pixels
+		 */
+
+		int screenHeight();                                  // get screen height
 
 		virtual bool onUserCreate();
 
@@ -201,3 +245,5 @@ namespace rgl {
 }
 #endif /* PixEngine_hpp*/
 
+
+#pragma clang diagnostic pop

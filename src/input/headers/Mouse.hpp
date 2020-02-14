@@ -76,7 +76,7 @@ namespace rgl {
 
 		void poll();
 
-		void sync();
+		void sync(float fElapsedTime);
 
 	};
 

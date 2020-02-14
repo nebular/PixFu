@@ -22,9 +22,11 @@ namespace rgl {
 
 		Shader(const std::string &name);
 
+		// activates the shader
 		void use();
 
 		// utility uniform functions
+
 		void setBool(const std::string &name, bool value) const;
 
 		void setInt(const std::string &name, int value) const;
@@ -45,7 +47,7 @@ namespace rgl {
 	};
 
 	inline Shader::Shader(const std::string &name) {
-		ID = OpenGlUtils::load_shader(name);
+		ID = OpenGlUtils::loadShader(name);
 	}
 
 	inline void Shader::use() {

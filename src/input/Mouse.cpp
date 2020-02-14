@@ -55,7 +55,7 @@ namespace rgl {
 	}
 
 	// snapshot values
-	void Mouse::sync() {
+	void Mouse::sync(float fElapsedTime) {
 
 		nX = nNewX;
 		nY = nNewY;

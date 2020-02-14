@@ -70,7 +70,7 @@ namespace rgl {
 
 		void poll();
 
-		void sync();
+		void sync(float fElapsedTime);
 	};
 
 	inline Keyboard *Keyboard::instance() { return pInstance; }

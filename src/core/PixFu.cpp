@@ -1,5 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "cert-err58-cpp"
 //
 //  PixFu.cpp
 //  PixFu
@@ -16,7 +14,10 @@
 #include "Utils.hpp"
 
 #pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnusedValue"
+#pragma ide diagnostic ignored "cert-err58-cpp"
 #pragma ide diagnostic ignored "OCSimplifyInspection"
+
 using namespace rgl;
 
 /*-------------------------------------------------------------------*/
@@ -194,7 +195,7 @@ bool PixFu::loop_tick(float fElapsedTime) {
 
 		// snapshot inputdevices values
 		for (InputDevice *device:vInputDevices)
-			device->sync();
+			device->sync(fElapsedTime);
 
 		// Handle Frame Update
 		bLoopActive = onUserUpdate(fElapsedTime);
@@ -271,5 +272,4 @@ bool PixFu::onUserDestroy() {
 	return true;
 }
 
-#pragma clang diagnostic pop
 #pragma clang diagnostic pop
