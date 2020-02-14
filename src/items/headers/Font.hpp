@@ -8,18 +8,23 @@
 
 #ifndef Font_hpp
 #define Font_hpp
+
 #include "PixFu.hpp"
 
 namespace rgl {
-class Font {
-	
-	Drawable *pFontSprite;
-	int nWidth, nHeight;
-	
-public:
-	Font(std::string filename="fonts/default.png", int charWidth=8, int charHeight=8);
-	~Font();
-	void drawString(Drawable *target, int32_t x, int32_t y, std::string sText, rgl::Pixel col, uint32_t scale=1);
-};
+	class Font {
+
+		Drawable *pFontSprite;
+		int nWidth, nHeight;
+
+	public:
+		Font(std::string filename = "fonts/default.png", int charWidth = 8, int charHeight = 8);
+
+		~Font();
+
+		void
+		drawString(Drawable *target, int32_t x, int32_t y, const std::string &text, rgl::Pixel col,
+				   uint32_t scale = 1);
+	};
 }
 #endif /* Font_hpp */

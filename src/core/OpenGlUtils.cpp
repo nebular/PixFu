@@ -9,14 +9,16 @@
 
 #include "OpenGlUtils.h"
 #include "PixFu.hpp"
+#include "Utils.hpp"
 #include <fstream>
 #include <iostream>
 
 // Convenience methods
 
-std::string openglutils::VERSION = "v330core";
+std::string OpenGlUtils::TAG = "OpenGLUtils";
+std::string OpenGlUtils::VERSION = "v330core";
 
-std::string openglutils::load_shader_file(const std::string& sFile)
+std::string OpenGlUtils::load_shader_file(const std::string& sFile)
 {
 	std::string sFilename = rgl::PixFuPlatform::getPath("/opengl/"+VERSION+"/"+sFile);
 
@@ -25,7 +27,7 @@ std::string openglutils::load_shader_file(const std::string& sFile)
 	
 	if (!file.is_open()) return "";
 	
-	std::string result="";
+	std::string result;
 	
 	while(!file.eof()) // To get you all the lines.
 	{
@@ -36,7 +38,7 @@ std::string openglutils::load_shader_file(const std::string& sFile)
 	return result;
 }
 
-unsigned int openglutils::compile_shader (unsigned int type, const std::string& source)
+unsigned int OpenGlUtils::compile_shader (unsigned int type, const std::string& source)
 {
 	unsigned int shader = glCreateShader(type);
 	const char *src = source.c_str();
@@ -50,15 +52,15 @@ unsigned int openglutils::compile_shader (unsigned int type, const std::string& 
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
 		char* message = (char*)alloca( length * sizeof(char));
 		glGetShaderInfoLog( shader, length, &length, message);
-		std::cerr << "Shader Failed to Compile: " << std::endl;
-		std::cerr << message << std::endl;
+
+		rgl::LogE(TAG, rgl::SF("Shader Failed to Compile: %s", message));
 		exit(1);
 	}
 	
 	return shader;
 }
 
-unsigned int openglutils::load_shader (const std::string& vertexShader, const std::string& fragementShader)
+unsigned int OpenGlUtils::load_shader (const std::string& vertexShader, const std::string& fragementShader)
 {
 	unsigned int program = glCreateProgram();
 	unsigned int vs = compile_shader( GL_VERTEX_SHADER, vertexShader );
@@ -78,27 +80,27 @@ unsigned int openglutils::load_shader (const std::string& vertexShader, const st
 	return program;
 }
 
-unsigned int openglutils::load_shader (const std::string& filename)
+unsigned int OpenGlUtils::load_shader (const std::string& filename)
 {
 	std::string vertex = load_shader_file(filename+".vertex.glsl");
 	std::string shader = load_shader_file(filename+".fragment.glsl");
-	if (vertex.size()==0) throw 404;
+	if (vertex.size()==0) throw std::runtime_error("Shaders not found or error");
 	return load_shader(vertex, shader);
 }
 
 
-void openglutils::glerror(std::string tag) {
+void OpenGlUtils::glerror(std::string tag) {
 	
 	GLenum err = 0;
 	
-	while( (err = glGetError()) ){
-		std::cerr << tag << ": OGLERR: " << err << std::endl;
+	while( (err = glGetError()) ) {
+		rgl::LogV(tag, rgl::SF("OpenGL Error %s", err));
 	}
 }
 
-GLuint openglutils::getGlTexture(uint glChannel) { return GL_TEXTURE0 + glChannel - 1; }
+GLuint OpenGlUtils::getGlTexture(uint glChannel) { return GL_TEXTURE0 + glChannel - 1; }
 
-GLuint openglutils::loadTexture(rgl::Drawable *img, GLuint texId, bool repeat) {
+GLuint OpenGlUtils::loadTexture(rgl::Drawable *img, GLuint texId, bool repeat) {
 	
 	if (img==nullptr) return NO_TEXTURE;
 

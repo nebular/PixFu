@@ -23,47 +23,52 @@ namespace rgl {
  *
  */
 
-class Surface {
+	class Surface {
 
-	static const std::string TAG;
-	static constexpr float VERTICES[32] {
-			// positions          // colors           // texture coords
-			1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
-			1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-			-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
+		static const std::string TAG;
+		static constexpr float VERTICES[32]{
+				// positions          // colors           // texture coords
+				1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
+				1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
+				-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+				-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
+		};
+
+		static constexpr unsigned int INDICES[6]{
+				0, 1, 3, // first triangle
+				1, 2, 3  // second triangle
+		};
+
+		const int nWidth, nHeight;
+
+		Shader *pShader;
+		Texture2D *pActiveTexture;
+		std::string sSamplerName;
+
+		unsigned int vao;
+		unsigned int vbo;
+		unsigned int ebo;
+
+		void init_opengl();
+
+		void init_texture();
+
+	public:
+
+		Surface(int width, int height, const std::string &samplerName = "glbuffer",
+				const std::string &shaderName = "default");
+
+		~Surface();
+
+		bool init();
+
+		void tick();
+
+		void deinit();
+
+		Drawable *buffer();
+
 	};
-	
-	static constexpr unsigned int INDICES[6]{
-			0, 1, 3, // first triangle
-			1, 2, 3  // second triangle
-	};
-
-	const int nWidth, nHeight;
-
-	Shader *pShader;
-	Texture2D *pActiveTexture;
-	std::string sSamplerName;
-
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int ebo;
-
-	void init_opengl();
-	void init_texture();
-
-public:
-
-	Surface(int width, int height, std::string samplerName="glbuffer", std::string shaderName="default");
-	~Surface();
-
-	bool init();
-	void tick();
-	void deinit();
-	
-	Drawable *buffer();
-
-};
 
 
 }

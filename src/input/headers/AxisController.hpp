@@ -21,6 +21,7 @@ namespace rgl {
 	public:
 
 		AxisController(int axisXlen, int axisYlen);
+
 		virtual ~AxisController();
 
 		void inputGyroscope(float radAzimuth, float radPitch);

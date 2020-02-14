@@ -14,6 +14,9 @@
 #include "PixFu.hpp"
 #include "Utils.hpp"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 namespace rgl {
 
 SpriteSheet::SpriteSheet(PixFu *engine, std::string spriteAtlas, int numx, int numy, std::string shader)
@@ -193,3 +196,5 @@ void SpriteSheet::tick(PixFu *engine, float fElapsedTime) {
 }
 
 }
+
+#pragma clang diagnostic pop

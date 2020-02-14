@@ -1,3 +1,8 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
+#pragma ide diagnostic ignored "readability-magic-numbers"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 //
 //  Font.cpp
 //  LoneKart
@@ -8,21 +13,23 @@
 
 #include "Font.hpp"
 
+
 namespace rgl {
 
 	Font::Font(std::string filename, int w, int h) {
-		pFontSprite = Drawable::fromFile(filename);
+		pFontSprite = Drawable::fromFile(std::move(filename));
 		nWidth = w;
 		nHeight = h;
 	}
 
 	Font::~Font() {
-		if (pFontSprite != nullptr) delete pFontSprite;
+		delete pFontSprite;
 		pFontSprite = nullptr;
 	}
 
 
-	void Font::drawString(Drawable *target, int32_t x, int32_t y, std::string sText, rgl::Pixel col,
+	void Font::drawString(Drawable *target, int32_t x, int32_t y, const std::string &sText,
+						  rgl::Pixel col,
 						  uint32_t scale) {
 		int sx = 0;
 		int sy = 0;
@@ -63,3 +70,6 @@ namespace rgl {
 		}
 	}
 }
+
+#pragma clang diagnostic pop
+#pragma clang diagnostic pop

@@ -15,39 +15,43 @@
 
 namespace rgl {
 
-class Texture2D {
-	
-	Drawable *pBuffer;
-	GLuint glChannel = -1;
-	
-public:
-	
-	~Texture2D();
+	class Texture2D {
 
-	// New Texture (blank)
-	Texture2D(int width, int height);
+		Drawable *pBuffer;
+		GLuint glChannel = -1;
 
-	// New Texture (from file)
-	Texture2D(std::string filename);
-	
-	bool upload();	// Upload texture to graphics card
-	GLuint id();	// Get texture id
-	GLuint unit();	// Get hardwired texture unit
-	int width();	// Texture width
-	int height();	// Texture Height
+	public:
+
+		~Texture2D();
+
+		// New Texture (blank)
+		Texture2D(int width, int height);
+
+		// New Texture (from file)
+		Texture2D(std::string filename);
+
+		bool upload();    // Upload texture to graphics card
+		GLuint id();    // Get texture id
+		GLuint unit();    // Get hardwired texture unit
+		int width();    // Texture width
+		int height();    // Texture Height
 
 
-	void bind();	// Binds and activates texture
-	void update();	// re-uploads changed buffer
+		void bind();    // Binds and activates texture
+		void update();    // re-uploads changed buffer
 
-	Drawable *buffer();
-};
+		Drawable *buffer();
+	};
 
-inline Drawable *Texture2D::buffer() 	{ return pBuffer; }
-inline GLuint Texture2D::id() 			{ return glChannel; }
-inline GLuint Texture2D::unit() 		{ return glChannel - 1; }
-inline int Texture2D::width() 			{ return pBuffer->width; }
-inline int Texture2D::height() 			{ return pBuffer->height; }
+	inline Drawable *Texture2D::buffer() { return pBuffer; }
+
+	inline GLuint Texture2D::id() { return glChannel; }
+
+	inline GLuint Texture2D::unit() { return glChannel - 1; }
+
+	inline int Texture2D::width() { return pBuffer->width; }
+
+	inline int Texture2D::height() { return pBuffer->height; }
 
 }
 #endif /* Texture2D_h */

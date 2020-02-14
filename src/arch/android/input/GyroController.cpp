@@ -11,19 +11,21 @@ namespace rgl {
 
 	GyroController *GyroController::pCurrentInstance = nullptr;
 
-	GyroController::GyroController(int xlen, int ylen, bool autoStart) : AxisController(xlen, ylen) {
+	GyroController::GyroController(int xlen, int ylen, bool autoStart) : AxisController(xlen,
+																						ylen) {
 
 		sensorManager = AcquireASensorManagerInstance();
-		if (sensorManager == nullptr) throw 1;
+		if (sensorManager == nullptr) throw std::runtime_error("No sensor manager");
 		rotation = ASensorManager_getDefaultSensor(sensorManager,
 												   ASENSOR_TYPE_GAME_ROTATION_VECTOR);
-		if (rotation == nullptr) throw 2;
+		if (rotation == nullptr) throw std::runtime_error("No rotation sensor");
 		looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
-		if (looper == nullptr) throw 3;
+		if (looper == nullptr) throw std::runtime_error("Cannot get a looper");
 
 		rotationEventQueue = ASensorManager_createEventQueue(sensorManager, looper, LOOPER_ID_USER,
 															 nullptr, nullptr);
-		if (rotationEventQueue == nullptr) throw 4;
+		if (rotationEventQueue == nullptr)
+			throw std::runtime_error("Cannot get sensor event queue");
 
 		if (autoStart) enable(true);
 
@@ -44,24 +46,28 @@ namespace rgl {
 	}
 
 	ASensorManager *GyroController::AcquireASensorManagerInstance() {
+
 		typedef ASensorManager *(*PF_GETINSTANCEFORPACKAGE)(const char *name);
+
 		void *androidHandle = dlopen("libandroid.so", RTLD_NOW);
-		PF_GETINSTANCEFORPACKAGE getInstanceForPackageFunc = (PF_GETINSTANCEFORPACKAGE)
+		auto getInstanceForPackageFunc = (PF_GETINSTANCEFORPACKAGE)
 				dlsym(androidHandle, "ASensorManager_getInstanceForPackage");
+
 		if (getInstanceForPackageFunc) {
 			return getInstanceForPackageFunc(kPackageName);
 		}
 
 		typedef ASensorManager *(*PF_GETINSTANCE)();
-		PF_GETINSTANCE getInstanceFunc = (PF_GETINSTANCE)
+		auto getInstanceFunc = (PF_GETINSTANCE)
 				dlsym(androidHandle, "ASensorManager_getInstance");
+
 		// by all means at this point, ASensorManager_getInstance should be available
 		assert(getInstanceFunc);
 		return getInstanceFunc();
 	}
 
 	void GyroController::poll() {
-		ASensorEventQueue_getEvents(rotationEventQueue, &tCurrentEvent, 1) ;
+		ASensorEventQueue_getEvents(rotationEventQueue, &tCurrentEvent, 1);
 		inputGyroscope(tCurrentEvent.vector.azimuth, tCurrentEvent.vector.pitch);
 	}
 

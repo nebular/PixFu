@@ -28,6 +28,7 @@ namespace rgl {
 	class Keyboard : public InputDevice {
 
 		friend class PixFuPlatformAndroid;
+
 		friend class LoneScreenKey;
 
 		static std::string TAG;

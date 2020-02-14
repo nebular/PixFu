@@ -21,18 +21,26 @@ namespace rgl {
 	class Drawable;
 }
 
-class openglutils {
+class OpenGlUtils {
 
 public:
 
+	static std::string TAG;
 	static std::string VERSION;
 
-	static std::string load_shader_file(const std::string& sFilename);
-	static unsigned int compile_shader (unsigned int type, const std::string& source);
-	static unsigned int load_shader (const std::string& vertexShader, const std::string& fragementShader);
-	static unsigned int load_shader (const std::string& filename);
+	static std::string load_shader_file(const std::string &sFilename);
+
+	static unsigned int compile_shader(unsigned int type, const std::string &source);
+
+	static unsigned int
+	load_shader(const std::string &vertexShader, const std::string &fragementShader);
+
+	static unsigned int load_shader(const std::string &filename);
+
 	static void glerror(std::string tag);
+
 	static GLuint getGlTexture(GLuint glChannel);
+
 	static GLuint loadTexture(rgl::Drawable *img, GLuint texId = NO_TEXTURE, bool repeat = false);
 };
 
