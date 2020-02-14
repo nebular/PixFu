@@ -17,13 +17,12 @@
 namespace rgl {
 
 	void LogV(std::string tag, std::string text) {
-		ALOGV("[%s] %s", tag.c_str(), text.c_str());
+		ALOGV("[V:%s] %s", tag.c_str(), text.c_str());
 	}
 
 	void LogE(std::string tag, std::string text) {
-		ALOGE("[%s] %s", tag.c_str(), text.c_str());
+		ALOGE("[E:%s] %s", tag.c_str(), text.c_str());
 	}
-
 
 	static constexpr int ACTION_UP = 1;
 	static constexpr int ACTION_DOWN = 0;
