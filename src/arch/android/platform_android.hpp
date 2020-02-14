@@ -33,7 +33,7 @@ namespace rgl {
 
 		void deinit() override;
 
-		void onFps(int fps) override;
+		void onFps(PixFu *engine, int fps) override;
 
 
 	public:

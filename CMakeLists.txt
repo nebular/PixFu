@@ -26,6 +26,7 @@ include_directories(src)
 include_directories(src/core/headers)
 include_directories(src/input/headers)
 include_directories(src/items/headers)
+include_directories(src/support)
 include_directories(src/thirdparty/glm)
 
 include_directories(src/arch/android/libpng/jni)
@@ -46,6 +47,7 @@ add_library(pixFu SHARED
         src/input/Keyboard.cpp
         src/input/AxisController.cpp
         src/input/Mouse.cpp
+        src/support/olcPixFu.cpp
         src/arch/android/platform_android.cpp
         src/arch/android/plugins/lonescreenkey.cpp
         src/arch/android/input/GyroController.cpp

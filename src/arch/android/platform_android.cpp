@@ -16,11 +16,11 @@
 
 namespace rgl {
 
-	void LogV(std::string tag, std::string text) {
+	void LogV(const std::string &tag, std::string text) {
 		ALOGV("[V:%s] %s", tag.c_str(), text.c_str());
 	}
 
-	void LogE(std::string tag, std::string text) {
+	void LogE(const std::string &tag, std::string text) {
 		ALOGE("[E:%s] %s", tag.c_str(), text.c_str());
 	}
 
@@ -71,7 +71,7 @@ namespace rgl {
 		// something will come here for sure
 	}
 
-	void PixFuPlatformAndroid::onFps(int fps) {
+	void PixFuPlatformAndroid::onFps(PixFu *engine, int fps) {
 		std::string sTitle = "PixFu - FPS: " + std::to_string(fps);
 	}
 
