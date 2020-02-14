@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "readability-magic-numbers"
 //
 //  Drawable.cpp
 //  PixFu
@@ -10,6 +12,9 @@
 
 #include "Drawable.hpp"
 #include "PixFu.hpp"
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 using namespace rgl;
 
@@ -32,30 +37,37 @@ Pixel::Pixel(uint32_t p) {
 }
 
 Pixel Pixel::scale(float mult) {
-	return Pixel(r * mult, g * mult, b * mult, a);
+	return Pixel(static_cast<uint8_t>(r * mult), static_cast<uint8_t>(g * mult),
+				 static_cast<uint8_t>(b * mult), a);
 }
 
 Pixel Colors::RED = Pixel(255, 0, 0);
+Pixel Colors::ORANGE = Pixel(255, 128, 0);
+
 Pixel Colors::GREEN = Pixel(0, 255, 0);
 Pixel Colors::BLUE = Pixel(0, 0, 255);
 Pixel Colors::CYAN = Pixel(0, 255, 255);
+Pixel Colors::LIGHTBLUE = Pixel(0, 128, 255);
+Pixel Colors::LIGHTGREEN = Pixel(0, 255, 128);
 Pixel Colors::MAGENTA = Pixel(255, 0, 255);
+Pixel Colors::VIOLET = Pixel(128, 0, 255);
+Pixel Colors::PINK = Pixel(255, 128, 255);
 Pixel Colors::YELLOW = Pixel(255, 255, 0);
 Pixel Colors::GREY = Pixel(128, 128, 128);
 Pixel Colors::WHITE = Pixel(255, 255, 255);
 Pixel Colors::BLACK = Pixel(0, 0, 0);
 
-std::string Drawable::TAG="Drawable";
+std::string Drawable::TAG = "Drawable";
 
 Drawable::Drawable(int x, int y) : width(x), height(y) {
 	pData = new rgl::Pixel[x * y];
-	if (DBG) LogV(TAG, SF("New Drawable %dx%d (%dkb)", width, height, width*height/1000));
+	if (DBG) LogV(TAG, SF("New Drawable %dx%d (%dkb)", width, height, width * height / 1000));
 }
 
 Drawable::~Drawable() {
 	delete pData;
 	pData = nullptr;
-	if (DBG) LogV(TAG, SF("Free Drawable %dx%d (%dkb)", width, height, width*height/1000));
+	if (DBG) LogV(TAG, SF("Free Drawable %dx%d (%dkb)", width, height, width * height / 1000));
 }
 
 void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
@@ -109,7 +121,7 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	if (color_type == PNG_COLOR_TYPE_RGB ||
 		color_type == PNG_COLOR_TYPE_GRAY ||
 		color_type == PNG_COLOR_TYPE_PALETTE)
-		png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
+		png_set_filler(png, 0xff, PNG_FILLER_AFTER);
 	if (color_type == PNG_COLOR_TYPE_GRAY ||
 		color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 		png_set_gray_to_rgb(png);
@@ -142,3 +154,6 @@ void Drawable::clear(Pixel color) {
 	for (int i = 0, l = width * height; i < l; i++)
 		pData[i] = color;
 }
+
+#pragma clang diagnostic pop
+#pragma clang diagnostic pop

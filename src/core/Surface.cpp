@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 //
 //  Surface.cpp
 //  PixFu
@@ -21,11 +23,16 @@ const std::string Surface::TAG = "Surface";
 constexpr float Surface::VERTICES[32];
 constexpr unsigned int Surface::INDICES[6];
 
-Surface::Surface(int width, int height, std::string samplerName, std::string shaderName) : nWidth(
-		width), nHeight(height), sSamplerName(samplerName) {
+Surface::Surface(int width, int height, const std::string &samplerName,
+				 const std::string &shaderName)
+		: nWidth(width), nHeight(height), sSamplerName(samplerName) {
+
 	pShader = new Shader(shaderName);
 	pActiveTexture = new Texture2D(width, height);
-	LogV(TAG, SF("Creating %dx%d, sampler %s, shader %s", width, height, samplerName.c_str(), shaderName.c_str()));
+
+	if (DBG) LogV(TAG, SF("Creating %dx%d, sampler %s, shader %s", width, height, samplerName.c_str(),
+				 shaderName.c_str()));
+
 }
 
 Surface::~Surface() {
@@ -33,6 +40,7 @@ Surface::~Surface() {
 	delete pActiveTexture;
 	pShader = nullptr;
 	pActiveTexture = nullptr;
+	if (DBG) LogV(TAG, "Surface destroyed");
 }
 
 void Surface::init_opengl() {
@@ -50,7 +58,7 @@ void Surface::init_opengl() {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Surface::INDICES), Surface::INDICES,
 				 GL_STATIC_DRAW);
 	// pos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) nullptr);
 	glEnableVertexAttribArray(0);
 	// color attribute
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
@@ -62,6 +70,8 @@ void Surface::init_opengl() {
 	glEnableVertexAttribArray(2);
 
 	glClearColor(0.0, 0.0, 0.0, 1);
+
+	if (DBG) OpenGlUtils::glError("surface initopengl");
 }
 
 void Surface::init_texture() {
@@ -85,6 +95,7 @@ void Surface::tick() {
 }
 
 void Surface::deinit() {
+
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -92,7 +103,10 @@ void Surface::deinit() {
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
 
-	LogV(TAG, "deinit");
+	if (DBG) LogV(TAG, "deinit");
+	if (DBG) OpenGlUtils::glError("surface initopengl");
 }
 
 Drawable *Surface::buffer() { return pActiveTexture->buffer(); }
+
+#pragma clang diagnostic pop

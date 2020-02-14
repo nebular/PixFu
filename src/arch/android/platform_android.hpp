@@ -48,7 +48,7 @@ namespace rgl {
 
 	};
 
-	inline PixFu* PixFuPlatformAndroid::engine() { return pBootInstance; }
+	inline PixFu *PixFuPlatformAndroid::engine() { return pBootInstance; }
 
 }
 #endif

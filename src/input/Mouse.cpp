@@ -11,7 +11,7 @@
 namespace rgl {
 
 ///////// MOUSE SINGLETON
-	std::string Mouse::TAG="Mouse";
+	std::string Mouse::TAG = "Mouse";
 	Mouse *Mouse::pInstance = nullptr;
 
 	Mouse::Mouse(int buttons) : BUTTONS(buttons) {
@@ -55,7 +55,7 @@ namespace rgl {
 	}
 
 	// snapshot values
-	void Mouse::sync() {
+	void Mouse::sync(float fElapsedTime) {
 
 		nX = nNewX;
 		nY = nNewY;

@@ -36,9 +36,9 @@ namespace rgl {
 
 	class Colors {
 	public:
-		static Pixel RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW, BLACK, GREY, WHITE;
+		static Pixel RED, GREEN, BLUE, CYAN, MAGENTA, YELLOW, BLACK, GREY, WHITE,
+		ORANGE, PINK, VIOLET, LIGHTBLUE, LIGHTGREEN;
 	};
-
 
 
 	class Drawable {

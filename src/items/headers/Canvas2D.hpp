@@ -50,11 +50,13 @@ namespace rgl {
 						  Pixel p);
 
 		int width();
+
 		int height();
 
 	};
 
 	inline int Canvas2D::width() { return pTarget->width; }
+
 	inline int Canvas2D::height() { return pTarget->height; }
 
 }

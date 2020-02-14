@@ -13,6 +13,11 @@
 #include "Keyboard.hpp"
 #include "Utils.hpp"
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnusedValue"
+#pragma ide diagnostic ignored "cert-err58-cpp"
+#pragma ide diagnostic ignored "OCSimplifyInspection"
+
 using namespace rgl;
 
 /*-------------------------------------------------------------------*/
@@ -23,13 +28,13 @@ const std::string PixFuPlatform::TAG = "PixFuPlaf";
 PixFuPlatform *PixFuPlatform::spCurrentInstance = nullptr;
 
 // platform cwd
-std::string PixFuPlatform::ROOTPATH = "";
+std::string PixFuPlatform::ROOTPATH;
 
 /** Get current platform */
 PixFuPlatform *PixFuPlatform::instance() {
 
 	if (spCurrentInstance == nullptr)
-		throw "No platform initialized.";
+		throw std::runtime_error("No platform initialized.");
 
 	return spCurrentInstance;
 
@@ -42,9 +47,7 @@ void PixFuPlatform::init(PixFuPlatform *platform) {
 	if (spCurrentInstance == nullptr) {
 		if (DBG) LogV(TAG, "Setting current platform");
 		spCurrentInstance = platform;
-	}
-
-	else throw "Already have a platform set";
+	} else throw std::runtime_error("Already have a platform set");
 
 }
 
@@ -52,12 +55,13 @@ void PixFuPlatform::init(PixFuPlatform *platform) {
 
 const std::string PixFu::TAG = "PixFu";
 
-PixFu::PixFu(std::string shader) : sShaderName(shader) {}
+PixFu::PixFu(std::string shader) : sShaderName(std::move(shader)), pPlatform(nullptr),
+								   nScreenWidth(0), nScreenHeight(0) {}
 
 PixFu::~PixFu() {
 
 	LogV(TAG, "Destruct engine");
-	
+
 	// destroy primary surface
 
 	delete pSurface;
@@ -115,8 +119,8 @@ void PixFu::loop() {
 		return;
 	}
 
-	auto tp1 = std::chrono::system_clock::now();
-	auto tp2 = std::chrono::system_clock::now();
+	std::chrono::time_point tp1 = std::chrono::system_clock::now();
+	std::chrono::time_point tp2 = tp1;
 
 	bLoopActive = true;
 
@@ -138,8 +142,8 @@ void PixFu::loop() {
 			fFrameTimer += fElapsedTime;
 			nFrameCount++;
 
-			if (fFrameTimer >= 1.0f) {
-				fFrameTimer -= 1.0f;
+			if (fFrameTimer >= 1.0F) {
+				fFrameTimer -= 1.0F;
 				pPlatform->onFps(nFrameCount);
 				nFrameCount = 0;
 			}
@@ -191,7 +195,7 @@ bool PixFu::loop_tick(float fElapsedTime) {
 
 		// snapshot inputdevices values
 		for (InputDevice *device:vInputDevices)
-			device->sync();
+			device->sync(fElapsedTime);
 
 		// Handle Frame Update
 		bLoopActive = onUserUpdate(fElapsedTime);
@@ -253,12 +257,19 @@ bool PixFu::onUserCreate() {
 	return true;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+
 /** user method: update */
 bool PixFu::onUserUpdate(float fElapsedTime) {
 	return true;
 }
 
+#pragma clang diagnostic pop
+
 /** user method: destroy */
 bool PixFu::onUserDestroy() {
 	return true;
 }
+
+#pragma clang diagnostic pop

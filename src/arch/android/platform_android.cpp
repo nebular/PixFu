@@ -34,7 +34,7 @@ namespace rgl {
 	static constexpr int ACTION_POINTER_UP = 6;
 
 	PixFuPlatformAndroid::PixFuPlatformAndroid(PixFu *bootInstance) {
-		openglutils::VERSION="v300es";
+		OpenGlUtils::VERSION = "v300es";
 		pBootInstance = bootInstance;
 	}
 
@@ -42,7 +42,7 @@ namespace rgl {
 		deinit();
 	}
 
-	bool PixFuPlatformAndroid::init(PixFu *engine)  {
+	bool PixFuPlatformAndroid::init(PixFu *engine) {
 
 		Mouse::enable();
 		Keyboard::enable();
@@ -71,7 +71,7 @@ namespace rgl {
 		// something will come here for sure
 	}
 
-	void PixFuPlatformAndroid::onFps(int fps)  {
+	void PixFuPlatformAndroid::onFps(int fps) {
 		std::string sTitle = "PixFu - FPS: " + std::to_string(fps);
 	}
 

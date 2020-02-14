@@ -9,14 +9,16 @@
 
 #include "OpenGlUtils.h"
 #include "PixFu.hpp"
+#include "Utils.hpp"
 #include <fstream>
 #include <iostream>
 
 // Convenience methods
 
-std::string openglutils::VERSION = "v330core";
+std::string OpenGlUtils::TAG = "OpenGLUtils";
+std::string OpenGlUtils::VERSION = "v330core";
 
-std::string openglutils::load_shader_file(const std::string& sFile)
+std::string OpenGlUtils::loadShaderFile(const std::string &sFile)
 {
 	std::string sFilename = rgl::PixFuPlatform::getPath("/opengl/"+VERSION+"/"+sFile);
 
@@ -25,7 +27,7 @@ std::string openglutils::load_shader_file(const std::string& sFile)
 	
 	if (!file.is_open()) return "";
 	
-	std::string result="";
+	std::string result;
 	
 	while(!file.eof()) // To get you all the lines.
 	{
@@ -36,7 +38,7 @@ std::string openglutils::load_shader_file(const std::string& sFile)
 	return result;
 }
 
-unsigned int openglutils::compile_shader (unsigned int type, const std::string& source)
+unsigned int OpenGlUtils::compileShader(unsigned int type, const std::string &source)
 {
 	unsigned int shader = glCreateShader(type);
 	const char *src = source.c_str();
@@ -50,19 +52,20 @@ unsigned int openglutils::compile_shader (unsigned int type, const std::string& 
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
 		char* message = (char*)alloca( length * sizeof(char));
 		glGetShaderInfoLog( shader, length, &length, message);
-		std::cerr << "Shader Failed to Compile: " << std::endl;
-		std::cerr << message << std::endl;
+
+		rgl::LogE(TAG, rgl::SF("Shader Failed to Compile: %s", message));
 		exit(1);
 	}
 	
 	return shader;
 }
 
-unsigned int openglutils::load_shader (const std::string& vertexShader, const std::string& fragementShader)
+unsigned int OpenGlUtils::loadShader(const std::string &vertexShader,
+									 const std::string &fragementShader)
 {
 	unsigned int program = glCreateProgram();
-	unsigned int vs = compile_shader( GL_VERTEX_SHADER, vertexShader );
-	unsigned int fs = compile_shader( GL_FRAGMENT_SHADER, fragementShader );
+	unsigned int vs = compileShader(GL_VERTEX_SHADER, vertexShader);
+	unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fragementShader);
 	
 	glAttachShader( program, vs);
 	glAttachShader( program, fs);
@@ -74,31 +77,31 @@ unsigned int openglutils::load_shader (const std::string& vertexShader, const st
 	
 	glDeleteShader(vs);
 	glDeleteShader(fs);
-	
+
+	glError("loadshader");
 	return program;
 }
 
-unsigned int openglutils::load_shader (const std::string& filename)
-{
-	std::string vertex = load_shader_file(filename+".vertex.glsl");
-	std::string shader = load_shader_file(filename+".fragment.glsl");
-	if (vertex.size()==0) throw 404;
-	return load_shader(vertex, shader);
+unsigned int OpenGlUtils::loadShader(const std::string &filename) {
+	std::string vertex = loadShaderFile(filename + ".vertex.glsl");
+	std::string shader = loadShaderFile(filename + ".fragment.glsl");
+	if (vertex.empty()) throw std::runtime_error("Shader files not found or error");
+	return loadShader(vertex, shader);
 }
 
 
-void openglutils::glerror(std::string tag) {
+void OpenGlUtils::glError(const std::string &tag) {
 	
 	GLenum err = 0;
 	
-	while( (err = glGetError()) ){
-		std::cerr << tag << ": OGLERR: " << err << std::endl;
+	while( (err = glGetError()) ) {
+		rgl::LogV(TAG, rgl::SF("OpenGL %s, error %s", tag.c_str(), err));
 	}
 }
 
-GLuint openglutils::getGlTexture(uint glChannel) { return GL_TEXTURE0 + glChannel - 1; }
+GLuint OpenGlUtils::getGlTexture(uint glChannel) { return GL_TEXTURE0 + glChannel - 1; }
 
-GLuint openglutils::loadTexture(rgl::Drawable *img, GLuint texId, bool repeat) {
+GLuint OpenGlUtils::loadTexture(rgl::Drawable *img, GLuint texId, bool repeat) {
 	
 	if (img==nullptr) return NO_TEXTURE;
 
@@ -116,13 +119,13 @@ GLuint openglutils::loadTexture(rgl::Drawable *img, GLuint texId, bool repeat) {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, repeat ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, repeat ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img->width, img->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->getData());
-		glerror("loadtexture "+std::to_string(texId));
+		glError("loadtexture " + std::to_string(texId));
 	} else {
 		GLuint texUnit = getGlTexture(texId);
 		glActiveTexture(texUnit);
 		glBindTexture(GL_TEXTURE_2D, texId);
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE, img->getData());
-		glerror("update texture");
+		glError("update texture");
 	}
 	return texId;
 }

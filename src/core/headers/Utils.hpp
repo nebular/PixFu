@@ -20,8 +20,8 @@ namespace rgl {
 
 	// ms now
 	inline long nowms() {
-		return std::chrono::duration_cast<std::chrono::milliseconds>(
-				std::chrono::system_clock::now().time_since_epoch()).count();
+		return static_cast<long>(std::chrono::duration_cast<std::chrono::milliseconds>(
+				std::chrono::system_clock::now().time_since_epoch()).count());
 	}
 
 #pragma clang diagnostic push
@@ -29,7 +29,8 @@ namespace rgl {
 
 	template<typename ... Args>
 	std::string SF(const std::string &format, Args ... args) {
-		size_t size = snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
+		size_t size = static_cast<size_t>(snprintf(nullptr, 0, format.c_str(), args ...) +
+										  1); // Extra space for '\0'
 		if (size <= 0) { throw std::runtime_error("Error during formatting."); }
 
 		std::unique_ptr<char[]> buf(new char[size]);
@@ -39,9 +40,9 @@ namespace rgl {
 
 #pragma clang diagnostic pop
 
-	void LogV(std::string tag, std::string text);
+	void LogV(const std::string &tag, std::string text);
 
-	void LogE(std::string tag, std::string text);
+	void LogE(const std::string &tag, std::string text);
 
 }
 

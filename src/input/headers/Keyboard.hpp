@@ -28,6 +28,7 @@ namespace rgl {
 	class Keyboard : public InputDevice {
 
 		friend class PixFuPlatformAndroid;
+
 		friend class LoneScreenKey;
 
 		static std::string TAG;
@@ -69,7 +70,7 @@ namespace rgl {
 
 		void poll();
 
-		void sync();
+		void sync(float fElapsedTime);
 	};
 
 	inline Keyboard *Keyboard::instance() { return pInstance; }
