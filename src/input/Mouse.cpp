@@ -11,6 +11,7 @@
 namespace rgl {
 
 ///////// MOUSE SINGLETON
+	std::string Mouse::TAG="Mouse";
 	Mouse *Mouse::pInstance = nullptr;
 
 	Mouse::Mouse(int buttons) : BUTTONS(buttons) {
@@ -36,7 +37,7 @@ namespace rgl {
 
 	void Mouse::enable(int buttons) {
 
-		LogV("mouse", SF("mouse enable %d", buttons));
+		if (DBG) LogV(TAG, SF("mouse enable, %d buttons", buttons));
 
 		if (pInstance == nullptr)
 			pInstance = new Mouse(buttons);
@@ -53,10 +54,9 @@ namespace rgl {
 		return pInstance;
 	}
 
-// snapshot values
+	// snapshot values
 	void Mouse::sync() {
 
-//		LogV("mouse", "sync %d,%d,%d,%d", nNewX, nNewY, nX, nY);
 		nX = nNewX;
 		nY = nNewY;
 		nWheelX = nNewWheelX;

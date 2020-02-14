@@ -12,7 +12,7 @@
 namespace rgl {
 
 ///////// KEYBOARD SINGLETON
-
+std::string Keyboard::TAG="Keyboard";
 Keyboard *Keyboard::pInstance = nullptr;
 
 void Keyboard::enable(int numkeys) {
@@ -27,18 +27,20 @@ void Keyboard::disable() {
 	}
 }
 
-Keyboard *Keyboard::instance() {
-	return pInstance;
-}
-
 Keyboard::Keyboard(int numkeys):NUMKEYS(numkeys) {
+
+	if (DBG)
+		LogV(TAG, SF("construct for %d keys", numkeys));
+	
 	pNextState = new bool[NUMKEYS];
 	pThisState = new bool[NUMKEYS];
 	pStateHeld = new bool[NUMKEYS];
 	pStatePressed = new bool[NUMKEYS];
 	pStateReleased = new bool[NUMKEYS];
+
 	for (int i = 0; i<NUMKEYS; i++)
 		pThisState[i] = pNextState[i]=pStatePressed[i]=pStateHeld[i]=false;
+
 };
 
 Keyboard::~Keyboard() {
@@ -62,11 +64,9 @@ void Keyboard::sync() {
 			if (pNextState[i]) {
 				pStatePressed[i] = !pStateHeld[i];
 				pStateHeld[i] = true;
-				LogV("keyb", SF("next IS P, code %d old %d new %d pressed %d held %d", i, pThisState[i], pNextState[i], pStatePressed[i], pStateHeld[i]));
 			} else {
 				pStateReleased[i] = true;
 				pStateHeld[i] = false;
-				LogV("keyb", SF("next NOTP, code %d old %d new %d pressed %d held %d", i, pThisState[i], pNextState[i], pStatePressed[i], pStateHeld[i]));
 			}
 		}
 		

@@ -15,11 +15,17 @@
 
 using namespace rgl;
 
+/*-------------------------------------------------------------------*/
+
 const std::string PixFuPlatform::TAG = "PixFuPlaf";
 
+// current platform
 PixFuPlatform *PixFuPlatform::spCurrentInstance = nullptr;
+
+// platform cwd
 std::string PixFuPlatform::ROOTPATH = "";
 
+/** Get current platform */
 PixFuPlatform *PixFuPlatform::instance() {
 
 	if (spCurrentInstance == nullptr)
@@ -29,23 +35,29 @@ PixFuPlatform *PixFuPlatform::instance() {
 
 }
 
+/** static: Init the platform */
+
 void PixFuPlatform::init(PixFuPlatform *platform) {
 
-	if (DBG) LogV(TAG, "Initing Platform");
-
-	if (spCurrentInstance == nullptr)
+	if (spCurrentInstance == nullptr) {
+		if (DBG) LogV(TAG, "Setting current platform");
 		spCurrentInstance = platform;
+	}
 
 	else throw "Already have a platform set";
 
 }
 
-PixFu::PixFu(std::string shader) : sShaderName(shader) {}
+/*-------------------------------------------------------------------*/
 
 const std::string PixFu::TAG = "PixFu";
 
+PixFu::PixFu(std::string shader) : sShaderName(shader) {}
+
 PixFu::~PixFu() {
 
+	LogV(TAG, "Destruct engine");
+	
 	// destroy primary surface
 
 	delete pSurface;
@@ -70,6 +82,7 @@ PixFu::~PixFu() {
 
 }
 
+/** initializes the engine */
 bool PixFu::init(int width, int height) {
 
 	pPlatform = PixFuPlatform::instance();
@@ -77,7 +90,7 @@ bool PixFu::init(int width, int height) {
 	nScreenWidth = width;
 	nScreenHeight = height;
 
-	if (DBG) LogV(TAG, SF("Init %d, %d, already %d", width, height, bInited));
+	if (DBG) LogV(TAG, SF("Engine init, wh=%d,%d, already inited %d", width, height, bInited));
 
 	if (!bInited) {
 
@@ -94,6 +107,7 @@ bool PixFu::init(int width, int height) {
 	return bInited;
 }
 
+/** sunchronously run the loop */
 void PixFu::loop() {
 
 	if (!loop_init()) {
@@ -139,12 +153,13 @@ void PixFu::loop() {
 
 }
 
+/** loop part: initialization */
 bool PixFu::loop_init() {
 
 	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", sShaderName);
 	pSurface->init();
 
-	if (DBG) LogV(TAG, "Calling userCreate()");
+	if (DBG) LogV(TAG, "Calling userCreate");
 
 	// Create user resources as part of this thread
 	if (!onUserCreate())
@@ -156,9 +171,12 @@ bool PixFu::loop_init() {
 	for (PixFuExtension *extension : vExtensions)
 		if (!extension->init(this)) return false;
 
+	if (DBG) LogV(TAG, "Loop Inited.");
+
 	return true;
 }
 
+/** loop part: tick */
 bool PixFu::loop_tick(float fElapsedTime) {
 
 	// todo
@@ -196,15 +214,17 @@ bool PixFu::loop_tick(float fElapsedTime) {
 	return bLoopActive;
 }
 
-// TODO !!!
+/** loop part: reinitialize */
 bool PixFu::loop_reinit(int newWidth, int newHeight) {
 
 	// so even screen dimensions might change on Android
 	if (screenWidth() != newWidth || screenHeight() != newHeight) {
-		if (DBG) LogV(TAG, SF("Reiniting loop, screen size changedto %d,%d", newWidth, newHeight));
+		if (DBG) LogV(TAG, SF("Loop Reinit: Screen size changed to %d,%d", newWidth, newHeight));
 		loop_deinit();
 		init(newWidth, newHeight);
 		return loop_init();
+	} else {
+		if (DBG) LogV(TAG, "Loop Reinit: Same screen size");
 	}
 
 	if (pSurface == nullptr)
@@ -215,6 +235,7 @@ bool PixFu::loop_reinit(int newWidth, int newHeight) {
 
 }
 
+/** loop part: deinitialize */
 void PixFu::loop_deinit() {
 
 	if (DBG) LogV(TAG, "Loop deinit");
@@ -227,14 +248,17 @@ void PixFu::loop_deinit() {
 //	pPlatform->deinit(); to destructor
 }
 
+/** user method: create */
 bool PixFu::onUserCreate() {
 	return true;
 }
 
+/** user method: update */
 bool PixFu::onUserUpdate(float fElapsedTime) {
 	return true;
 }
 
+/** user method: destroy */
 bool PixFu::onUserDestroy() {
 	return true;
 }

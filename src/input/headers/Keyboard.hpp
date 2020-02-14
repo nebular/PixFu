@@ -30,8 +30,8 @@ namespace rgl {
 		friend class PixFuPlatformAndroid;
 		friend class LoneScreenKey;
 
+		static std::string TAG;
 		static Keyboard *pInstance;
-
 
 		bool *pNextState;
 		bool *pThisState;
@@ -71,6 +71,8 @@ namespace rgl {
 
 		void sync();
 	};
+
+	inline Keyboard *Keyboard::instance() { return pInstance; }
 
 	inline bool *Keyboard::getBuffer() { return pNextState; }
 

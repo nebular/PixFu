@@ -13,13 +13,14 @@
 namespace rgl {
 
 void LogV(std::string tag, std::string text) {
-	std::cerr << "["<<tag<<"] V "<<text<<std::endl;
+	std::cerr << "[V:"<<tag<<"] " << text << std::endl;
 }
 
 void LogE(std::string tag, std::string text) {
-	std::cerr << "["<<tag<<"] E "<<text<<std::endl;
+	std::cerr << "[E:"<<tag<<"] " << text << std::endl;
 }
 
+std::string PixFuPlatformApple::TAG = "Apple";
 bool PixFuPlatformApple::init(PixFu *engine) {
 	
 	try {
@@ -32,9 +33,10 @@ bool PixFuPlatformApple::init(PixFu *engine) {
 	ROOTPATH = currentDir + "/";
 	
 	int width = engine->screenWidth(), height = engine->screenHeight();
-	create_window("Tests", width, height);
-	std::cerr << "sw " << get_screen_width() << " sh " << get_screen_height() << std::endl;
-	
+	create_window("PixFu", width, height);
+
+	if (DBG) LogV(TAG, SF("Init %dx%d, CWD ", width, height, ROOTPATH.c_str()));
+
 	if (width<=get_screen_width() && height<=get_screen_height()) {
 		set_window_size(width, height);
 		set_window_background_color(0, 0, 0, 1);
@@ -58,12 +60,13 @@ void PixFuPlatformApple::commit() {
 }
 
 void PixFuPlatformApple::deinit() {
+	if (DBG) LogV(TAG, "Deinit");
 	close_window();
 	close_application();
 }
 
 void PixFuPlatformApple::onFps(int fps) {
-	std::string sTitle = "PixEngine - FPS: " + std::to_string(fps);
+	std::string sTitle = "pixFu - FPS: " + std::to_string(fps);
 	set_window_name(sTitle.c_str());
 }
 

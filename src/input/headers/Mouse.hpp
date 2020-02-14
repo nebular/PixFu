@@ -19,6 +19,7 @@ class Mouse : public InputDevice {
 	friend class PixFuPlatformAndroid;
 
 	static Mouse *pInstance;
+	static std::string TAG;
 	
 	int nX = 0, nY=0, nWheelX=0, nWheelY=0;
 	int nNewX=0, nNewY=0, nNewWheelX=0, nNewWheelY=0;

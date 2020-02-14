@@ -7,10 +7,10 @@
 //
 
 #include "png.h"
+#include "PixFu.hpp"
 #include "Utils.hpp"
 #include "Shader.hpp"
 #include "Surface.hpp"
-#include "PixFu.hpp"
 #include "Texture2D.hpp"
 #include "OpenGlUtils.h"
 
@@ -25,7 +25,7 @@ Surface::Surface(int width, int height, std::string samplerName, std::string sha
 		width), nHeight(height), sSamplerName(samplerName) {
 	pShader = new Shader(shaderName);
 	pActiveTexture = new Texture2D(width, height);
-	LogV(TAG, SF("Creating %d, %d, %s, %s", width, height, samplerName.c_str(), shaderName.c_str()));
+	LogV(TAG, SF("Creating %dx%d, sampler %s, shader %s", width, height, samplerName.c_str(), shaderName.c_str()));
 }
 
 Surface::~Surface() {

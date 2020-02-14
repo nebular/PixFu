@@ -13,7 +13,8 @@ namespace rgl {
 
 	class PixFuPlatformApple : public PixFuPlatform {
 
-
+		static std::string TAG;
+		
 		bool init(PixFu *engine);
 
 		std::pair<bool, bool> events();

@@ -43,6 +43,7 @@ namespace rgl {
 
 	class Drawable {
 
+		static std::string TAG;
 		Pixel *pData;
 
 	public:

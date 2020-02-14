@@ -45,14 +45,17 @@ Pixel Colors::GREY = Pixel(128, 128, 128);
 Pixel Colors::WHITE = Pixel(255, 255, 255);
 Pixel Colors::BLACK = Pixel(0, 0, 0);
 
+std::string Drawable::TAG="Drawable";
+
 Drawable::Drawable(int x, int y) : width(x), height(y) {
 	pData = new rgl::Pixel[x * y];
-	std::cerr << "New Drawable " << width << "," << height << std::endl;
+	if (DBG) LogV(TAG, SF("New Drawable %dx%d (%dkb)", width, height, width*height/1000));
 }
 
 Drawable::~Drawable() {
 	delete pData;
 	pData = nullptr;
+	if (DBG) LogV(TAG, SF("Free Drawable %dx%d (%dkb)", width, height, width*height/1000));
 }
 
 void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
@@ -98,11 +101,6 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	height = png_get_image_height(png, info);
 	color_type = png_get_color_type(png, info);
 	bit_depth = png_get_bit_depth(png, info);
-
-#ifdef _DEBUG
-	std::cout << "Loading PNG: " << sImageFile << "\n";
-	std::cout << "W:" << width << " H:" << height << " D:" << (int)bit_depth << "\n";
-#endif
 
 	if (bit_depth == 16) png_set_strip_16(png);
 	if (color_type == PNG_COLOR_TYPE_PALETTE) png_set_palette_to_rgb(png);
