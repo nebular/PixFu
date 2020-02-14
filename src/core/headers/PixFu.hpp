@@ -51,7 +51,7 @@ namespace rgl {
 
 		static const std::string TAG;
 		static PixFuPlatform *spCurrentInstance;
-
+		
 	protected:
 
 		// App CWD
@@ -61,21 +61,37 @@ namespace rgl {
 
 		virtual ~PixFuPlatform();
 
-		/** initializes the platform */
+		/**
+		 * Initializes the platform window to run the provided engine
+		 */
 		virtual bool init(rgl::PixFu *engine) = 0;
 
-		/** Process events and return <isLoopRunning,...> */
+		/**
+		 * Process any platform events, and return if the loop should be running and if the
+		 * window has focus.
+		 */
 		virtual std::pair<bool, bool> events() = 0;
 
-		/** Commit current frame */
+		/**
+		 * Commit current frame. Typically to swap buffers or call related function. It is called
+		 * at the end of each frame.
+		 */
 		virtual void commit() = 0;
 
-		/** Deinit platform */
+		/**
+		 * Deinit the platform would close the window and the application resources.
+		 */
 		virtual void deinit() = 0;
 
-		/** FPS info */
-		virtual void onFps(int fps);
+		/**
+		 * Called every second more or less, can be used to show stats,
+		 * or in this case to handle window resizes. 
+		 */
 
+		virtual void onFps(PixFu *engine, int fps);
+
+		/* ------------ Static Platform Functions */
+		
 		/** Initializes the platform */
 		static void init(PixFuPlatform *platform);
 
@@ -101,7 +117,7 @@ namespace rgl {
 		ROOTPATH = abspath;
 	}
 
-	inline void PixFuPlatform::onFps(int fps) {}
+	inline void PixFuPlatform::onFps(PixFu *engine, int fps) {}
 
 /*-------------------------------------------------------------------*/
 
@@ -133,6 +149,7 @@ namespace rgl {
 		// those functions as it doesn't make sense for the rest of platforms
 
 		friend class RendererPix;
+		friend class PixFuPlatformApple;
 
 		const std::string SHADERNAME;                       // shader filename
 
@@ -157,7 +174,7 @@ namespace rgl {
 		void loop();
 
 		/** Async loop: init */
-		bool loop_init();
+		bool loop_init(bool reinit = false);
 
 		/** async loop: tick */
 		bool loop_tick(float fElapsedTime);
@@ -224,7 +241,7 @@ namespace rgl {
 
 		int screenHeight();                                  // get screen height
 
-		virtual bool onUserCreate();
+		virtual bool onUserCreate(bool restarted);
 
 		virtual bool onUserUpdate(float fElapsedTime);
 

@@ -95,7 +95,7 @@ void OpenGlUtils::glError(const std::string &tag) {
 	GLenum err = 0;
 	
 	while( (err = glGetError()) ) {
-		rgl::LogV(TAG, rgl::SF("OpenGL %s, error %s", tag.c_str(), err));
+		rgl::LogV(TAG, rgl::SF("OpenGL %s, error %d", tag.c_str(), err));
 	}
 }
 

@@ -9,18 +9,24 @@
 #include "Keyboard.hpp"
 #include "platform_apple.hpp"
 #include <iostream>
+#include <cmath>
 
 namespace rgl {
 
-void LogV(std::string tag, std::string text) {
+void LogV(const std::string &tag, std::string text) {
 	std::cerr << "[V:"<<tag<<"] " << text << std::endl;
 }
 
-void LogE(std::string tag, std::string text) {
+void LogE(const std::string &tag, std::string text) {
 	std::cerr << "[E:"<<tag<<"] " << text << std::endl;
 }
 
 std::string PixFuPlatformApple::TAG = "Apple";
+float PixFuPlatformApple::sfScaleX = 1;
+float PixFuPlatformApple::sfScaleY = 1;
+
+PixFuPlatformApple::PixFuPlatformApple(AppleConfig_t config):mConfiguration(config) {}
+
 bool PixFuPlatformApple::init(PixFu *engine) {
 	
 	try {
@@ -31,18 +37,20 @@ bool PixFuPlatformApple::init(PixFu *engine) {
 	
 	std::string currentDir(get_current_working_directory());
 	ROOTPATH = currentDir + "/";
-	
+
 	int width = engine->screenWidth(), height = engine->screenHeight();
-	create_window("PixFu", width, height);
+	create_window(engine->APPNAME.c_str(), width, height);
 
-	if (DBG) LogV(TAG, SF("Init %dx%d, CWD ", width, height, ROOTPATH.c_str()));
+	if (DBG) LogV(TAG, SF("Init Platform for App $s, size %dx%d, CWD ", engine->APPNAME.c_str(), width, height, ROOTPATH.c_str()));
 
-	if (width<=get_screen_width() && height<=get_screen_height()) {
+	fAspectRatio= (float)width / height;
+	sfScaleX = sfScaleY = 1;
+	if (width <= get_screen_width() && height <= get_screen_height()) {
 		set_window_size(width, height);
 		set_window_background_color(0, 0, 0, 1);
 		set_window_title_bar_hidden (false);
 		set_window_title_hidden (false);
-		set_window_resizable(false);
+		set_window_resizable(mConfiguration.allowWindowResize);
 		return true;
 	}
 	return false;
@@ -65,13 +73,34 @@ void PixFuPlatformApple::deinit() {
 	close_application();
 }
 
-void PixFuPlatformApple::onFps(int fps) {
-	std::string sTitle = "pixFu - FPS: " + std::to_string(fps);
+void PixFuPlatformApple::onFps(PixFu *engine, int fps) {
+
+	std::string sTitle = engine->APPNAME + " - FPS: " + std::to_string(fps);
 	set_window_name(sTitle.c_str());
+
+	// allow resize, but keep aspect ratio
+	int w = get_window_width(), h = get_window_height();
+	int th = ((float)w / fAspectRatio);
+
+	if (!mConfiguration.recreateToResized) {
+		// in hardware rescale mode, opengl is just stretched to fit the window
+		// however then we will have to translate mouse coordinates to a modified
+		// scale
+		sfScaleX = engine->screenWidth()/(float)w;
+		sfScaleY = engine->screenHeight()/(float)th;
+	}
+	
+	if (fabs(h-th) > 2) {
+		set_window_size(w,th);
+		if (mConfiguration.recreateToResized) {
+			// recreate the running engine to the new resolution
+			engine->loop_reinit(w, th);
+		}
+	}
 }
 
 void Mouse::poll() {
-	input(get_mouse_position_x(), get_mouse_position_y());
+	input(PixFuPlatformApple::sfScaleX*get_mouse_position_x(), PixFuPlatformApple::sfScaleY*get_mouse_position_y());
 	inputWheel(get_mouse_scroll_x(), get_mouse_scroll_y());
 	for (char i = 0; i < BUTTONS; i++) inputButton(i, get_mouse_button(i));
 }
