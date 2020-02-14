@@ -134,7 +134,7 @@ namespace rgl {
 
 		friend class RendererPix;
 
-		const std::string sShaderName;                      // shader filename
+		const std::string SHADERNAME;                       // shader filename
 
 		PixFuPlatform *pPlatform = nullptr;                 // platform layer
 
@@ -192,7 +192,9 @@ namespace rgl {
 
 	public:
 
-		PixFu(std::string shader = "default");
+		const std::string APPNAME;							// application name
+
+		PixFu(const std::string &appname="pixFuApp", const std::string &shader = "default");
 
 		~PixFu();
 

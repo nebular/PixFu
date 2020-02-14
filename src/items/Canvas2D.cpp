@@ -20,6 +20,10 @@ namespace rgl {
 		pTarget->clear(color);
 	}
 
+	void Canvas2D::blank() {
+		pTarget->blank(0);
+	}
+
 	void
 	Canvas2D::drawString(int32_t x, int32_t y, std::string sText, rgl::Pixel col, uint32_t scale) {
 		if (pFont != nullptr)

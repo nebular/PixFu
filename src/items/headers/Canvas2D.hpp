@@ -25,6 +25,8 @@ namespace rgl {
 
 		void clear(Pixel color = Pixel(0, 0, 0, 0));
 
+		void blank();
+
 		void drawString(int32_t x, int32_t y, std::string sText, rgl::Pixel col,
 						uint32_t scale = 1);
 

@@ -62,11 +62,20 @@ namespace rgl {
 
 		void clear(Pixel color);
 
+		void blank(char ch);
+
 		static Drawable *fromFile(std::string name);
 
 	};
 
 	inline Pixel *Drawable::getData() { return pData; }
+
+	inline void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
+		if (x < width && y < height && x >= 0 && y >= 0) pData[y * width + x] = pix;
+	}
+	inline Pixel Drawable::getPixel(int x, int y) {
+		return pData[y * width + x];
+	}
 
 };
 #endif /* Drawable_hpp */

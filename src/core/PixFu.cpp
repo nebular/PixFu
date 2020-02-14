@@ -55,12 +55,15 @@ void PixFuPlatform::init(PixFuPlatform *platform) {
 
 const std::string PixFu::TAG = "PixFu";
 
-PixFu::PixFu(std::string shader) : sShaderName(std::move(shader)), pPlatform(nullptr),
-								   nScreenWidth(0), nScreenHeight(0) {}
+PixFu::PixFu(const std::string &appName, const std::string &shader) : APPNAME(appName),
+																	  SHADERNAME(shader),
+																	  pPlatform(nullptr),
+																	  nScreenWidth(0),
+																	  nScreenHeight(0) {}
 
 PixFu::~PixFu() {
 
-	LogV(TAG, "Destruct engine");
+	LogV(TAG, SF("Destruct application %s",APPNAME.c_str()));
 
 	// destroy primary surface
 
@@ -81,6 +84,7 @@ PixFu::~PixFu() {
 
 	vExtensions.clear();
 
+	// TODO might not be neccessary in situations
 	pPlatform->deinit();
 	delete pPlatform;
 
@@ -94,7 +98,7 @@ bool PixFu::init(int width, int height) {
 	nScreenWidth = width;
 	nScreenHeight = height;
 
-	if (DBG) LogV(TAG, SF("Engine init, wh=%d,%d, already inited %d", width, height, bInited));
+	if (DBG) LogV(TAG, SF("Application %s init, wh=%d,%d, already inited %d", APPNAME.c_str(), width, height, bInited));
 
 	if (!bInited) {
 
@@ -160,7 +164,7 @@ void PixFu::loop() {
 /** loop part: initialization */
 bool PixFu::loop_init() {
 
-	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", sShaderName);
+	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", SHADERNAME);
 	pSurface->init();
 
 	if (DBG) LogV(TAG, "Calling userCreate");

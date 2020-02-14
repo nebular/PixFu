@@ -1,5 +1,4 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "readability-magic-numbers"
+
 //
 //  Drawable.cpp
 //  PixFu
@@ -14,6 +13,7 @@
 #include "PixFu.hpp"
 
 #pragma clang diagnostic push
+#pragma ide diagnostic ignored "readability-magic-numbers"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 using namespace rgl;
@@ -69,7 +69,7 @@ Drawable::~Drawable() {
 	pData = nullptr;
 	if (DBG) LogV(TAG, SF("Free Drawable %dx%d (%dkb)", width, height, width * height / 1000));
 }
-
+/*
 void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
 	if (x < width && y < height && x >= 0 && y >= 0)
 		pData[y * width + x] = pix;
@@ -78,7 +78,7 @@ void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
 Pixel Drawable::getPixel(int x, int y) {
 	return pData[y * width + x];
 }
-
+*/
 Drawable *Drawable::fromFile(std::string sImageFile) {
 
 	int width, height;
@@ -155,5 +155,10 @@ void Drawable::clear(Pixel color) {
 		pData[i] = color;
 }
 
-#pragma clang diagnostic pop
+void Drawable::blank(char ch = 0) {
+	memset(pData, ch, static_cast<size_t>(width * height * 4));
+	for (int i = 0, l = width * height; i < l; i++)
+		pData[i] = ch;
+}
+
 #pragma clang diagnostic pop
