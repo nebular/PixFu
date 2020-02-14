@@ -55,15 +55,15 @@ void PixFuPlatform::init(PixFuPlatform *platform) {
 
 const std::string PixFu::TAG = "PixFu";
 
-PixFu::PixFu(const std::string &appName, const std::string &shader) : APPNAME(appName),
-																	  SHADERNAME(shader),
-																	  pPlatform(nullptr),
-																	  nScreenWidth(0),
-																	  nScreenHeight(0) {}
+PixFu::PixFu(const std::string appName, const std::string shader) : APPNAME(std::move(appName)),
+																	SHADERNAME(std::move(shader)),
+																	pPlatform(nullptr),
+																	nScreenWidth(0),
+																	nScreenHeight(0) {}
 
 PixFu::~PixFu() {
 
-	LogV(TAG, SF("Destruct application %s",APPNAME.c_str()));
+	LogV(TAG, SF("Destruct application %s", APPNAME.c_str()));
 
 	// destroy primary surface
 
@@ -98,7 +98,9 @@ bool PixFu::init(int width, int height) {
 	nScreenWidth = width;
 	nScreenHeight = height;
 
-	if (DBG) LogV(TAG, SF("Application %s init, wh=%d,%d, already inited %d", APPNAME.c_str(), width, height, bInited));
+	if (DBG) LogV(TAG,
+				  SF("Application %s init, wh=%d,%d, already inited %d", APPNAME.c_str(), width,
+					 height, bInited));
 
 	if (!bInited) {
 

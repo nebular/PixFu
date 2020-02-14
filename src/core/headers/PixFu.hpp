@@ -194,7 +194,7 @@ namespace rgl {
 
 		const std::string APPNAME;							// application name
 
-		PixFu(const std::string &appname="pixFuApp", const std::string &shader = "default");
+		PixFu(const std::string appname="pixFuApp", const std::string shader = "default");
 
 		~PixFu();
 
