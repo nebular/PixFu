@@ -38,6 +38,8 @@ protected:
 
 public:
 
+	olcPixFu(std::string appName, std::string shaderName);
+	
 	HwButton_t GetMouse(int button);
 	HwButton_t GetKey(Keys key);
 	

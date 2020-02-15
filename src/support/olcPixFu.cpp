@@ -14,6 +14,10 @@
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 namespace rgl {
+
+olcPixFu::olcPixFu(std::string appName, std::string shaderName)
+: PixFu(appName, shaderName) {};
+
 HwButton_t olcPixFu::GetMouse(int button) {
 	Mouse *m = Mouse::instance();
 	return {m->isPressed(button), m->isHeld(button), m->isReleased(button)};

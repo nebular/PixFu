@@ -89,7 +89,7 @@ bool Surface::init() {
 void Surface::tick() {
 	// Copy pixel array into texture
 	pActiveTexture->update();
-	pShader->use();
+//	pShader->use();
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

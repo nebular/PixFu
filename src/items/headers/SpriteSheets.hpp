@@ -15,16 +15,21 @@ namespace rgl {
 
 class SpriteSheets {
 
-	static std::vector<SpriteSheet*> vSpriteSheet;		// Loaded spritesheets
+	static std::string TAG;
+	static int instanceCounter;
+	static std::map<int,SpriteSheet*> mSpriteSheet;		// Loaded spritesheets
 
 public:
-	static void add(SpriteSheet *spriteSheet);
-	static SpriteSheet *get(int index);
+	static int add(SpriteSheet *spriteSheet);
+	static bool remove(int spriteSheedId);
+	static bool remove(SpriteSheet *spriteSheet);
+	static SpriteSheet *get(int spriteSheetId);
 	static void clear();
+	static void unload();
 };
 
 // Gets a loaded Spritesheet. It is through this object that you interact with sprites.
-inline SpriteSheet *SpriteSheets::get(int index) { return vSpriteSheet.at(index); }
+inline SpriteSheet *SpriteSheets::get(int spriteSheetId) { return mSpriteSheet.at(spriteSheetId); }
 
 }
 #endif /* SpriteSheets_hpp */

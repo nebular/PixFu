@@ -12,6 +12,7 @@
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
 #include "Utils.hpp"
+#include "SpriteSheets.hpp"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnusedValue"
@@ -72,22 +73,37 @@ PixFu::~PixFu() {
 	
 	// destroy input devices
 	
-	for (InputDevice *device:vInputDevices)
-		delete device;
+	// TODO inputdevices are singletons
+	// TODO destruct them o program exit
+	//for (InputDevice *device:vInputDevices)
+	//	delete device;
 	
 	vInputDevices.clear();
 	
 	// destroy all extensions
 	
-	for (PixFuExtension *extension:vExtensions)
-		delete extension;
+	//for (PixFuExtension *extension:vExtensions)
+	//	delete extension;
 	
 	vExtensions.clear();
 	
 	// TODO might not be neccessary in situations
-	pPlatform->deinit();
-	delete pPlatform;
+	// pPlatform->deinit();
+	// delete pPlatform;
 	
+	SpriteSheets::unload();
+
+}
+
+bool PixFu::removeExtension(PixFuExtension *e) {
+	int i = 0;
+	for (PixFuExtension *ex : vExtensions) {
+		if (ex == e) {
+			vExtensions.erase(vExtensions.begin() + i);
+			return true;
+		}
+	}
+	return false;
 }
 
 /** initializes the engine */
@@ -166,7 +182,8 @@ bool PixFu::loop_init(bool reinit) {
 	
 	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", SHADERNAME);
 	pSurface->init();
-	
+	pSurface->shader()->setVec2("iResolution", nScreenWidth, nScreenHeight);
+
 	if (DBG) LogV(TAG, SF("Calling userCreate, reinit %d", reinit));
 	
 	bLoopActive = true;
@@ -201,6 +218,8 @@ bool PixFu::loop_tick(float fElapsedTime) {
 	
 	if (bLoopActive) {
 		
+		shader()->use();
+
 		// snapshot inputdevices values
 		for (InputDevice *device:vInputDevices)
 			device->sync(fElapsedTime);

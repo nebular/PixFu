@@ -19,18 +19,21 @@
 
 namespace rgl {
 
-SpriteSheet::SpriteSheet(PixFu *engine, SpriteSheetInfo_t info, bool normalized) : sInfo(std::move(info)) {
+std::string SpriteSheet::TAG="SpriteSheet";
 
+SpriteSheet::SpriteSheet(PixFu *engine, SpriteSheetInfo_t info, bool normalized) : sInfo(std::move(info)) {
 	pShader = new Shader(sInfo.shader);
 	pTexture = new Texture2D(sInfo.filename);
 	SPRSIZE = {pTexture->width()/sInfo.numX, pTexture->height()/sInfo.numY};
 	sInfo.spriteWidth = SPRSIZE.x;
 	sInfo.spriteHeight = SPRSIZE.y;
 	mProjection = glm::ortho(0.0f, normalized ? 1 : (float)engine->screenWidth(), normalized ? 1 : (float)engine->screenHeight(), 0.0f, -1.0f, 1.0f);
-	SpriteSheets::add(this);
+	nId = SpriteSheets::add(this);
+	if (DBG) LogV(TAG, SF("Created spritesheet %d",nId));
 }
 
 SpriteSheet::~SpriteSheet() {
+	if (DBG) LogV(TAG, SF("Destroying spritesheet %d",nId));
 	glDeleteVertexArrays(1, &this->quadVAO);
 	delete pShader;
 	delete pTexture;
@@ -73,7 +76,6 @@ bool SpriteSheet::remove(int spriteId) {
 	return mSprites.erase(spriteId) > 0;
 }
 
-
 int SpriteSheet::create(
 						int sheetIndex,
 						int totalx,
@@ -83,7 +85,7 @@ int SpriteSheet::create(
 						float scale,			// scale
 						float rotation,			// rotation
 						float height			// height
-						) {
+) {
 	
 	glm::vec4 spritePos = { position.x,position.y,scale,rotation};
 	glm::vec4 spriteDef = { sheetIndex, height, totalx, totaly };
@@ -138,13 +140,13 @@ void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	glm::mat4 model = glm::identity<glm::mat4>();
 	
 	glm::vec2 size = SPRSIZE * scale;
-
+	
 	// account for the number of sprites width & height
 	size.x*=meta.def.z;
 	size.y*=meta.def.w;
-
+	
 	model = glm::translate(model, glm::vec3(meta.pos.x - size.x/2, meta.pos.y-size.y/2, 0.0f));
-
+	
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
 	model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));

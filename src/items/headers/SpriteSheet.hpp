@@ -56,8 +56,11 @@ class PixFu;
 
 class SpriteSheet : public PixFuExtension {
 	
-	int nIdCounter = 0;
+	static std::string TAG;
 	
+	int nIdCounter = 0;
+	int nId;
+
 	SpriteSheetInfo_t sInfo;
 	
 	
@@ -128,6 +131,7 @@ public:
 	
 	void clear();
 	
+	int getId();
 	int getNumX();
 	int getNumY();
 	int getWidth();
@@ -159,6 +163,7 @@ private:
 };
 
 // query spritesheet metadata
+inline int SpriteSheet::getId() 		 { return nId; }
 inline int SpriteSheet::getNumX() 		 { return sInfo.numX; }
 inline int SpriteSheet::getNumY() 		 { return sInfo.numY; }
 inline int SpriteSheet::getWidth() 		 { return sInfo.width; }

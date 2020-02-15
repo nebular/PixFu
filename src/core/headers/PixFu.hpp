@@ -189,13 +189,6 @@ namespace rgl {
 	protected:
 
 		/**
-		 * Adds an extension to the engine. Added extensions are integrated into the loop
-		 * and can paint in OpenGL.
-		 * @param extension The instantiated extension to add
-		 */
-		void addExtension(PixFuExtension *extension);
-
-		/**
 		 * Adds an input device
 		 * @param inputDevice The instantiated input device (Mouse, Keyboard, AxisController ...)
 		 */
@@ -249,7 +242,14 @@ namespace rgl {
 		virtual bool onUserDestroy();
 		
 		Shader *shader();
-
+		
+		/**
+		 * Adds an extension to the engine. Added extensions are integrated into the loop
+		 * and can paint in OpenGL.
+		 * @param extension The instantiated extension to add
+		 */
+		void addExtension(PixFuExtension *extension);
+		bool removeExtension(PixFuExtension *extension);
 	};
 
 	inline int PixFu::screenWidth() { return nScreenWidth; }
@@ -257,6 +257,7 @@ namespace rgl {
 	inline int PixFu::screenHeight() { return nScreenHeight; }
 
 	inline void PixFu::addExtension(PixFuExtension *e) { vExtensions.push_back(e); }
+
 
 	inline void PixFu::addInputDevice(InputDevice *inputDevice) {
 		vInputDevices.push_back(inputDevice);
