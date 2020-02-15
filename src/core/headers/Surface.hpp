@@ -72,9 +72,14 @@ namespace rgl {
 
 		// get the backing memory buffer
 		Drawable *buffer();
+		
+		Shader *shader();
 
 	};
-
+		
+	inline Shader *Surface::shader() {
+		return pShader;
+	}
 
 }
 #endif /* Surface_hpp */

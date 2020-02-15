@@ -41,7 +41,10 @@ bool PixFuPlatformApple::init(PixFu *engine) {
 	int width = engine->screenWidth(), height = engine->screenHeight();
 	create_window(engine->APPNAME.c_str(), width, height);
 
-	if (DBG) LogV(TAG, SF("Init Platform for App $s, size %dx%d, CWD ", engine->APPNAME.c_str(), width, height, ROOTPATH.c_str()));
+	if (DBG) LogV(TAG, SF("Init Platform for App %s, size %dx%d, CWD ", engine->APPNAME.c_str(), width, height, ROOTPATH.c_str()));
+
+	Mouse::enable();
+	Keyboard::enable();
 
 	fAspectRatio= (float)width / height;
 	sfScaleX = sfScaleY = 1;

@@ -24,6 +24,9 @@ namespace rgl {
 
 		~Texture2D();
 
+		// New Texture (buffer)
+		Texture2D(Drawable *buffer);
+
 		// New Texture (blank)
 		Texture2D(int width, int height);
 

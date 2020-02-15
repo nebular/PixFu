@@ -16,6 +16,7 @@
 #include "OpenGL.h"
 #include "Surface.hpp"
 #include "Utils.hpp"
+#include "Shader.hpp"
 #include <string>
 #include <vector>
 
@@ -34,13 +35,13 @@ namespace rgl {
 	public:
 		virtual ~PixFuExtension();
 
-		virtual bool init(PixFu *engine) = 0;
+		virtual bool init(PixFu *engine);
 
 		virtual void tick(PixFu *engine, float fElapsedTime) = 0;
 	};
 
 	inline PixFuExtension::~PixFuExtension() {}
-
+	inline bool PixFuExtension::init(PixFu *engine) { return true;}
 /*-------------------------------------------------------------------*/
 
 /**
@@ -246,6 +247,8 @@ namespace rgl {
 		virtual bool onUserUpdate(float fElapsedTime);
 
 		virtual bool onUserDestroy();
+		
+		Shader *shader();
 
 	};
 
@@ -260,6 +263,7 @@ namespace rgl {
 	}
 
 	inline Drawable *PixFu::buffer() { return pSurface->buffer(); }
+	inline Shader *PixFu::shader() { return pSurface->shader(); }
 
 }
 #endif /* PixEngine_hpp*/

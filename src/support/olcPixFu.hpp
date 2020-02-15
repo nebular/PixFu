@@ -42,6 +42,8 @@ public:
 	HwButton_t GetKey(Keys key);
 	
 	
+	Canvas2D *canvas();
+	
 	int GetMouseX();
 	
 	int GetMouseY();
@@ -61,6 +63,8 @@ public:
 	
 	void DrawString(int32_t x, int32_t y, std::string sText, rgl::Pixel col,
 					uint32_t scale = 1);
+	
+	void Draw(uint32_t x, uint32_t y, rgl::Pixel color);
 	
 	void
 	DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x,
@@ -84,8 +88,13 @@ public:
 	void FillTriangle(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3,
 					  rgl::Pixel p);
 	
+	void DrawSprite(int32_t x, int32_t y, rgl::Drawable *sprite, uint32_t sampleWidth = 1);
+
 };
 
+inline Canvas2D *olcPixFu::canvas() {
+	return pCanvas;
+}
 
 }
 #endif /* olcPixFu_hpp */

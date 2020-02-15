@@ -13,18 +13,21 @@
 #include "Texture2D.hpp"
 #include "PixFu.hpp"
 #include "Utils.hpp"
-
+#include "SpriteSheets.hpp"
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 namespace rgl {
 
-SpriteSheet::SpriteSheet(PixFu *engine, std::string spriteAtlas, int numx, int numy, std::string shader)
-:NUMX(numx),NUMY(numy) {
-	pShader = new Shader(shader);
-	pTexture = new Texture2D(spriteAtlas);
-	SPRSIZE = {pTexture->width()/NUMX, pTexture->height()/NUMY};
-	mProjection = glm::ortho(0.0f, (float)engine->screenWidth(), (float)engine->screenHeight(), 0.0f, -1.0f, 1.0f);
+SpriteSheet::SpriteSheet(PixFu *engine, SpriteSheetInfo_t info, bool normalized) : sInfo(std::move(info)) {
+
+	pShader = new Shader(sInfo.shader);
+	pTexture = new Texture2D(sInfo.filename);
+	SPRSIZE = {pTexture->width()/sInfo.numX, pTexture->height()/sInfo.numY};
+	sInfo.spriteWidth = SPRSIZE.x;
+	sInfo.spriteHeight = SPRSIZE.y;
+	mProjection = glm::ortho(0.0f, normalized ? 1 : (float)engine->screenWidth(), normalized ? 1 : (float)engine->screenHeight(), 0.0f, -1.0f, 1.0f);
+	SpriteSheets::add(this);
 }
 
 SpriteSheet::~SpriteSheet() {
@@ -70,16 +73,19 @@ bool SpriteSheet::remove(int spriteId) {
 	return mSprites.erase(spriteId) > 0;
 }
 
+
 int SpriteSheet::create(
 						int sheetIndex,
-						glm::vec2 position,
-						float scale,
-						float rotation,
-						float height,
 						int totalx,
-						int totaly) {
+						int totaly,
+						
+						glm::vec2 position,		// position in screen coords
+						float scale,			// scale
+						float rotation,			// rotation
+						float height			// height
+						) {
 	
-	glm::vec4 spritePos = { position.x, position.y, scale, rotation };
+	glm::vec4 spritePos = { position.x,position.y,scale,rotation};
 	glm::vec4 spriteDef = { sheetIndex, height, totalx, totaly };
 	glm::vec4 spriteFx = getTinter(NO_TINT, Pixel(0,0,0,0));
 	SpriteMeta_t meta = { spritePos, spriteDef, spriteFx };
@@ -92,6 +98,15 @@ int SpriteSheet::create(
 void SpriteSheet::tint(int spriteId, TintMode_t tintMode, Pixel color) {
 	SpriteMeta_t &meta = mSprites.at(spriteId);
 	meta.fx = getTinter(tintMode, color);
+}
+void SpriteSheet::tint(int spriteId, TintMode_t tintMode) {
+	SpriteMeta_t &meta = mSprites.at(spriteId);
+	meta.fx.w = tintMode;
+}
+
+void SpriteSheet::hide(int spriteId) {
+	SpriteMeta_t &meta = mSprites.at(spriteId);
+	meta.def.x = -1;
 }
 
 void SpriteSheet::update(
@@ -114,15 +129,22 @@ void SpriteSheet::update(
 
 void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	
+	// sprite can be hidden
+	if (meta.def.x == -1) return;
+	
 	float scale = meta.pos.z;
 	float rotation = meta.pos.w;
 	
 	glm::mat4 model = glm::identity<glm::mat4>();
 	
 	glm::vec2 size = SPRSIZE * scale;
-	
-	model = glm::translate(model, glm::vec3(meta.pos.x, meta.pos.y, 0.0f));
-	
+
+	// account for the number of sprites width & height
+	size.x*=meta.def.z;
+	size.y*=meta.def.w;
+
+	model = glm::translate(model, glm::vec3(meta.pos.x - size.x/2, meta.pos.y-size.y/2, 0.0f));
+
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
 	model = glm::rotate(model, rotation, glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
@@ -137,6 +159,10 @@ void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0);
 	
+}
+
+void SpriteSheet::clear() {
+	mSprites.clear();
 }
 
 bool SpriteSheet::init(PixFu *engine) {
@@ -176,7 +202,7 @@ void SpriteSheet::tick(PixFu *engine, float fElapsedTime) {
 	// projecyion matrix
 	pShader->setMat4("projection", &mProjection[0][0]);
 	// spritesheet metrics
-	pShader->setVec4("iSpriteSheet", pTexture->width(), pTexture->height(), NUMX, NUMY);
+	pShader->setVec4("iSpriteSheet", pTexture->width(), pTexture->height(), getNumX(), getNumY());
 	// chroma key
 	pShader->setVec4("iColorKey", (float)oChromaKey.r/255, (float)oChromaKey.g/255, (float)oChromaKey.b/255, (float)oChromaKey.a/255);
 	

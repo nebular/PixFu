@@ -18,46 +18,31 @@
 
 using namespace rgl;
 
-Pixel::Pixel() {
-	r = 0;
-	g = 0;
-	b = 0;
-	a = 255;
-}
-
-Pixel::Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) {
-	r = red;
-	g = green;
-	b = blue;
-	a = alpha;
-}
-
-Pixel::Pixel(uint32_t p) {
-	n = p;
-}
-
-Pixel Pixel::scale(float mult) {
-	return Pixel(static_cast<uint8_t>(r * mult), static_cast<uint8_t>(g * mult),
-				 static_cast<uint8_t>(b * mult), a);
-}
-
-Pixel Colors::RED = Pixel(255, 0, 0);
-Pixel Colors::ORANGE = Pixel(255, 128, 0);
-
-Pixel Colors::GREEN = Pixel(0, 255, 0);
-Pixel Colors::BLUE = Pixel(0, 0, 255);
-Pixel Colors::CYAN = Pixel(0, 255, 255);
-Pixel Colors::LIGHTBLUE = Pixel(0, 128, 255);
-Pixel Colors::LIGHTGREEN = Pixel(0, 255, 128);
-Pixel Colors::MAGENTA = Pixel(255, 0, 255);
-Pixel Colors::VIOLET = Pixel(128, 0, 255);
-Pixel Colors::PINK = Pixel(255, 128, 255);
-Pixel Colors::YELLOW = Pixel(255, 255, 0);
-Pixel Colors::GREY = Pixel(128, 128, 128);
-Pixel Colors::WHITE = Pixel(255, 255, 255);
-Pixel Colors::BLACK = Pixel(0, 0, 0);
-
 std::string Drawable::TAG = "Drawable";
+
+const Pixel
+	Colors::BLANK,
+	Colors::BLACK,
+	Colors::RED,
+	Colors::ORANGE,
+	Colors::GREEN,
+	Colors::BLUE,
+	Colors::CYAN,
+	Colors::LIGHTBLUE,
+	Colors::LIGHTGREEN,
+	Colors::MAGENTA,
+	Colors::VIOLET,
+	Colors::PINK,
+	Colors::YELLOW,
+	Colors::GREY,
+	Colors::WHITE;
+
+/*
+ constexpr Pixel::Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+ constexpr Pixel::Pixel(uint32_t p);
+ constexpr Pixel Pixel::scale(float mult);
+ */
+
 
 Drawable::Drawable(int x, int y) : width(x), height(y) {
 	pData = new rgl::Pixel[x * y];
@@ -70,42 +55,42 @@ Drawable::~Drawable() {
 	if (DBG) LogV(TAG, SF("Free Drawable %dx%d (%dkb)", width, height, width * height / 1000));
 }
 /*
-void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
-	if (x < width && y < height && x >= 0 && y >= 0)
-		pData[y * width + x] = pix;
-}
-
-Pixel Drawable::getPixel(int x, int y) {
-	return pData[y * width + x];
-}
-*/
+ void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
+ if (x < width && y < height && x >= 0 && y >= 0)
+ pData[y * width + x] = pix;
+ }
+ 
+ Pixel Drawable::getPixel(int x, int y) {
+ return pData[y * width + x];
+ }
+ */
 Drawable *Drawable::fromFile(std::string sImageFile) {
-
+	
 	int width, height;
-
+	
 	////////////////////////////////////////////////////////////////////////////
 	// Use libpng, Thanks to Guillaume Cottenceau
 	// https://gist.github.com/niw/5963798
-
+	
 	png_structp png;
 	png_infop info;
-
+	
 	sImageFile = PixFuPlatform::getPath(sImageFile);
-
+	
 	FILE *f = fopen(sImageFile.c_str(), "rb");
 	if (!f) return nullptr;
-
+	
 	png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png) return nullptr;
-
+	
 	info = png_create_info_struct(png);
 	if (!info) return nullptr;
-
+	
 	if (setjmp(png_jmpbuf(png))) return nullptr;
-
+	
 	png_init_io(png, f);
 	png_read_info(png, info);
-
+	
 	png_byte color_type;
 	png_byte bit_depth;
 	png_bytep *row_pointers;
@@ -113,7 +98,7 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	height = png_get_image_height(png, info);
 	color_type = png_get_color_type(png, info);
 	bit_depth = png_get_bit_depth(png, info);
-
+	
 	if (bit_depth == 16) png_set_strip_16(png);
 	if (color_type == PNG_COLOR_TYPE_PALETTE) png_set_palette_to_rgb(png);
 	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) png_set_expand_gray_1_2_4_to_8(png);
@@ -125,7 +110,7 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	if (color_type == PNG_COLOR_TYPE_GRAY ||
 		color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 		png_set_gray_to_rgb(png);
-
+	
 	png_read_update_info(png, info);
 	row_pointers = (png_bytep *) malloc(sizeof(png_bytep) * height);
 	for (int y = 0; y < height; y++) {
@@ -133,9 +118,9 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	}
 	png_read_image(png, row_pointers);
 	////////////////////////////////////////////////////////////////////////////
-
+	
 	Drawable *d = new Drawable(width, height);
-
+	
 	// Iterate through image rows, converting into sprite format
 	for (int y = 0; y < height; y++) {
 		png_bytep row = row_pointers[y];
@@ -144,10 +129,10 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 			d->setPixel(x, y, rgl::Pixel(px[0], px[1], px[2], px[3]));
 		}
 	}
-
+	
 	fclose(f);
 	return d;
-
+	
 }
 
 void Drawable::clear(Pixel color) {
@@ -160,5 +145,13 @@ void Drawable::blank(char ch = 0) {
 	for (int i = 0, l = width * height; i < l; i++)
 		pData[i] = ch;
 }
+
+
+Pixel Drawable::sample(float x, float y) {
+	int32_t sx = std::min((int32_t) ((x * (float) width)), width - 1);
+	int32_t sy = std::min((int32_t) ((y * (float) height)), height - 1);
+	return getPixel(sx, sy);
+}
+
 
 #pragma clang diagnostic pop
