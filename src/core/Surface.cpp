@@ -70,6 +70,8 @@ void Surface::init_opengl() {
 	glEnableVertexAttribArray(2);
 
 	glClearColor(0.0, 0.0, 0.0, 1);
+//	glEnable(GL_DEPTH_TEST);
+//	glDepthFunc(GL_LESS);
 
 	if (DBG) OpenGlUtils::glError("surface initopengl");
 }

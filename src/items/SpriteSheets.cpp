@@ -13,6 +13,7 @@ namespace rgl {
 
 int SpriteSheets::instanceCounter = 0;
 std::string SpriteSheets::TAG = "SpriteSheets";
+Texture2D *SpriteSheets::pGroundTexture = nullptr;
 
 std::map<int,SpriteSheet*> SpriteSheets::mSpriteSheet;
 

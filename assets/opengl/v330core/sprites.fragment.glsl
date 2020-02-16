@@ -3,6 +3,7 @@ in vec2 TexCoords;
 out vec4 color;
 
 uniform sampler2D sampler;
+uniform vec4 iMapSize;
 uniform vec4 iSpriteDef;		// sprite info: index,
 uniform vec4 iSpriteFx;			// fx: tint_rgb, tintMode
 uniform vec4 iSpriteSheet;		// spritesheet metrics: w,h,numx,numy

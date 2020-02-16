@@ -16,7 +16,7 @@
 
 namespace rgl {
 
-	static constexpr bool DBG = true;
+	static constexpr bool DBG = false;
 
 	// ms now
 	inline long nowms() {

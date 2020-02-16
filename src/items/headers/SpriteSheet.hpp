@@ -49,7 +49,7 @@ typedef enum eTintMode {
 } TintMode_t;
 
 typedef struct sSpriteMeta {
-	glm::vec4 pos, def, fx;
+	glm::vec4 pos, def, fx, raw;
 } SpriteMeta_t;
 
 class PixFu;
@@ -66,7 +66,7 @@ class SpriteSheet : public PixFuExtension {
 	
 public:
 	
-	SpriteSheet(PixFu *engine, SpriteSheetInfo_t info, bool normalizedSpace = false);
+	SpriteSheet(PixFu *engine, SpriteSheetInfo_t info);
 	
 	SpriteSheet(PixFu *engine, std::string spriteAtlas, int numX, int numY,
 				std::string shader = "sprites");
@@ -117,16 +117,15 @@ public:
 	void hide(int spriteId);
 	
 	/**
-	 /**
 	 * Updates existing sprite properties
 	 */
 	void update(
-				int spriteId,            // sprite ID
-				glm::vec2 position,        // position in screen coords
-				int spriteIndex = -1,    // new sprite index in sheet or -1 to keep
+				int spriteId,             // sprite ID
+				glm::vec2 position,       // position in screen coords
+				int spriteIndex = -1,     // new sprite index in sheet or -1 to keep
 				float scale = 1.0,        // scale
-				float rotation = 0.0,    // rotation
-				float height = 0.0        // height
+				float rotation = 0.0,     // rotation
+				glm::vec4 raw = {0,0,0,0}
 	);
 	
 	void clear();
@@ -171,7 +170,6 @@ inline int SpriteSheet::getHeight() 	 { return sInfo.height; }
 inline int SpriteSheet::getSpriteWidth()  { return SPRSIZE.x; }
 inline int SpriteSheet::getSpriteHeight() { return SPRSIZE.y; }
 inline float SpriteSheet::getSpriteRadius() { return sInfo.spriteRadiusConstant * SPRSIZE.x / 2; }
-
 };
 
 

@@ -21,13 +21,13 @@ namespace rgl {
 
 std::string SpriteSheet::TAG="SpriteSheet";
 
-SpriteSheet::SpriteSheet(PixFu *engine, SpriteSheetInfo_t info, bool normalized) : sInfo(std::move(info)) {
+SpriteSheet::SpriteSheet(PixFu *engine, SpriteSheetInfo_t info) : sInfo(std::move(info)) {
 	pShader = new Shader(sInfo.shader);
 	pTexture = new Texture2D(sInfo.filename);
 	SPRSIZE = {pTexture->width()/sInfo.numX, pTexture->height()/sInfo.numY};
 	sInfo.spriteWidth = SPRSIZE.x;
 	sInfo.spriteHeight = SPRSIZE.y;
-	mProjection = glm::ortho(0.0f, normalized ? 1 : (float)engine->screenWidth(), normalized ? 1 : (float)engine->screenHeight(), 0.0f, -1.0f, 1.0f);
+	mProjection = glm::ortho(0.0f,  (float)engine->screenWidth(), (float)engine->screenHeight(), 0.0f, -1.0f, 1.0f);
 	nId = SpriteSheets::add(this);
 	if (DBG) LogV(TAG, SF("Created spritesheet %d",nId));
 }
@@ -117,7 +117,7 @@ void SpriteSheet::update(
 						 int spriteIndex,
 						 float scale,
 						 float rotation,
-						 float height) {
+						 glm::vec4 raw) {
 	
 	SpriteMeta_t &meta = mSprites.at(spriteId);
 	
@@ -126,7 +126,10 @@ void SpriteSheet::update(
 	meta.pos.y = position.y;
 	meta.pos.z = scale;
 	meta.pos.w = rotation;
-	meta.def.y = height;
+	meta.def.y = raw.z;
+	meta.raw.x = raw.x;
+	meta.raw.y = raw.y;
+	meta.raw.z = raw.z;
 }
 
 void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
@@ -154,6 +157,7 @@ void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 	
 	pShader->setMat4("model", &model[0][0]);
+	pShader->setVec4("iSpriteRaw", meta.raw.x, meta.raw.y, meta.raw.z, meta.pos.w);
 	pShader->setVec4("iSpriteDef", meta.def.x, meta.def.y, meta.def.z, meta.def.w);
 	pShader->setVec4("iSpriteFx", meta.fx.x, meta.fx.y, meta.fx.z, meta.fx.w);
 	
@@ -199,8 +203,7 @@ void SpriteSheet::tick(PixFu *engine, float fElapsedTime) {
 	// all these things are common, ideally should be sent in onUserCreate
 	// but I can't get it working !
 	
-	// texture sampler
-	pShader->setInt("sampler", pTexture->unit());
+
 	// projecyion matrix
 	pShader->setMat4("projection", &mProjection[0][0]);
 	// spritesheet metrics
@@ -211,8 +214,18 @@ void SpriteSheet::tick(PixFu *engine, float fElapsedTime) {
 	// send time
 	pShader->setFloat("iTime", ((float)( ms - lStartTime))/1000 );
 	
+	// ground sampler
+	if (SpriteSheets::pGroundTexture != nullptr) {
+		Texture2D *g = SpriteSheets::pGroundTexture;
+		pShader->setVec2("iMapSize", g->width(), g->height());
+		pShader->setInt("ground", SpriteSheets::pGroundTexture->unit());
+		SpriteSheets::pGroundTexture->bind();
+	}
+
+	// texture sampler
+	pShader->setInt("sampler", pTexture->unit());
 	pTexture->bind();
-	
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	
