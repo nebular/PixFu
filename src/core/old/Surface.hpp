@@ -14,6 +14,8 @@
 #include "Shader.hpp"
 #include "Texture2D.hpp"
 
+#include "PixFuExtension.hpp"
+
 namespace rgl {
 
 /**
@@ -24,15 +26,15 @@ namespace rgl {
  *
  */
 
-	class Surface {
+	class Surface : public PixFuExtension {
 
 		static const std::string TAG;
 		static constexpr float VERTICES[32]{
 				// positions          // colors           // texture coords
-				1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
-				1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-				-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-				-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
+				1.0f, 1.0f, 0.0f,   1.0f, 0.0f, 0.0f,  1.0f, 1.0f, // top right
+				1.0f, -1.0f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f, // bottom right
+				-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f, // bottom left
+				-1.0f, 1.0f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f  // top left
 		};
 
 		static constexpr unsigned int INDICES[6]{
@@ -50,7 +52,7 @@ namespace rgl {
 		unsigned int vbo;
 		unsigned int ebo;
 
-		void init_opengl();
+		void init_opengl(float *verts, int sizeVerts, int *inds, int sizeInds);
 
 		void init_texture();
 
@@ -62,10 +64,10 @@ namespace rgl {
 		~Surface();
 
 		// called by the loop to init the surface
-		bool init();
+		bool init(PixFu *engine) override;
 
 		// called by the loop to update the surface
-		void tick();
+		void tick(PixFu *engine, float fElapsedTime) override;
 
 		// called by the loop to finish the surface
 		void deinit();

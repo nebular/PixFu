@@ -14,7 +14,8 @@
 #define PixEngine_hpp
 
 #include "OpenGL.h"
-#include "Surface.hpp"
+#include "PixFuExtension.hpp"
+#include "PrimarySurface.hpp"
 #include "Utils.hpp"
 #include "Shader.hpp"
 #include <string>
@@ -23,26 +24,6 @@
 namespace rgl {
 
 	class PixFu;
-
-/*-------------------------------------------------------------------*/
-
-/**
- * a PixEngine extension. Extensions are added with PixEngine::addExtension.
- */
-
-	class PixFuExtension {
-
-	public:
-		virtual ~PixFuExtension();
-
-		virtual bool init(PixFu *engine);
-
-		virtual void tick(PixFu *engine, float fElapsedTime) = 0;
-	};
-
-	inline PixFuExtension::~PixFuExtension() {}
-	inline bool PixFuExtension::init(PixFu *engine) { return true;}
-/*-------------------------------------------------------------------*/
 
 /**
  * The platform-dependent part of PixEngine
@@ -156,7 +137,7 @@ namespace rgl {
 
 		PixFuPlatform *pPlatform = nullptr;                 // platform layer
 
-		Surface *pSurface = nullptr;                        // primary surface
+		PrimarySurface *pSurface = nullptr;                 // primary surface
 		std::vector<PixFuExtension *> vExtensions;          // extensions
 		std::vector<InputDevice *> vInputDevices;           // input devices
 

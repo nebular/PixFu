@@ -67,9 +67,10 @@ PixFu::~PixFu() {
 	LogV(TAG, SF("Destruct application %s", APPNAME.c_str()));
 	
 	// destroy primary surface
-	
-	delete pSurface;
-	pSurface = nullptr;
+	if (pSurface!= nullptr) {
+		delete pSurface;
+		pSurface = nullptr;
+	}
 	
 	// destroy input devices
 	
@@ -177,12 +178,15 @@ void PixFu::loop() {
 	
 }
 
+const bool SURFACE=true;
+
 /** loop part: initialization */
 bool PixFu::loop_init(bool reinit) {
-	
-	pSurface = new Surface(nScreenWidth, nScreenHeight, "glbuffer", SHADERNAME);
-	pSurface->init();
-	pSurface->shader()->setVec2("iResolution", nScreenWidth, nScreenHeight);
+
+	if (SURFACE) {
+		pSurface = new PrimarySurface(nScreenWidth, nScreenHeight, "glbuffer", SHADERNAME);
+		addExtension(pSurface);
+	}
 
 	if (DBG) LogV(TAG, SF("Calling userCreate, reinit %d", reinit));
 	
@@ -217,8 +221,6 @@ bool PixFu::loop_tick(float fElapsedTime) {
 	glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
 	
 	if (bLoopActive) {
-		
-		shader()->use();
 
 		// snapshot inputdevices values
 		for (InputDevice *device:vInputDevices)
@@ -226,8 +228,6 @@ bool PixFu::loop_tick(float fElapsedTime) {
 		
 		// Handle Frame Update
 		bLoopActive = onUserUpdate(fElapsedTime);
-		
-		pSurface->tick();
 		
 		// update PixFu Extensions
 		for (PixFuExtension *extension : vExtensions)
@@ -239,7 +239,6 @@ bool PixFu::loop_tick(float fElapsedTime) {
 		// update inputDevices values
 		for (InputDevice *device:vInputDevices)
 			device->poll();
-		
 	}
 	
 	return bLoopActive;
@@ -262,7 +261,6 @@ void PixFu::loop_deinit() {
 	if (DBG) LogV(TAG, "Loop deinit");
 	bLoopActive = false;
 	if (pSurface != nullptr) {
-		pSurface->deinit();
 		delete pSurface;
 		pSurface = nullptr;
 	}

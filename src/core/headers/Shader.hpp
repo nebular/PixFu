@@ -11,6 +11,7 @@
 
 #include "OpenGL.h"
 #include "OpenGlUtils.h"
+#include "Texture2D.hpp"
 
 namespace rgl {
 
@@ -24,6 +25,10 @@ namespace rgl {
 
 		// activates the shader
 		void use();
+		void stop();
+		void cleanup();
+		
+		void textureUnit(std::string sampler2d, Texture2D *texture);
 
 		// utility uniform functions
 
@@ -44,7 +49,17 @@ namespace rgl {
 		void setMat3(const std::string &name, const float *mat3) const;
 
 		void setMat4(const std::string &name, const float *mat4) const;
+		
+		void bindAttribute(GLuint attribute, std::string variableName);
+
 	};
+
+	inline void Shader::textureUnit(std::string sampler2d, Texture2D *texture) {
+		setInt(sampler2d, texture->unit());
+	}
+	inline void Shader::bindAttribute(GLuint attribute, std::string variableName){
+		glBindAttribLocation(ID, attribute, variableName.c_str());
+	}
 
 	inline Shader::Shader(const std::string &name) {
 		ID = OpenGlUtils::loadShader(name);
@@ -53,6 +68,21 @@ namespace rgl {
 	inline void Shader::use() {
 		glUseProgram(ID);
 	}
+
+
+inline void Shader::stop(){
+	glUseProgram(0);
+}
+
+inline void Shader::cleanup(){
+	stop();
+//	glDetachShader(ID, vertexShaderID);
+//	glDetachShader(ID, fragmentShaderID);
+//	glDeleteShader(vertexShaderID);
+//	glDeleteShader(fragmentShaderID);
+	glDeleteProgram(ID);
+}
+
 
 	inline void Shader::setBool(const std::string &name, bool value) const {
 		glUniform1i(glGetUniformLocation(ID, name.c_str()), (int) value);

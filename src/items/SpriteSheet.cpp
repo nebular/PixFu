@@ -140,7 +140,6 @@ void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	float scale = meta.pos.z;
 	float rotation = meta.pos.w;
 	
-	glm::mat4 model = glm::identity<glm::mat4>();
 	
 	glm::vec2 size = SPRSIZE * scale;
 	
@@ -148,6 +147,7 @@ void SpriteSheet::drawSprite(SpriteMeta_t &meta) {
 	size.x*=meta.def.z;
 	size.y*=meta.def.w;
 	
+	glm::mat4 model = glm::identity<glm::mat4>();
 	model = glm::translate(model, glm::vec3(meta.pos.x - size.x/2, meta.pos.y-size.y/2, 0.0f));
 	
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
