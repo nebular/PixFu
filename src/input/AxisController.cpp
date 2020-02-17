@@ -13,11 +13,15 @@
 
 namespace rgl {
 
-	AxisController::AxisController(int axisXlen, int axisYlen) : nAxisXLength(axisXlen),
-																 nAxisYLength(axisYlen),
-																 fCurrentX(0), fCurrentY(0),
-																 fAxisX(0), fAxisY(0),
-																 fNextAxisX(0), fNextAxisY(0) {}
+	AxisController::AxisController(int axisXlen, int axisYlen)
+			: fAxisX(0),
+			  fAxisY(0),
+			  fCurrentX(0),
+			  fCurrentY(0),
+			  nAxisXLength(axisXlen),
+			  nAxisYLength(axisYlen),
+			  fNextAxisX(0),
+			  fNextAxisY(0) {}
 
 	AxisController::~AxisController() = default;
 
@@ -85,8 +89,8 @@ namespace rgl {
 		float dx = fabs(fCurrentX - fAxisX);
 		float dy = fabs(fCurrentY - fAxisY);
 
-		if (dx < THR) fCurrentX=fAxisX;
-		if (dy < THR) fCurrentY=fAxisY;
+		if (dx < THR) fCurrentX = fAxisX;
+		if (dy < THR) fCurrentY = fAxisY;
 	}
 
 }

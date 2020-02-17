@@ -20,8 +20,10 @@ namespace rgl {
 
 	Surface::Surface(int width, int height, const std::string &shaderName,
 					 const std::string &samplerName)
-			: nWidth(width), nHeight(height), sSamplerName(samplerName),
-			  pShader(new Shader(shaderName)) {
+			: nWidth(width),
+			  nHeight(height),
+			  pShader(new Shader(shaderName)),
+			  sSamplerName(samplerName) {
 
 		if (DBG) LogV(TAG, SF("Creating, %dx%d, shader %s", width, height, shaderName.c_str()));
 		pActiveTexture = new Texture2D(width, height);
