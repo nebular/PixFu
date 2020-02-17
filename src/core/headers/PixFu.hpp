@@ -194,7 +194,7 @@ namespace rgl {
 
 		PixFu(const std::string appname = "pixFuApp", const std::string shader = "default");
 
-		~PixFu();
+		virtual ~PixFu();
 
 		/**
 		 * Initializes the engine
