@@ -26,47 +26,39 @@ namespace rgl {
  *
  */
 
-class Layer : public PixFuExtension {
-	
-	static const std::string TAG;
-	
-	int nIndices=0, nVertices=0;
-	unsigned int *pIndices=nullptr;
-	float *pVertices=nullptr;
-	
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int ebo;
+	class Layer {
 
-	void initLayer();
+		static const std::string TAG;
 
-protected:
-	Shader *pShader;				// shader to use
+		unsigned int nIndices = 0;
+		unsigned int nVertices = 0;
+		unsigned int *pIndices = nullptr;
+		float *pVertices = nullptr;
 
-	void init(float *vertices, int numvertices, unsigned int *indices, int numindices);
+		unsigned int vao;
+		unsigned int vbo;
+		unsigned int ebo;
 
-	// called by the loop to update the surface
-	void draw();
-	
+		void initLayer();
 
-public:
-		
-	~Layer();
-	
-	
-	// called by the loop to finish the surface
-	void deinit();
-	
-	// get the backing memory buffer
-	Drawable *buffer();
-	
-	Shader *shader();
-	
-};
+	protected:
 
-inline Shader *Layer::shader() {
-	return pShader;
-}
+		void setup(float *vertices, unsigned int numvertices, unsigned int *indices,
+				   unsigned int numindices);
+
+		// called by the loop to update the surface
+		void draw();
+
+
+	public:
+
+		~Layer();
+
+
+		// called by the loop to finish the surface
+		void deinit();
+
+	};
 
 
 }

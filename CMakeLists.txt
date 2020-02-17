@@ -36,6 +36,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 ## PIXENGINE
 
 add_library(pixFu SHARED
+        src/core/Layer.cpp
         src/core/Surface.cpp
         src/core/Drawable.cpp
         src/core/PixFu.cpp
@@ -44,6 +45,7 @@ add_library(pixFu SHARED
         src/items/Canvas2D.cpp
         src/items/Font.cpp
         src/items/SpriteSheet.cpp
+        src/items/SpriteSheets.cpp
         src/input/Keyboard.cpp
         src/input/AxisController.cpp
         src/input/Mouse.cpp

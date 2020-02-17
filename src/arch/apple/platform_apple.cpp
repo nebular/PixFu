@@ -13,122 +13,122 @@
 
 namespace rgl {
 
-void LogV(const std::string &tag, std::string text) {
-	std::cerr << "[V:"<<tag<<"] " << text << std::endl;
-}
+	void LogV(const std::string &tag, std::string text) {
+		std::cerr << "[V:" << tag << "] " << text << std::endl;
+	}
 
-void LogE(const std::string &tag, std::string text) {
-	std::cerr << "[E:"<<tag<<"] " << text << std::endl;
-}
+	void LogE(const std::string &tag, std::string text) {
+		std::cerr << "[E:" << tag << "] " << text << std::endl;
+	}
 
-std::string PixFuPlatformApple::TAG = "Apple";
-float PixFuPlatformApple::sfScaleX = 1;
-float PixFuPlatformApple::sfScaleY = 1;
+	std::string PixFuPlatformApple::TAG = "Apple";
+	float PixFuPlatformApple::sfScaleX = 1;
+	float PixFuPlatformApple::sfScaleY = 1;
 
-PixFuPlatformApple::PixFuPlatformApple(AppleConfig_t config):mConfiguration(config) {}
+	PixFuPlatformApple::PixFuPlatformApple(AppleConfig_t config) : mConfiguration(config) {}
 
-bool PixFuPlatformApple::init(PixFu *engine) {
-	
-	try {
-		init_application();
-	} catch (...) {
+	bool PixFuPlatformApple::init(PixFu *engine) {
+
+		try {
+			init_application();
+		} catch (...) {
+			return false;
+		}
+
+		std::string currentDir(get_current_working_directory());
+		ROOTPATH = currentDir + "/";
+
+		int width = engine->screenWidth(), height = engine->screenHeight();
+		create_window(engine->APPNAME.c_str(), width, height);
+
+		if (DBG) LogV(TAG, SF("Init Platform for App %s, size %dx%d, CWD ", engine->APPNAME.c_str(), width, height, ROOTPATH.c_str()));
+
+		Mouse::enable();
+		Keyboard::enable();
+
+		fAspectRatio = (float) width / height;
+		sfScaleX = sfScaleY = 1;
+		if (width <= get_screen_width() && height <= get_screen_height()) {
+			set_window_size(width, height);
+			set_window_background_color(0, 0, 0, 1);
+			set_window_title_bar_hidden(false);
+			set_window_title_hidden(false);
+			set_window_resizable(mConfiguration.allowWindowResize);
+			return true;
+		}
 		return false;
 	}
-	
-	std::string currentDir(get_current_working_directory());
-	ROOTPATH = currentDir + "/";
 
-	int width = engine->screenWidth(), height = engine->screenHeight();
-	create_window(engine->APPNAME.c_str(), width, height);
-
-	if (DBG) LogV(TAG, SF("Init Platform for App %s, size %dx%d, CWD ", engine->APPNAME.c_str(), width, height, ROOTPATH.c_str()));
-
-	Mouse::enable();
-	Keyboard::enable();
-
-	fAspectRatio= (float)width / height;
-	sfScaleX = sfScaleY = 1;
-	if (width <= get_screen_width() && height <= get_screen_height()) {
-		set_window_size(width, height);
-		set_window_background_color(0, 0, 0, 1);
-		set_window_title_bar_hidden (false);
-		set_window_title_hidden (false);
-		set_window_resizable(mConfiguration.allowWindowResize);
-		return true;
+	std::pair<bool, bool> PixFuPlatformApple::events() {
+		bool focused = window_is_focused();
+		process_window_events();
+		bool active = !get_window_is_closing();
+		return {active, focused};
 	}
-	return false;
-}
 
-std::pair<bool,bool> PixFuPlatformApple::events() {
-	bool focused = window_is_focused();
-	process_window_events();
-	bool active = !get_window_is_closing();
-	return {active, focused};
-}
-
-void PixFuPlatformApple::commit() {
-	refresh_window();
-}
-
-void PixFuPlatformApple::deinit() {
-	if (DBG) LogV(TAG, "Deinit");
-	close_window();
-	close_application();
-}
-
-void PixFuPlatformApple::onFps(PixFu *engine, int fps) {
-
-	std::string sTitle = engine->APPNAME + " - FPS: " + std::to_string(fps);
-	set_window_name(sTitle.c_str());
-
-	// allow resize, but keep aspect ratio
-	int w = get_window_width(), h = get_window_height();
-	int th = ((float)w / fAspectRatio);
-
-	if (!mConfiguration.recreateToResized) {
-		// in hardware rescale mode, opengl is just stretched to fit the window
-		// however then we will have to translate mouse coordinates to a modified
-		// scale
-		sfScaleX = engine->screenWidth()/(float)w;
-		sfScaleY = engine->screenHeight()/(float)th;
+	void PixFuPlatformApple::commit() {
+		refresh_window();
 	}
-	
-	if (fabs(h-th) > 2) {
-		set_window_size(w,th);
-		if (mConfiguration.recreateToResized) {
-			// recreate the running engine to the new resolution
-			engine->loop_reinit(w, th);
+
+	void PixFuPlatformApple::deinit() {
+		if (DBG) LogV(TAG, "Deinit");
+		close_window();
+		close_application();
+	}
+
+	void PixFuPlatformApple::onFps(PixFu *engine, int fps) {
+
+		std::string sTitle = engine->APPNAME + " - FPS: " + std::to_string(fps);
+		set_window_name(sTitle.c_str());
+
+		// allow resize, but keep aspect ratio
+		int w = get_window_width(), h = get_window_height();
+		int th = ((float) w / fAspectRatio);
+
+		if (!mConfiguration.recreateToResized) {
+			// in hardware rescale mode, opengl is just stretched to fit the window
+			// however then we will have to translate mouse coordinates to a modified
+			// scale
+			sfScaleX = engine->screenWidth() / (float) w;
+			sfScaleY = engine->screenHeight() / (float) th;
+		}
+
+		if (fabs(h - th) > 2) {
+			set_window_size(w, th);
+			if (mConfiguration.recreateToResized) {
+				// recreate the running engine to the new resolution
+				engine->loop_reinit(w, th);
+			}
 		}
 	}
-}
 
-void Mouse::poll() {
-	input(PixFuPlatformApple::sfScaleX*get_mouse_position_x(), PixFuPlatformApple::sfScaleY*get_mouse_position_y());
-	inputWheel(get_mouse_scroll_x(), get_mouse_scroll_y());
-	for (char i = 0; i < BUTTONS; i++) inputButton(i, get_mouse_button(i));
-}
-
-void Keyboard::poll() {
-	
-	for (int i = 0; i < NUMKEYS; i++) {
-		if (get_key_down(::Key::All[i])) {
-			pNextState[i] = true;
-		}
-		if (get_key_up(::Key::All[i])) {
-			pNextState[i] = false;
-		}
+	void Mouse::poll() {
+		input(PixFuPlatformApple::sfScaleX * get_mouse_position_x(), PixFuPlatformApple::sfScaleY * get_mouse_position_y());
+		inputWheel(get_mouse_scroll_x(), get_mouse_scroll_y());
+		for (char i = 0; i < BUTTONS; i++) inputButton(i, get_mouse_button(i));
 	}
-	
-	if (get_modifier_key_down(::SHIFT)) pNextState[Keys::SHIFT] = true;
-	if (get_modifier_key_up(::SHIFT)) pNextState[Keys::SHIFT] = false;
-	if (get_modifier_key_down(::CONTROL)) pNextState[Keys::CTRL] = true;
-	if (get_modifier_key_up(::CONTROL)) pNextState[Keys::CTRL] = false;
-	
-}
 
-void PixFu::start() {
-	loop();
-}
+	void Keyboard::poll() {
+
+		for (int i = 0; i < NUMKEYS; i++) {
+			if (get_key_down(::Key::All[i])) {
+				pNextState[i] = true;
+			}
+			if (get_key_up(::Key::All[i])) {
+				pNextState[i] = false;
+			}
+		}
+
+		if (get_modifier_key_down(::SHIFT)) pNextState[Keys::SHIFT] = true;
+		if (get_modifier_key_up(::SHIFT)) pNextState[Keys::SHIFT] = false;
+		if (get_modifier_key_down(::CONTROL)) pNextState[Keys::CTRL] = true;
+		if (get_modifier_key_up(::CONTROL)) pNextState[Keys::CTRL] = false;
+
+	}
+
+	void PixFu::start() {
+		loop();
+	}
 
 }
 

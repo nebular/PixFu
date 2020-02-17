@@ -8,8 +8,7 @@
 
 #ifndef Font_hpp
 #define Font_hpp
-
-#include "PixFu.hpp"
+#include "Drawable.hpp"
 
 namespace rgl {
 	class Font {
@@ -23,7 +22,7 @@ namespace rgl {
 		~Font();
 
 		void
-		drawString(Drawable *target, int32_t x, int32_t y, const std::string &text, rgl::Pixel col,
+		drawString(Drawable *target, int32_t x, int32_t y, const std::string &text, Pixel col,
 				   uint32_t scale = 1);
 	};
 }

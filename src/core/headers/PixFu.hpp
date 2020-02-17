@@ -10,14 +10,16 @@
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma ide diagnostic ignored "OCSimplifyInspection"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 #ifndef PixEngine_hpp
 #define PixEngine_hpp
 
 #include "OpenGL.h"
 #include "PixFuExtension.hpp"
-#include "PrimarySurface.hpp"
+#include "Surface.hpp"
 #include "Utils.hpp"
 #include "Shader.hpp"
+#include "Canvas2D.hpp"
 #include <string>
 #include <vector>
 
@@ -33,7 +35,7 @@ namespace rgl {
 
 		static const std::string TAG;
 		static PixFuPlatform *spCurrentInstance;
-		
+
 	protected:
 
 		// App CWD
@@ -73,7 +75,7 @@ namespace rgl {
 		virtual void onFps(PixFu *engine, int fps);
 
 		/* ------------ Static Platform Functions */
-		
+
 		/** Initializes the platform */
 		static void init(PixFuPlatform *platform);
 
@@ -131,13 +133,14 @@ namespace rgl {
 		// those functions as it doesn't make sense for the rest of platforms
 
 		friend class RendererPix;
+
 		friend class PixFuPlatformApple;
 
 		const std::string SHADERNAME;                       // shader filename
 
 		PixFuPlatform *pPlatform = nullptr;                 // platform layer
 
-		PrimarySurface *pSurface = nullptr;                 // primary surface
+		Surface *pSurface = nullptr;                        // primary surface
 		std::vector<PixFuExtension *> vExtensions;          // extensions
 		std::vector<InputDevice *> vInputDevices;           // input devices
 
@@ -182,11 +185,14 @@ namespace rgl {
 		 */
 		Drawable *buffer();
 
+		Canvas2D *canvas();
+
+
 	public:
 
-		const std::string APPNAME;							// application name
+		const std::string APPNAME;                            // application name
 
-		PixFu(const std::string appname="pixFuApp", const std::string shader = "default");
+		PixFu(const std::string appname = "pixFuApp", const std::string shader = "default");
 
 		~PixFu();
 
@@ -221,15 +227,16 @@ namespace rgl {
 		virtual bool onUserUpdate(float fElapsedTime);
 
 		virtual bool onUserDestroy();
-		
+
 		Shader *shader();
-		
+
 		/**
 		 * Adds an extension to the engine. Added extensions are integrated into the loop
 		 * and can paint in OpenGL.
 		 * @param extension The instantiated extension to add
 		 */
 		void addExtension(PixFuExtension *extension);
+
 		bool removeExtension(PixFuExtension *extension);
 	};
 
@@ -245,6 +252,9 @@ namespace rgl {
 	}
 
 	inline Drawable *PixFu::buffer() { return pSurface->buffer(); }
+
+	inline Canvas2D *PixFu::canvas() { return pSurface->canvas(); }
+
 	inline Shader *PixFu::shader() { return pSurface->shader(); }
 
 }

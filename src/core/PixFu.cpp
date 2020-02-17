@@ -184,7 +184,7 @@ const bool SURFACE=true;
 bool PixFu::loop_init(bool reinit) {
 
 	if (SURFACE) {
-		pSurface = new PrimarySurface(nScreenWidth, nScreenHeight, "glbuffer", SHADERNAME);
+		pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer");
 		addExtension(pSurface);
 	}
 

@@ -5,6 +5,7 @@
 
 #ifndef GLES3JNI_APPLE_H
 #define GLES3JNI_APPLE_H
+
 #include "cocoawindowing.h"
 #include "Utils.hpp"
 #include "OpenGL.h"

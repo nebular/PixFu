@@ -68,9 +68,6 @@ public:
 	
 	SpriteSheet(PixFu *engine, SpriteSheetInfo_t info);
 	
-	SpriteSheet(PixFu *engine, std::string spriteAtlas, int numX, int numY,
-				std::string shader = "sprites");
-	
 	~SpriteSheet();
 	
 	
@@ -145,7 +142,7 @@ private:
 	Shader *pShader;
 	GLuint quadVAO;
 	Texture2D *pTexture;
-	glm::vec2 SPRSIZE;
+	glm::uvec2 SPRSIZE;
 	glm::mat4 mProjection;
 	
 	long lStartTime;

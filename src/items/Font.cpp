@@ -72,4 +72,3 @@ namespace rgl {
 }
 
 #pragma clang diagnostic pop
-#pragma clang diagnostic pop

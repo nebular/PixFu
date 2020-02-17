@@ -21,21 +21,21 @@ using namespace rgl;
 std::string Drawable::TAG = "Drawable";
 
 const Pixel
-	Colors::BLANK,
-	Colors::BLACK,
-	Colors::RED,
-	Colors::ORANGE,
-	Colors::GREEN,
-	Colors::BLUE,
-	Colors::CYAN,
-	Colors::LIGHTBLUE,
-	Colors::LIGHTGREEN,
-	Colors::MAGENTA,
-	Colors::VIOLET,
-	Colors::PINK,
-	Colors::YELLOW,
-	Colors::GREY,
-	Colors::WHITE;
+		Colors::BLANK,
+		Colors::BLACK,
+		Colors::RED,
+		Colors::ORANGE,
+		Colors::GREEN,
+		Colors::BLUE,
+		Colors::CYAN,
+		Colors::LIGHTBLUE,
+		Colors::LIGHTGREEN,
+		Colors::MAGENTA,
+		Colors::VIOLET,
+		Colors::PINK,
+		Colors::YELLOW,
+		Colors::GREY,
+		Colors::WHITE;
 
 /*
  constexpr Pixel::Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
@@ -54,6 +54,7 @@ Drawable::~Drawable() {
 	pData = nullptr;
 	if (DBG) LogV(TAG, SF("Free Drawable %dx%d (%dkb)", width, height, width * height / 1000));
 }
+
 /*
  void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
  if (x < width && y < height && x >= 0 && y >= 0)
@@ -65,32 +66,32 @@ Drawable::~Drawable() {
  }
  */
 Drawable *Drawable::fromFile(std::string sImageFile) {
-	
+
 	int width, height;
-	
+
 	////////////////////////////////////////////////////////////////////////////
 	// Use libpng, Thanks to Guillaume Cottenceau
 	// https://gist.github.com/niw/5963798
-	
+
 	png_structp png;
 	png_infop info;
-	
+
 	sImageFile = PixFuPlatform::getPath(sImageFile);
-	
+
 	FILE *f = fopen(sImageFile.c_str(), "rb");
 	if (!f) return nullptr;
-	
+
 	png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png) return nullptr;
-	
+
 	info = png_create_info_struct(png);
 	if (!info) return nullptr;
-	
+
 	if (setjmp(png_jmpbuf(png))) return nullptr;
-	
+
 	png_init_io(png, f);
 	png_read_info(png, info);
-	
+
 	png_byte color_type;
 	png_byte bit_depth;
 	png_bytep *row_pointers;
@@ -98,7 +99,7 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	height = png_get_image_height(png, info);
 	color_type = png_get_color_type(png, info);
 	bit_depth = png_get_bit_depth(png, info);
-	
+
 	if (bit_depth == 16) png_set_strip_16(png);
 	if (color_type == PNG_COLOR_TYPE_PALETTE) png_set_palette_to_rgb(png);
 	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) png_set_expand_gray_1_2_4_to_8(png);
@@ -110,7 +111,7 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	if (color_type == PNG_COLOR_TYPE_GRAY ||
 		color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
 		png_set_gray_to_rgb(png);
-	
+
 	png_read_update_info(png, info);
 	row_pointers = (png_bytep *) malloc(sizeof(png_bytep) * height);
 	for (int y = 0; y < height; y++) {
@@ -118,9 +119,9 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 	}
 	png_read_image(png, row_pointers);
 	////////////////////////////////////////////////////////////////////////////
-	
+
 	Drawable *d = new Drawable(width, height);
-	
+
 	// Iterate through image rows, converting into sprite format
 	for (int y = 0; y < height; y++) {
 		png_bytep row = row_pointers[y];
@@ -129,10 +130,10 @@ Drawable *Drawable::fromFile(std::string sImageFile) {
 			d->setPixel(x, y, rgl::Pixel(px[0], px[1], px[2], px[3]));
 		}
 	}
-	
+
 	fclose(f);
 	return d;
-	
+
 }
 
 void Drawable::clear(Pixel color) {

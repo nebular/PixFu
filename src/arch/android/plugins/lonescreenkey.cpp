@@ -90,13 +90,13 @@ namespace rgl {
 			if (x1 > key.x0 && x1 < key.x0 + key.w && y1 > key.y0 && y1 < key.y0 + key.h) {
 				// if the secondary pointer is in the key region
 				any = 1;
-				LogV("Keys",SF("reg 1 sec code %d, isUp %d", key.code, isUp));
+				LogV("Keys", SF("reg 1 sec code %d, isUp %d", key.code, isUp));
 				if (!key.mouse) keystats[key.code] = !isUp;
 				else if (key.code < MAXBUTTONS) aMyMouseStats[key.code] = true;
 			} else if (x0 > key.x0 && x0 < key.x0 + key.w && y0 > key.y0 && y0 < key.y0 + key.h) {
 				// if the primary pointer is in the key region
 				any = 0;
-				LogV("Keys",SF("reg 0 prim code %d, isUp %d", key.code, isUp));
+				LogV("Keys", SF("reg 0 prim code %d, isUp %d", key.code, isUp));
 				if (!key.mouse) keystats[key.code] = !isUp;
 				else if (key.code < MAXBUTTONS) aMyMouseStats[key.code] = true;
 			} else {
