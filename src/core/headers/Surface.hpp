@@ -6,16 +6,11 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef PrimarySurface_hpp
-#define PrimarySurface_hpp
+#pragma once
 
-#include "png.h"
-#include "Utils.hpp"
 #include "Shader.hpp"
 #include "Layer.hpp"
 #include "Texture2D.hpp"
-#include "OpenGlUtils.h"
-
 
 namespace rgl {
 
@@ -78,4 +73,3 @@ namespace rgl {
 	inline Canvas2D *Surface::canvas() { return pCanvas; }
 
 }
-#endif /* PrimarySurface_hpp */

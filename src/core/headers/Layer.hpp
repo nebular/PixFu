@@ -6,17 +6,20 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef LAyer_hpp
-#define LAyer_hpp
-
-#include "OpenGL.h"
-#include "Drawable.hpp"
-#include "Shader.hpp"
-#include "Texture2D.hpp"
+#pragma once
 
 #include "PixFuExtension.hpp"
+#include "glm.hpp"
+#include <string>
+#include "vector"
 
 namespace rgl {
+
+struct Vertex {
+	glm::vec3 vertice;
+	glm::vec3 normal = {0,1,0};
+	glm::vec2 tex = {0,0};
+};
 
 /**
  *
@@ -26,41 +29,58 @@ namespace rgl {
  *
  */
 
-	class Layer {
+class Layer {
+	
+	static const std::string TAG;
+	
+	unsigned int nIndices = 0;
+	unsigned int nVertices = 0;
+	unsigned int *pIndices = nullptr;
+	float *pVertices = nullptr;
+	
+	unsigned int vbo;
+	unsigned int ebo;
+	
+	void init();
+	
+protected:
+	
+	unsigned int vao = -1;
+	
+	void setup(float *vertices, unsigned numvertices,
+			   unsigned *indices, unsigned numindices);
+	
+	void setup(std::vector<Vertex> &vertices, std::vector<unsigned> &indices);
+	
+	void bind();
+	
+	void unbind();
+	
+public:
+	
+	// called by the loop to update the surface
+	void draw(bool bind = true);
+	
+	~Layer();
+	
+	// called by the loop to finish the surface
+	void deinit();
+	
+};
 
-		static const std::string TAG;
 
-		unsigned int nIndices = 0;
-		unsigned int nVertices = 0;
-		unsigned int *pIndices = nullptr;
-		float *pVertices = nullptr;
+class VaoLayer : public Layer {
+	
+protected:
+	std::vector<Vertex> vVertices;
+	std::vector<unsigned> vIndices;
+public:
+	void build();
+};
 
-		unsigned int vao;
-		unsigned int vbo;
-		unsigned int ebo;
-
-		void initLayer();
-
-	protected:
-
-		void setup(float *vertices, unsigned int numvertices, unsigned int *indices,
-				   unsigned int numindices);
-
-		// called by the loop to update the surface
-		void draw();
-
-
-	public:
-
-		~Layer();
-
-
-		// called by the loop to finish the surface
-		void deinit();
-
-	};
-
+inline void VaoLayer::build() {
+	setup(vVertices, vIndices);
+}
 
 }
 
-#endif /* Surface_hpp */

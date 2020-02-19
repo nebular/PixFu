@@ -9,7 +9,6 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include "png.h"
 #include "PixFu.hpp"
 #include "Utils.hpp"
 #include "Layer.hpp"
@@ -24,60 +23,99 @@ Layer::~Layer() {
 	if (DBG) LogV(TAG, "Layer destroyed");
 }
 
-void Layer::setup(float *vertices, unsigned int numvertices, unsigned int *indices, unsigned int numindices) {
+void Layer::setup(std::vector<Vertex> &vertices, std::vector<unsigned> &indices) {
+	setup(
+		  (float*)&vertices[0],
+		  (unsigned)vertices.size(),
+		  (unsigned*)&indices[0],
+		  (unsigned)indices.size()
+		  );
+}
+
+void Layer::setup(float *vertices, unsigned numvertices, unsigned *indices, unsigned numindices) {
 	pVertices = vertices;
 	nVertices = numvertices;
 	pIndices = indices;
 	nIndices = numindices;
-	initLayer();
+	init();
 }
 
-void Layer::initLayer() {
+void Layer::init() {
 
-	if (DBG) LogV(TAG, SF("Init OpenGL, %d vertices, %d indices", nVertices, nIndices));
+	LogE("GL", SF("glGenVertexArrays VAO + genVBO + genEBO + bindbuffer + vertexAttribPointer"));
 
+	// generate and bind VAO
 	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ebo);
-
 	glBindVertexArray(vao);
 
+	// generate vbo
+	glGenBuffers(1, &vbo);
+	// bind and fill vbo
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, nVertices, pVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, nVertices*8*sizeof(float), pVertices, GL_STATIC_DRAW);
 
+	// generate ebo
+	glGenBuffers(1, &ebo);
+	if (DBG) OpenGlUtils::glError("surface initopengl1");
+
+	// store data in attribute list
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices, pIndices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(unsigned int), pIndices, GL_STATIC_DRAW);
+
+
+	// setup vertex attributes
 
 	// pos
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) nullptr);
-	glEnableVertexAttribArray(0);
 
-	// color attribute
+	// normals attribute
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
 
 	// texture coord attribute
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (6 * sizeof(float)));
 
-	glEnableVertexAttribArray(2);
 
-	//	glEnable(GL_DEPTH_TEST);
-	//	glDepthFunc(GL_LESS);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	if (DBG) OpenGlUtils::glError("surface initopengl");
+	if (DBG) OpenGlUtils::glError("surface initopengl2");
+	if (DBG) LogV(TAG, SF("Created buffers, %d vertices, %d indices, VAO %d", nVertices, nIndices, vao));
+
+	glBindVertexArray(0);
+
 }
 
-void Layer::draw() {
-	// Copy pixel array into texture
+void Layer::bind() {
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+	if (DBG) OpenGlUtils::glError("bind");
+
+}
+
+void Layer::draw(bool bindBuffers) {
+	
+	// optimization:
+	// if drawing objects with the same VAO we will bind just once
+	// then just loop drawElements
+	
+	if (bindBuffers) bind();
+	glDrawElements(GL_TRIANGLES, nIndices, GL_UNSIGNED_INT, 0);
+	if (bindBuffers) unbind();
+}
+
+void Layer::unbind() {
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glBindVertexArray(0);
+	if (DBG) OpenGlUtils::glError("unbind");
 }
 
 void Layer::deinit() {
+	unbind();
 
-	glDisableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);

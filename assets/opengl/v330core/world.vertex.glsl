@@ -10,22 +10,27 @@ out vec3 surfaceNormal;
 out vec3 toLightVector;
 out vec3 toCameraVector;
 
-//uniform mat4 transformationMatrix;
+uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
+
 uniform vec3 lightPosition;
 
 void main()
 {
 	
-	vec4 worldPosition = vec4(aPos,1.0);
+	vec4 worldPosition = transformationMatrix * vec4(aPos,1.0);
 
-	surfaceNormal = vec3(normal);
+	surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
 	toLightVector = lightPosition - worldPosition.xyz;
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
 
-	TexCoords = aTexCoord;
-	vec4 p = projectionMatrix * viewMatrix * vec4(aPos.xyz, 1.0);
-	gl_Position = p; // vec4(p.xyz,1);
+	TexCoords = vec2(aTexCoord.x,1-aTexCoord.y);
+//	TexCoords = vec2(aTexCoord.x,aTexCoord.y);
+
+	gl_Position = projectionMatrix * viewMatrix * worldPosition;
+
+//	vec4 p = projectionMatrix * viewMatrix * vec4(aPos.xyz, 1.0);
+//	gl_Position = p; // vec4(p.xyz,1);
 
 }

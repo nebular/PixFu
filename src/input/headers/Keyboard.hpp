@@ -22,7 +22,7 @@ namespace rgl {
 		SPACE, TAB,
 		INS, DEL, HOME, END, PGUP, PGDN,
 		BACK, ESCAPE, RETURN, ENTER, PAUSE, SCROLL,
-		SHIFT, CTRL
+		SHIFT, CTRL, ALT, COMMAND
 	};
 
 	class Keyboard : public InputDevice {

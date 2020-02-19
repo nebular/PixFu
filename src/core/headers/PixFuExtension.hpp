@@ -6,8 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef PixFuExtension_h
-#define PixFuExtension_h
+#pragma once
 
 namespace rgl {
 class PixFu;
@@ -31,4 +30,4 @@ class PixFu;
 	inline bool PixFuExtension::init(PixFu *engine) { return true;}
 /*-------------------------------------------------------------------*/
 }
-#endif /* PixFuExtension_h */
+

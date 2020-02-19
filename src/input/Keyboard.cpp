@@ -64,9 +64,11 @@ namespace rgl {
 				if (pNextState[i]) {
 					pStatePressed[i] = !pStateHeld[i];
 					pStateHeld[i] = true;
+					LogV(TAG, SF("Held %d", i));
 				} else {
 					pStateReleased[i] = true;
 					pStateHeld[i] = false;
+					LogV(TAG, SF("Release %d", i));
 				}
 			}
 

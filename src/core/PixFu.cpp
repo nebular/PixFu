@@ -185,12 +185,6 @@ const bool SURFACE = true;
 /** loop part: initialization */
 bool PixFu::loop_init(bool reinit) {
 
-	if (SURFACE) {
-		pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer");
-		addExtension(pSurface);
-	}
-
-	if (DBG) LogV(TAG, SF("Calling userCreate, reinit %d", reinit));
 
 	bLoopActive = true;
 
@@ -198,6 +192,12 @@ bool PixFu::loop_init(bool reinit) {
 	if (!onUserCreate(reinit))
 		return false;
 
+	if (SURFACE) {
+		pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer");
+		addExtension(pSurface);
+	}
+
+	if (DBG) LogV(TAG, SF("Calling userCreate, reinit %d", reinit));
 	if (!reinit) {
 		if (DBG) LogV(TAG, "Initing Extensions");
 
@@ -221,7 +221,7 @@ bool PixFu::loop_tick(float fElapsedTime) {
 	bIsFocused = status.second;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	if (bLoopActive) {
 
 		// snapshot inputdevices values

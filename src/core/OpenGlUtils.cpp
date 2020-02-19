@@ -82,7 +82,7 @@ unsigned int OpenGlUtils::loadShader(const std::string &vertexShader,
 unsigned int OpenGlUtils::loadShader(const std::string &filename) {
 	std::string vertex = loadShaderFile(filename + ".vertex.glsl");
 	std::string shader = loadShaderFile(filename + ".fragment.glsl");
-	if (vertex.empty()) throw std::runtime_error("Shader files not found or error");
+	if (vertex.empty()) throw std::runtime_error("Shader files "+filename+" not found or error");
 	return loadShader(vertex, shader);
 }
 

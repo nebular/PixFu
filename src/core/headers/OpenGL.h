@@ -5,10 +5,7 @@
 //  Created by rodo on 30/12/2019.
 //  Copyright © 2019 rodo. All rights reserved.
 //
-
-#ifndef OpenGL_h
-#define OpenGL_h
-
+#pragma once
 #ifdef _WIN32
 
 // OpenGL Extension
@@ -36,4 +33,3 @@
 
 #endif
 
-#endif /* OpenGL_h */

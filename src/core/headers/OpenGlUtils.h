@@ -5,9 +5,8 @@
 //  Created by rodo on 20/01/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //
+#pragma once
 
-#ifndef OpenGlUtils_h
-#define OpenGlUtils_h
 #define NO_TEXTURE -1
 
 #include "OpenGL.h"
@@ -44,4 +43,3 @@ public:
 	static GLuint loadTexture(rgl::Drawable *img, GLuint texId = NO_TEXTURE, bool repeat = false);
 };
 
-#endif /* OpenGlUtils_h */

@@ -5,14 +5,12 @@
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //
+#pragma once
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma ide diagnostic ignored "OCSimplifyInspection"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-
-#ifndef PixEngine_hpp
-#define PixEngine_hpp
 
 #include "OpenGL.h"
 #include "PixFuExtension.hpp"
@@ -258,7 +256,5 @@ namespace rgl {
 	inline Shader *PixFu::shader() { return pSurface->shader(); }
 
 }
-#endif /* PixEngine_hpp*/
-
 
 #pragma clang diagnostic pop

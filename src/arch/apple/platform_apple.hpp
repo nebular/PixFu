@@ -20,6 +20,8 @@ namespace rgl {
 
 	class PixFuPlatformApple : public PixFuPlatform {
 
+		static constexpr unsigned APPLE_NUM_KEYS = 72;
+		
 	public:
 
 		PixFuPlatformApple(AppleConfig_t config = {});

@@ -10,7 +10,6 @@
 #define Texture2D_h
 
 #include "OpenGL.h"
-#include "OpenGlUtils.h"
 #include "Drawable.hpp"
 
 namespace rgl {

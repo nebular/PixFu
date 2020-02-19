@@ -1,9 +1,9 @@
 #version 330 core
+
 in vec2 TexCoords;
 in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
-
 
 out vec4 color;
 
@@ -11,10 +11,6 @@ uniform sampler2D modelTexture;
 uniform vec3 lightColour;
 uniform float shineDamper;
 uniform float reflectivity;
-
-//vec3 lightColour=vec3(1,0,1);
-//float shineDamper = 1;
-//float reflectivity = 1;
 
 void main()
 {
@@ -39,13 +35,7 @@ void main()
 	specularFactor = max(specularFactor,0.0);
 	float dampedFactor = pow(specularFactor,shineDamper);
 	vec3 finalSpecular = dampedFactor * reflectivity * lightColour;
-
-		
-	
 	
 	color =  vec4(diffuse,1.0) * fincolor + vec4(finalSpecular,1.0);
 
-	
-	
-//	color = fincolor;
 }

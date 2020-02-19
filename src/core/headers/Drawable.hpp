@@ -6,9 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef Drawable_hpp
-#define Drawable_hpp
-
+#pragma once
 #include <string>
 
 namespace rgl {
@@ -104,4 +102,3 @@ inline Pixel Drawable::getPixel(int x, int y) {
 }
 
 };
-#endif /* Drawable_hpp */

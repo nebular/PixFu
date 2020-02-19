@@ -44,7 +44,7 @@ namespace rgl {
 		if (DBG) LogV(TAG, SF("Init Platform for App %s, size %dx%d, CWD ", engine->APPNAME.c_str(), width, height, ROOTPATH.c_str()));
 
 		Mouse::enable();
-		Keyboard::enable();
+		Keyboard::enable(APPLE_NUM_KEYS);
 
 		fAspectRatio = (float) width / height;
 		sfScaleX = sfScaleY = 1;
@@ -119,10 +119,14 @@ namespace rgl {
 			}
 		}
 
-		if (get_modifier_key_down(::SHIFT)) pNextState[Keys::SHIFT] = true;
-		if (get_modifier_key_up(::SHIFT)) pNextState[Keys::SHIFT] = false;
-		if (get_modifier_key_down(::CONTROL)) pNextState[Keys::CTRL] = true;
-		if (get_modifier_key_up(::CONTROL)) pNextState[Keys::CTRL] = false;
+		if (get_modifier_key_down(::SHIFT)) 	pNextState[Keys::SHIFT] = true;
+		if (get_modifier_key_up(::SHIFT)) 		pNextState[Keys::SHIFT] = false;
+		if (get_modifier_key_down(::CONTROL)) 	pNextState[Keys::CTRL] = true;
+		if (get_modifier_key_up(::CONTROL)) 	pNextState[Keys::CTRL] = false;
+		if (get_modifier_key_down(::OPTION)) 	pNextState[Keys::ALT] = true;
+		if (get_modifier_key_up(::OPTION)) 		pNextState[Keys::ALT] = false;
+		if (get_modifier_key_down(::COMMAND)) 	pNextState[Keys::COMMAND] = true;
+		if (get_modifier_key_up(::COMMAND)) 	pNextState[Keys::COMMAND] = false;
 
 	}
 

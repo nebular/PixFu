@@ -40,10 +40,12 @@ namespace rgl {
 	bool Surface::init(PixFu *engine) {
 
 		if (pActiveTexture == nullptr) return false;
+		
 		Layer::setup((float *) VERTICES, sizeof(VERTICES), (unsigned int *) INDICES,
 					 sizeof(INDICES));
 
 		pActiveTexture->upload();
+		
 		pShader->use();
 		pShader->textureUnit(sSamplerName, pActiveTexture);
 		pShader->setVec2("iResolution", nWidth, nHeight);
@@ -56,7 +58,11 @@ namespace rgl {
 	void Surface::tick(PixFu *engine, float fElapsedTime) {
 		pActiveTexture->update();
 		pShader->use();
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		draw();
+		glDisable(GL_BLEND);
 	}
 
 }
