@@ -9,12 +9,14 @@
 #pragma once
 
 #include "Shader.hpp"
+#include "PixFuExtension.hpp"
 #include "Layer.hpp"
-#include "Texture2D.hpp"
 
 namespace rgl {
 
 	class Canvas2D;
+	class Shader;
+	class Texture2D;
 
 	class Surface : public PixFuExtension, public Layer {
 

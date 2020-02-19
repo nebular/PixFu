@@ -1,5 +1,6 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "readability-isolate-declaration"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 //
 // Created by rodo on 2020-02-10.
 //
@@ -8,8 +9,6 @@
 #include "Canvas2D.hpp"
 #include <cmath>
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 namespace rgl {
 
@@ -94,5 +93,4 @@ namespace rgl {
 	}
 
 }
-#pragma clang diagnostic pop
 #pragma clang diagnostic pop

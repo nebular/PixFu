@@ -22,7 +22,7 @@ namespace rgl {
 	Texture2D::Texture2D(std::string filename) {
 		std::string copy = filename;
 		pBuffer = Drawable::fromFile(std::move(filename));
-			if (pBuffer == nullptr) throw std::runtime_error("File not found " + copy);
+		if (pBuffer == nullptr) throw std::runtime_error("File not found " + copy);
 	}
 
 	Texture2D::~Texture2D() {

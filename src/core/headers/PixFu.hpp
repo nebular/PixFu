@@ -13,9 +13,8 @@
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 #include "OpenGL.h"
-#include "PixFuExtension.hpp"
-#include "Surface.hpp"
 #include "Utils.hpp"
+#include "PixFuExtension.hpp"
 #include "Shader.hpp"
 #include "Canvas2D.hpp"
 #include <string>
@@ -24,6 +23,7 @@
 namespace rgl {
 
 	class PixFu;
+	class Surface;
 
 /**
  * The platform-dependent part of PixEngine
@@ -244,16 +244,10 @@ namespace rgl {
 
 	inline void PixFu::addExtension(PixFuExtension *e) { vExtensions.push_back(e); }
 
-
 	inline void PixFu::addInputDevice(InputDevice *inputDevice) {
 		vInputDevices.push_back(inputDevice);
 	}
 
-	inline Drawable *PixFu::buffer() { return pSurface->buffer(); }
-
-	inline Canvas2D *PixFu::canvas() { return pSurface->canvas(); }
-
-	inline Shader *PixFu::shader() { return pSurface->shader(); }
 
 }
 

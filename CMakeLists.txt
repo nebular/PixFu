@@ -36,20 +36,24 @@ include_directories(${CMAKE_SOURCE_DIR})
 ## PIXENGINE
 
 add_library(pixFu SHARED
-        src/core/Layer.cpp
-        src/core/Surface.cpp
         src/core/Drawable.cpp
-        src/core/PixFu.cpp
+        src/core/Layer.cpp
         src/core/OpenGlUtils.cpp
+        src/core/PixFu.cpp
+        src/core/Surface.cpp
         src/core/Texture2D.cpp
+
+        src/input/Keyboard.cpp
+        src/input/AxisController.cpp
+        src/input/Mouse.cpp
+
         src/items/Canvas2D.cpp
         src/items/Font.cpp
         src/items/SpriteSheet.cpp
         src/items/SpriteSheets.cpp
-        src/input/Keyboard.cpp
-        src/input/AxisController.cpp
-        src/input/Mouse.cpp
+
         src/support/olcPixFu.cpp
+
         src/arch/android/platform_android.cpp
         src/arch/android/plugins/lonescreenkey.cpp
         src/arch/android/input/GyroController.cpp

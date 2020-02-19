@@ -9,17 +9,17 @@
 #pragma once
 
 #include "PixFuExtension.hpp"
-#include "glm.hpp"
 #include <string>
-#include "vector"
+#include <vector>
+#include "glm.hpp"
 
 namespace rgl {
 
-struct Vertex {
-	glm::vec3 vertice;
-	glm::vec3 normal = {0,1,0};
-	glm::vec2 tex = {0,0};
-};
+	struct Vertex {
+		glm::vec3 vertice;
+		glm::vec3 normal = {0, 1, 0};
+		glm::vec2 tex = {0, 0};
+	};
 
 /**
  *
@@ -29,58 +29,59 @@ struct Vertex {
  *
  */
 
-class Layer {
-	
-	static const std::string TAG;
-	
-	unsigned int nIndices = 0;
-	unsigned int nVertices = 0;
-	unsigned int *pIndices = nullptr;
-	float *pVertices = nullptr;
-	
-	unsigned int vbo;
-	unsigned int ebo;
-	
-	void init();
-	
-protected:
-	
-	unsigned int vao = -1;
-	
-	void setup(float *vertices, unsigned numvertices,
-			   unsigned *indices, unsigned numindices);
-	
-	void setup(std::vector<Vertex> &vertices, std::vector<unsigned> &indices);
-	
-	void bind();
-	
-	void unbind();
-	
-public:
-	
-	// called by the loop to update the surface
-	void draw(bool bind = true);
-	
-	~Layer();
-	
-	// called by the loop to finish the surface
-	void deinit();
-	
-};
+	class Layer {
+
+		static const std::string TAG;
+
+		unsigned nIndices = 0;
+		unsigned nVertices = 0;
+		unsigned *pIndices = nullptr;
+		float *pVertices = nullptr;
+
+		unsigned vbo;
+		unsigned ebo;
+
+		void init();
+
+	protected:
+
+		unsigned int vao = -1;
+
+		void setup(float *vertices, unsigned numvertices,
+				   unsigned *indices, unsigned numindices);
+
+		void setup(std::vector<Vertex> &vertices, std::vector<unsigned> &indices);
+
+		void bind();
+
+		void unbind();
+
+	public:
+
+		virtual ~Layer();
+
+		// called by the loop to update the surface
+		void draw(bool bind = true);
+
+		// called by the loop to finish the surface
+		void deinit();
+
+	};
 
 
-class VaoLayer : public Layer {
-	
-protected:
-	std::vector<Vertex> vVertices;
-	std::vector<unsigned> vIndices;
-public:
-	void build();
-};
+	class VaoLayer : public Layer {
 
-inline void VaoLayer::build() {
-	setup(vVertices, vIndices);
-}
+	protected:
+		std::vector<Vertex> vVertices;
+		std::vector<unsigned> vIndices;
+
+	public:
+		void build();
+	};
+
+	inline void VaoLayer::build() {
+		setup(vVertices, vIndices);
+	}
 
 }
 

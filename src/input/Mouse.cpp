@@ -10,7 +10,7 @@
 
 namespace rgl {
 
-///////// MOUSE SINGLETON
+	///////// MOUSE SINGLETON
 	std::string Mouse::TAG = "Mouse";
 	Mouse *Mouse::pInstance = nullptr;
 

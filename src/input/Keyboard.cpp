@@ -11,7 +11,7 @@
 
 namespace rgl {
 
-///////// KEYBOARD SINGLETON
+	///////// KEYBOARD SINGLETON
 	std::string Keyboard::TAG = "Keyboard";
 	Keyboard *Keyboard::pInstance = nullptr;
 

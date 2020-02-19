@@ -6,8 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef Utils_h
-#define Utils_h
+#pragma once
 
 #include <chrono>
 #include <memory>
@@ -45,5 +44,3 @@ namespace rgl {
 	void LogE(const std::string &tag, std::string text);
 
 }
-
-#endif /* Utils_h */

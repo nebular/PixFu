@@ -9,12 +9,12 @@
 #pragma once
 
 namespace rgl {
-class PixFu;
-/*-------------------------------------------------------------------*/
 
-/**
- * a PixEngine extension. Extensions are added with PixEngine::addExtension.
- */
+	class PixFu;
+
+	/**
+	 * a PixEngine extension. Extensions are added with PixEngine::addExtension.
+	 */
 
 	class PixFuExtension {
 
@@ -27,7 +27,8 @@ class PixFu;
 	};
 
 	inline PixFuExtension::~PixFuExtension() {}
-	inline bool PixFuExtension::init(PixFu *engine) { return true;}
+
+	inline bool PixFuExtension::init(PixFu *engine) { return true; }
 /*-------------------------------------------------------------------*/
 }
 

@@ -6,13 +6,14 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef Texture2D_h
-#define Texture2D_h
+#pragma once
 
 #include "OpenGL.h"
 #include "Drawable.hpp"
 
 namespace rgl {
+
+	class Drawable;
 
 	class Texture2D {
 
@@ -56,4 +57,3 @@ namespace rgl {
 	inline int Texture2D::height() { return pBuffer->height; }
 
 }
-#endif /* Texture2D_h */

@@ -6,8 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef Shader_hpp
-#define Shader_hpp
+#pragma once
 
 #include "OpenGL.h"
 #include "OpenGlUtils.h"
@@ -25,9 +24,11 @@ namespace rgl {
 
 		// activates the shader
 		void use();
+
 		void stop();
+
 		void cleanup();
-		
+
 		void textureUnit(std::string sampler2d, Texture2D *texture);
 
 		// utility uniform functions
@@ -49,7 +50,7 @@ namespace rgl {
 		void setMat3(const std::string &name, const float *mat3) const;
 
 		void setMat4(const std::string &name, const float *mat4) const;
-		
+
 		void bindAttribute(GLuint attribute, std::string variableName);
 
 	};
@@ -57,7 +58,8 @@ namespace rgl {
 	inline void Shader::textureUnit(std::string sampler2d, Texture2D *texture) {
 		setInt(sampler2d, texture->unit());
 	}
-	inline void Shader::bindAttribute(GLuint attribute, std::string variableName){
+
+	inline void Shader::bindAttribute(GLuint attribute, std::string variableName) {
 		glBindAttribLocation(ID, attribute, variableName.c_str());
 	}
 
@@ -70,18 +72,18 @@ namespace rgl {
 	}
 
 
-inline void Shader::stop(){
-	glUseProgram(0);
-}
+	inline void Shader::stop() {
+		glUseProgram(0);
+	}
 
-inline void Shader::cleanup(){
-	stop();
+	inline void Shader::cleanup() {
+		stop();
 //	glDetachShader(ID, vertexShaderID);
 //	glDetachShader(ID, fragmentShaderID);
 //	glDeleteShader(vertexShaderID);
 //	glDeleteShader(fragmentShaderID);
-	glDeleteProgram(ID);
-}
+		glDeleteProgram(ID);
+	}
 
 
 	inline void Shader::setBool(const std::string &name, bool value) const {
@@ -121,4 +123,3 @@ inline void Shader::cleanup(){
 	}
 
 };
-#endif /* Shader_hpp */

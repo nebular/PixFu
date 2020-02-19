@@ -40,12 +40,12 @@ namespace rgl {
 	bool Surface::init(PixFu *engine) {
 
 		if (pActiveTexture == nullptr) return false;
-		
+
 		Layer::setup((float *) VERTICES, sizeof(VERTICES), (unsigned int *) INDICES,
 					 sizeof(INDICES));
 
 		pActiveTexture->upload();
-		
+
 		pShader->use();
 		pShader->textureUnit(sSamplerName, pActiveTexture);
 		pShader->setVec2("iResolution", nWidth, nHeight);
