@@ -7,7 +7,6 @@
 //
 
 #include "PixFu.hpp"
-#include "OpenGL.h"
 #include "OpenGlUtils.h"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
