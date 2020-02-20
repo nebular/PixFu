@@ -3,6 +3,8 @@
 //  Drawable.cpp
 //  PixFu
 //
+//  "inspired" on olcPixelEngine Sprite class - onelonecoder.com
+//
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //
@@ -13,10 +15,12 @@
 #include "PixFu.hpp"
 
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "readability-magic-numbers"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 namespace rgl {
+
 	std::string Drawable::TAG = "Drawable";
 
 	const Pixel

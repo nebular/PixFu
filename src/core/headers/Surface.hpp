@@ -10,7 +10,7 @@
 
 #include "Shader.hpp"
 #include "PixFuExtension.hpp"
-#include "Layer.hpp"
+#include "LayerVao.hpp"
 
 namespace rgl {
 
@@ -18,7 +18,7 @@ namespace rgl {
 	class Shader;
 	class Texture2D;
 
-	class Surface : public PixFuExtension, public Layer {
+	class Surface : public PixFuExtension, public LayerVao {
 
 		static std::string TAG;
 
@@ -62,16 +62,16 @@ namespace rgl {
 		Drawable *buffer();
 
 		// gets the shader
-		Shader *shader();
+		Shader  *shader();
 
-		Canvas2D *canvas();
+		Canvas2D  *canvas();
 
 	};
 
 	inline Drawable *Surface::buffer() { return pActiveTexture->buffer(); }
 
-	inline Shader *Surface::shader() { return pShader; }
+	inline Shader  *Surface::shader() { return pShader; }
 
-	inline Canvas2D *Surface::canvas() { return pCanvas; }
+	inline Canvas2D  *Surface::canvas() { return pCanvas; }
 
 }

@@ -2,6 +2,8 @@
 //  Mouse.cpp
 //  PixFu
 //
+//  A Mouse  singleton based on olcPGE mouse - onelonecoder.com
+//
 //  Created by rodo on 12/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //

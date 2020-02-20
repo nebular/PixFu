@@ -8,6 +8,11 @@
 
 #pragma once
 
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+#pragma ide diagnostic ignored "err_uninitialized_member_in_ctor"
+
 #include <string>
 
 namespace rgl {
@@ -31,7 +36,9 @@ namespace rgl {
 		constexpr Pixel scale(float mult) const;
 	};
 
+
 	inline constexpr Pixel::Pixel(uint32_t p) : n(p) {}
+
 
 	inline constexpr Pixel::Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) : r(red), g(green), b(blue), a(alpha) {}
 
@@ -108,3 +115,4 @@ namespace rgl {
 	}
 
 };
+#pragma clang diagnostic pop

@@ -1,11 +1,13 @@
 //
 // Created by rodo on 2020-02-13.
 //
+
+#pragma once
+
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "OCUnusedStructInspection"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-#ifndef PIXENGINE_ANDROID_GYROCONTROLLER_HPP
-#define PIXENGINE_ANDROID_GYROCONTROLLER_HPP
 
 #include "AxisController.hpp"
 #include "android/sensor.h"
@@ -58,6 +60,5 @@ namespace rgl {
 	}
 
 }
-#endif //PIXENGINE_ANDROID_GYROCONTROLLER_HPP
 
 #pragma clang diagnostic pop

@@ -7,12 +7,14 @@
 //
 
 // #include <arch/android/plugins/lonescreenkey.h>
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 #include "olcPixFu.hpp"
 
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 namespace rgl {
 

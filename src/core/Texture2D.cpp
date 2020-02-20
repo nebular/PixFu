@@ -11,8 +11,7 @@
 
 namespace rgl {
 
-	Texture2D::Texture2D(Drawable *buffer) : pBuffer(buffer) {
-	}
+	Texture2D::Texture2D(Drawable *buffer) : pBuffer(buffer) {}
 
 
 	Texture2D::Texture2D(int width, int height) {

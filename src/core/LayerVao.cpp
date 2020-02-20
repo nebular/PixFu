@@ -1,9 +1,18 @@
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 
 //
 //  Layer.cpp
 //  PixFu
+//
+//  A VAO Layer, abstracts drawing a mesh from an array of vertexes and indices.
+//  Vertexes are interleaved <POS - NORM - TEXCOORDS> so it uses only one buffer
+//  The VAO buffers are constructed by calling the init() method, and from then on
+//  draw() to draw the mesh.
+//
+//  This class does not know about shaders, derived classes are expected to take care
+//  of that as needed.
 //
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
@@ -11,19 +20,19 @@
 
 #include "PixFu.hpp"
 #include "Utils.hpp"
-#include "Layer.hpp"
+#include "LayerVao.hpp"
 #include "Texture2D.hpp"
 #include "OpenGlUtils.h"
 
 namespace rgl {
 
-	const std::string Layer::TAG = "Layer";
+	const std::string LayerVao::TAG = "Layer";
 
-	Layer::~Layer() {
+	LayerVao::~LayerVao() {
 		if (DBG) LogV(TAG, "Layer destroyed");
 	}
 
-	void Layer::setup(std::vector<Vertex> &vertices, std::vector<unsigned> &indices) {
+	void LayerVao::setup(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices) {
 		setup(
 				(float *) &vertices[0],
 				vertices.size(),
@@ -32,7 +41,7 @@ namespace rgl {
 		);
 	}
 
-	void Layer::setup(float *vertices, unsigned numvertices, unsigned *indices, unsigned numindices) {
+	void LayerVao::setup(float *vertices, unsigned numvertices, unsigned *indices, unsigned numindices) {
 		pVertices = vertices;
 		nVertices = numvertices;
 		pIndices = indices;
@@ -40,7 +49,7 @@ namespace rgl {
 		init();
 	}
 
-	void Layer::init() {
+	void LayerVao::init() {
 
 		LogE("GL", SF("glGenVertexArrays VAO + genVBO + genEBO + bindbuffer + vertexAttribPointer"));
 
@@ -52,7 +61,7 @@ namespace rgl {
 		glGenBuffers(1, &vbo);
 		// bind and fill vbo
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, nVertices * 8 * sizeof(float), pVertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(nVertices * 8 * sizeof(float)), pVertices, GL_STATIC_DRAW);
 
 		// generate ebo
 		glGenBuffers(1, &ebo);
@@ -60,7 +69,7 @@ namespace rgl {
 
 		// store data in attribute list
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, nIndices * sizeof(unsigned int), pIndices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(nIndices * sizeof(unsigned int)), pIndices, GL_STATIC_DRAW);
 
 
 		// setup vertex attributes
@@ -85,7 +94,7 @@ namespace rgl {
 
 	}
 
-	void Layer::bind() {
+	void LayerVao::bind() {
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
@@ -94,7 +103,7 @@ namespace rgl {
 
 	}
 
-	void Layer::draw(bool bindBuffers) {
+	void LayerVao::draw(bool bindBuffers) {
 
 		// optimization:
 		// if drawing objects with the same VAO we will bind just once
@@ -105,7 +114,7 @@ namespace rgl {
 		if (bindBuffers) unbind();
 	}
 
-	void Layer::unbind() {
+	void LayerVao::unbind() {
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
@@ -113,7 +122,7 @@ namespace rgl {
 		if (DBG) OpenGlUtils::glError("unbind");
 	}
 
-	void Layer::deinit() {
+	void LayerVao::deinit() {
 		unbind();
 
 		glDeleteVertexArrays(1, &vao);

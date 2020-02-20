@@ -18,8 +18,7 @@ namespace rgl {
 	constexpr float Surface::VERTICES[32];
 	constexpr unsigned int Surface::INDICES[6];
 
-	Surface::Surface(int width, int height, const std::string &shaderName,
-					 const std::string &samplerName)
+	Surface::Surface(int width, int height, const std::string &shaderName, const std::string &samplerName)
 			: nWidth(width),
 			  nHeight(height),
 			  pShader(new Shader(shaderName)),
@@ -41,14 +40,15 @@ namespace rgl {
 
 		if (pActiveTexture == nullptr) return false;
 
-		Layer::setup((float *) VERTICES, sizeof(VERTICES), (unsigned int *) INDICES,
-					 sizeof(INDICES));
+		LayerVao::setup((float *) VERTICES, sizeof(VERTICES),
+				(unsigned *) INDICES, sizeof(INDICES));
 
 		pActiveTexture->upload();
 
 		pShader->use();
 		pShader->textureUnit(sSamplerName, pActiveTexture);
 		pShader->setVec2("iResolution", nWidth, nHeight);
+		pShader->stop();
 
 		pCanvas = new Canvas2D(pActiveTexture->buffer(), new Font());
 		return true;
@@ -56,13 +56,18 @@ namespace rgl {
 	}
 
 	void Surface::tick(PixFu *engine, float fElapsedTime) {
+
 		pActiveTexture->update();
 		pShader->use();
 
+		// blend the surface with back layers
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		draw();
 		glDisable(GL_BLEND);
+
+		pShader->stop(); // todo check cool
+
 	}
 
 }

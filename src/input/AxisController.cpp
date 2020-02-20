@@ -1,6 +1,8 @@
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "readability-isolate-declaration"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 //
 // Created by rodo on 2020-02-10.
 //
@@ -15,12 +17,12 @@ namespace rgl {
 	AxisController::AxisController(int axisXlen, int axisYlen)
 			: fAxisX(0),
 			  fAxisY(0),
+			  fNextAxisX(0),
+			  fNextAxisY(0),
 			  fCurrentX(0),
 			  fCurrentY(0),
 			  nAxisXLength(axisXlen),
-			  nAxisYLength(axisYlen),
-			  fNextAxisX(0),
-			  fNextAxisY(0) {}
+			  nAxisYLength(axisYlen) {}
 
 	AxisController::~AxisController() = default;
 
@@ -44,7 +46,7 @@ namespace rgl {
 
 		// pitch vertical
 		canvas->drawLine(HX, SH2 - HS2, HX, SH2 + HS2, color);
-		canvas->fillCircle(HX, SH2 + HS2 * fAxisY, 5.0, color);
+		canvas->fillCircle(HX, static_cast<int32_t>(SH2 + HS2 * fAxisY), static_cast<int32_t>(5.0f), color);
 
 		// x axis
 		int
@@ -53,7 +55,7 @@ namespace rgl {
 
 		// azimuth horizontal
 		canvas->drawLine(SW2 - WS2, HY, SW2 + WS2, HY, color);
-		canvas->fillCircle(SW2 + WS2 * fAxisX, HY, 5.0, color);
+		canvas->fillCircle(static_cast<int32_t>(SW2 + WS2 * fAxisX), HY, static_cast<int32_t>(5.0f), color);
 
 	}
 

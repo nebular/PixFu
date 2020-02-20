@@ -10,6 +10,7 @@
 //
 
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "OCUnusedStructInspection"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 

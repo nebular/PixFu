@@ -6,8 +6,10 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef Mouse_hpp
-#define Mouse_hpp
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+#pragma once
 
 #include "PixFu.hpp"
 #include "Utils.hpp"
@@ -16,6 +18,7 @@ namespace rgl {
 
 	class Mouse : public InputDevice {
 
+		// todo unfriends
 		friend class PixFuPlatformAndroid;
 
 		static Mouse *pInstance;
@@ -28,16 +31,6 @@ namespace rgl {
 		bool *pStatePressed;
 		bool *pStateReleased;
 		bool *pStateHeld;
-
-		int _x();
-
-		int _y();
-
-		bool _isPressed(int button);
-
-		bool _isHeld(int button);
-
-		bool _isReleased(int button);
 
 		bool *getBuffer();
 
@@ -82,17 +75,13 @@ namespace rgl {
 
 	inline bool *Mouse::getBuffer() { return pNextButtonState; }
 
-// query mouse position (instance)
-	inline int Mouse::_x() { return nX; }
 
-	inline int Mouse::_y() { return nY; }
-
-// query mouse position (static)
+	// query mouse position (static)
 	inline int Mouse::x() { return pInstance->nX; }
 
 	inline int Mouse::y() { return pInstance->nY; }
 
-// input coordinates from platform layer
+	// input coordinates from platform layer
 	inline void Mouse::input(int px, int py) {
 		nNewX = px;
 		nNewY = py;
@@ -105,19 +94,13 @@ namespace rgl {
 
 	inline void Mouse::inputButton(int b, bool stat) { pNextButtonState[b] = stat; }
 
-// button status (instance)
-	inline bool Mouse::_isPressed(int button) { return pStatePressed[button]; }
+	// button status (Static)
+	inline bool Mouse::isPressed(int button) { return pInstance->pStatePressed[button]; }
 
-	inline bool Mouse::_isHeld(int button) { return pStateHeld[button]; }
+	inline bool Mouse::isHeld(int button) { return pInstance-> pStateHeld[button]; }
 
-	inline bool Mouse::_isReleased(int button) { return pStateReleased[button]; }
-
-// button status (Static)
-	inline bool Mouse::isPressed(int button) { return pInstance->_isPressed(button); }
-
-	inline bool Mouse::isHeld(int button) { return pInstance->_isHeld(button); }
-
-	inline bool Mouse::isReleased(int button) { return pInstance->_isReleased(button); }
+	inline bool Mouse::isReleased(int button) { return pInstance-> pStateReleased[button]; }
 
 }
-#endif /* Mouse_hpp */
+
+#pragma clang diagnostic pop

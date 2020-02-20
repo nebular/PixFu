@@ -7,16 +7,17 @@
 //
 
 #include "PixFu.hpp"
-#include "OpenGlUtils.h"
 #include "Mouse.hpp"
-#include "Keyboard.hpp"
 #include "Utils.hpp"
-#include "SpriteSheets.hpp"
 #include "Surface.hpp"
+#include "Keyboard.hpp"
+#include "OpenGlUtils.h"
 
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #pragma ide diagnostic ignored "UnusedValue"
-#pragma ide diagnostic ignored "cert-err58-cpp"
 #pragma ide diagnostic ignored "OCSimplifyInspection"
 
 namespace rgl {
@@ -57,42 +58,29 @@ namespace rgl {
 
 	PixFu::PixFu(const std::string appName, const std::string shader)
 			: SHADERNAME(std::move(shader)),
-			  APPNAME(std::move(appName)),
 			  pPlatform(nullptr),
 			  nScreenWidth(0),
-			  nScreenHeight(0) {}
+			  nScreenHeight(0),
+			  APPNAME(std::move(appName)) {}
 
 	PixFu::~PixFu() {
 
 		LogV(TAG, SF("Destruct application %s", APPNAME.c_str()));
 
 		// destroy primary surface
+
 		if (pSurface != nullptr) {
 			delete pSurface;
 			pSurface = nullptr;
 		}
 
-		// destroy input devices
-
-		// TODO inputdevices are singletons
-		// TODO destruct them o program exit
-		//for (InputDevice *device:vInputDevices)
-		//	delete device;
-
+		// clear but do not destroy input devices
+		// as we have not created them
 		vInputDevices.clear();
 
-		// destroy all extensions
-
-		//for (PixFuExtension *extension:vExtensions)
-		//	delete extension;
-
+		// clear but do not destroy extensions
+		// as we have not created them
 		vExtensions.clear();
-
-		// TODO might not be neccessary in situations
-		// pPlatform->deinit();
-		// delete pPlatform;
-
-		SpriteSheets::unload();
 
 	}
 

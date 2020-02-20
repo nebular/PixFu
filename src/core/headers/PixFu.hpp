@@ -8,6 +8,7 @@
 #pragma once
 
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma ide diagnostic ignored "OCSimplifyInspection"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"

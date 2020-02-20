@@ -1,4 +1,5 @@
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 #pragma ide diagnostic ignored "readability-magic-numbers"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"

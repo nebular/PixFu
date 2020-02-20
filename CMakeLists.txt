@@ -37,7 +37,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 add_library(pixFu SHARED
         src/core/Drawable.cpp
-        src/core/Layer.cpp
+        src/core/LayerVao.cpp
         src/core/OpenGlUtils.cpp
         src/core/PixFu.cpp
         src/core/Surface.cpp
@@ -49,8 +49,6 @@ add_library(pixFu SHARED
 
         src/items/Canvas2D.cpp
         src/items/Font.cpp
-        src/items/SpriteSheet.cpp
-        src/items/SpriteSheets.cpp
 
         src/support/olcPixFu.cpp
 

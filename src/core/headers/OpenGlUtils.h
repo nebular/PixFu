@@ -8,8 +8,6 @@
 
 #pragma once
 
-#define NO_TEXTURE -1
-
 #include "OpenGL.h"
 
 #include <cstdint>
@@ -18,6 +16,8 @@
 #include <streambuf>
 
 namespace rgl {
+
+	constexpr unsigned NO_TEXTURE = (unsigned)-1;
 
 	class Drawable;
 

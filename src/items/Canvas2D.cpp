@@ -11,6 +11,7 @@
 #include <cmath>
 
 #pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #pragma ide diagnostic ignored "err_ovl_no_viable_member_function_in_call"
 namespace rgl {
