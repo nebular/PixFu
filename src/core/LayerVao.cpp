@@ -26,7 +26,7 @@
 
 namespace rgl {
 
-	const std::string LayerVao::TAG = "Layer";
+	const std::string LayerVao::TAG = "LayerVao";
 
 	LayerVao::~LayerVao() {
 		if (DBG) LogV(TAG, "Layer destroyed");
@@ -35,9 +35,9 @@ namespace rgl {
 	void LayerVao::setup(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices) {
 		setup(
 				(float *) &vertices[0],
-				vertices.size(),
+				(unsigned) vertices.size(),
 				&indices[0],
-				indices.size()
+				(unsigned) indices.size()
 		);
 	}
 
