@@ -40,7 +40,7 @@ namespace rgl {
 
 		if (pActiveTexture == nullptr) return false;
 
-		LayerVao::setup((float *) VERTICES, sizeof(VERTICES),
+		LayerVao::add((float *) VERTICES, sizeof(VERTICES),
 				(unsigned *) INDICES, sizeof(INDICES));
 
 		pActiveTexture->upload();

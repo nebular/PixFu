@@ -22,6 +22,11 @@ namespace rgl {
 		return static_cast<long>(std::chrono::duration_cast<std::chrono::milliseconds>(
 				std::chrono::system_clock::now().time_since_epoch()).count());
 	}
+	
+	// ns now
+	inline long nowns() {
+		return  std::chrono::duration_cast< std::chrono::microseconds >(std::chrono::system_clock::now().time_since_epoch()).count();
+	}
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-security"

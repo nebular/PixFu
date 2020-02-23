@@ -146,8 +146,6 @@ namespace rgl {
 
 	void Drawable::blank(char ch = 0) {
 		memset(pData, ch, static_cast<size_t>(width * height * 4));
-		for (int i = 0, l = width * height; i < l; i++)
-			pData[i] = ch;
 	}
 
 

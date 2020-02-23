@@ -14,15 +14,26 @@
 
 namespace rgl {
 
-	AxisController::AxisController(int axisXlen, int axisYlen)
+GenericAxisController *GenericAxisController::pInstance = nullptr;
+
+GenericAxisController::GenericAxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY, bool invx, bool invy)
+: AxisController::AxisController(xmin,xmax,ymin,ymax, autoCenterX, autoCenterY, invx, invy) {}
+
+
+AxisController::AxisController()
+: AxisController::AxisController(-1,1,-1,1, true, true) {}
+
+AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY, bool xinv, bool yinv)
 			: fAxisX(0),
 			  fAxisY(0),
 			  fNextAxisX(0),
 			  fNextAxisY(0),
 			  fCurrentX(0),
 			  fCurrentY(0),
-			  nAxisXLength(axisXlen),
-			  nAxisYLength(axisYlen) {}
+			  XMIN(xmin), XMAX(xmax), YMIN(ymin), YMAX(ymax),
+			  INVX(xinv), INVY(yinv),
+			  AUTOX(autoCenterX), AUTOY(autoCenterY)
+			  {}
 
 	AxisController::~AxisController() = default;
 
@@ -36,22 +47,26 @@ namespace rgl {
 		int
 				MARGINV = 20,
 				MARGINH = 20,
-				XSIZE = nAxisXLength,
-				YSIZE = nAxisYLength;
-
+				XSIZE = SW2 * 0.7,
+		YSIZE = SW2 * 0.7;
+		
 		// y axis
 		int
 				HX = 2 * SW2 - MARGINV,
 				HS2 = YSIZE / 2;
 
+		float pos = INVY ? -fAxisY : fAxisY;
+
 		// pitch vertical
 		canvas->drawLine(HX, SH2 - HS2, HX, SH2 + HS2, color);
-		canvas->fillCircle(HX, static_cast<int32_t>(SH2 + HS2 * fAxisY), static_cast<int32_t>(5.0f), color);
+		canvas->fillCircle(HX, static_cast<int32_t>(SH2 + HS2 * pos), static_cast<int32_t>(5.0f), color);
 
 		// x axis
 		int
 				HY = 2 * SH2 - MARGINH,
 				WS2 = XSIZE / 2;
+
+		pos = INVX ? 1 - fAxisX : fAxisX;
 
 		// azimuth horizontal
 		canvas->drawLine(SW2 - WS2, HY, SW2 + WS2, HY, color);
@@ -59,8 +74,17 @@ namespace rgl {
 
 	}
 
+	void AxisController::inputIncremental(float xdelta, float ydelta) {
+		inputNormalized(fNextAxisX + xdelta, fNextAxisY + ydelta);
+	}
 
 	void AxisController::inputNormalized(float xAxis, float yAxis) {
+		if (xAxis>XMAX) xAxis = XMAX;
+		if (xAxis<XMIN) xAxis = XMIN;
+		
+		if (yAxis>YMAX) yAxis = YMAX;
+		if (xAxis<XMIN) xAxis = XMIN;
+		
 		fNextAxisX = xAxis;
 		fNextAxisY = yAxis;
 	}
@@ -73,25 +97,49 @@ namespace rgl {
 
 	void AxisController::sync(float fElapsedTime) {
 
-		// dump new state into old
 		fAxisX = fNextAxisX;
 		fAxisY = fNextAxisY;
 
 		// process interpolation
 
 		constexpr float THR = 0.001;
-		const float STEP = fElapsedTime / 4;
 
+		const float STEP = fElapsedTime / 6;
+		const float RECOVERY = STEP;//4;
+
+		if (AUTOX) {
+			if (fAxisX > 0) {
+				fAxisX -= RECOVERY;
+			} else if (XMIN<0 && fAxisX < 0) {
+				fAxisX += RECOVERY;
+			}
+		}
+
+		if (AUTOY) {
+			if (fAxisY > 0) {
+				fAxisY -= RECOVERY;
+			} else if (YMIN<0 && fAxisY < 0) {
+				fAxisY += RECOVERY;
+			}
+		}
+		
 		if (fCurrentX < fAxisX) fCurrentX += STEP;
 		else if (fCurrentX > fAxisX) fCurrentX -= STEP;
+
 		if (fCurrentY < fAxisY) fCurrentY += STEP;
 		else if (fCurrentY > fAxisY) fCurrentY -= STEP;
 
+		
+	
 		float dx = fabs(fCurrentX - fAxisX);
 		float dy = fabs(fCurrentY - fAxisY);
 
 		if (dx < THR) fCurrentX = fAxisX;
 		if (dy < THR) fCurrentY = fAxisY;
+		
+		fNextAxisX = fAxisX;
+		fNextAxisY = fAxisY;
+		
 	}
 
 }

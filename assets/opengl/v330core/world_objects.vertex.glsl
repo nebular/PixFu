@@ -29,7 +29,7 @@ void main()
 	toLightVector = lightPosition - worldPosition.xyz;
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
 
-	TexCoords = aTexCoord;
+	TexCoords = vec2(aTexCoord.x, 1-aTexCoord.y);
 	
 	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 //	gl_Position = vec4(aPos,1.0); // worldPosition;

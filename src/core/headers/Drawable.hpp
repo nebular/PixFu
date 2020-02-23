@@ -107,11 +107,13 @@ namespace rgl {
 	inline Pixel *Drawable::getData() { return pData; }
 
 	inline void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
-		if (x < width && y < height && x >= 0 && y >= 0) pData[y * width + x] = pix;
+		if (x < width && y < height && x >= 0 && y >= 0)
+			pData[y * width + x] = pix;
 	}
 
 	inline Pixel Drawable::getPixel(int x, int y) {
-		return pData[y * width + x];
+		if (x<0 || y<0 || x>=width || y>=height) return 0;
+			return pData[y * width + x];
 	}
 
 };

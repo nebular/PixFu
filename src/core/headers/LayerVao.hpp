@@ -42,30 +42,33 @@ namespace rgl {
  	 *  draw() to draw the mesh.
  	 */
 
+	typedef struct sMesh {
+		float    *pVertices = nullptr;
+		unsigned nVertices = 0;
+		unsigned *pIndices = nullptr;
+		unsigned nIndices = 0;
+		unsigned vao = (unsigned)-1;
+		unsigned vbo = (unsigned)-1;
+		unsigned ebo = (unsigned)-1;
+	} Mesh_t;
+
 	class LayerVao {
 
 		static const std::string TAG;
 
-		unsigned nIndices = 0;
-		unsigned nVertices = 0;
-		unsigned *pIndices = nullptr;
-		float *pVertices = nullptr;
-
-		unsigned vbo;
-		unsigned ebo;
-
-		void init();
+		void init(Mesh_t &mesh);
 
 	protected:
 
-		unsigned int vao = (unsigned)-1;
+		std::vector<Mesh_t> vMeshes;
 
-		void setup(float *vertices, unsigned numvertices,
+
+		unsigned add(float *vertices, unsigned numvertices,
 				   unsigned *indices, unsigned numindices);
 
-		void setup(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices);
+		unsigned add(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices);
 
-		void bind();
+		void bind(int index = 0);
 
 		void unbind();
 
@@ -74,7 +77,7 @@ namespace rgl {
 		virtual ~LayerVao();
 
 		// called by the loop to update the surface
-		void draw(bool bind = true);
+		void draw(int index = 0, bool bind = true);
 
 		// called by the loop to finish the surface
 		void deinit();
@@ -93,7 +96,7 @@ namespace rgl {
 	};
 
 	inline void VaoLayer::build() {
-		setup(vVertices, vIndices);
+		add(vVertices, vIndices);
 	}
 
 }

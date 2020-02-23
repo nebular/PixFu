@@ -171,12 +171,6 @@ namespace rgl {
 
 	protected:
 
-		/**
-		 * Adds an input device
-		 * @param inputDevice The instantiated input device (Mouse, Keyboard, AxisController ...)
-		 */
-
-		void addInputDevice(InputDevice *inputDevice);
 
 		/**
 		 * Gets the memory-backing buffer
@@ -184,10 +178,11 @@ namespace rgl {
 		 */
 		Drawable *buffer();
 
-		Canvas2D *canvas();
 
 
 	public:
+
+		Canvas2D *canvas();
 
 		const std::string APPNAME;                            // application name
 
@@ -237,6 +232,14 @@ namespace rgl {
 		void addExtension(PixFuExtension *extension);
 
 		bool removeExtension(PixFuExtension *extension);
+		
+		/**
+		 * Adds an input device
+		 * @param inputDevice The instantiated input device (Mouse, Keyboard, AxisController ...)
+		 */
+
+		void addInputDevice(InputDevice *inputDevice);
+
 	};
 
 	inline int PixFu::screenWidth() { return nScreenWidth; }

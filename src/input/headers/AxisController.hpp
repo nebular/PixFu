@@ -12,17 +12,16 @@ namespace rgl {
 
 	class AxisController : public InputDevice {
 
-
-		static AxisController *pCurrentInstance;
 		float fAxisX, fAxisY, fNextAxisX, fNextAxisY;    // raw
 		float fCurrentX, fCurrentY;                        // interpolated
 
-		int nAxisXLength, nAxisYLength;                    // drawSelf
-
-
+		const float XMIN, XMAX, YMIN, YMAX;
+		const bool AUTOX, AUTOY, INVX, INVY;
+		
 	public:
 
-		AxisController(int axisXlen, int axisYlen);
+		AxisController();
+		AxisController(float xmin = -1, float xmax=1, float ymin = -1, float ymax = 1, bool autoX=false, bool autoY=false, bool invx=false, bool invy=false);
 
 		virtual ~AxisController();
 
@@ -30,6 +29,8 @@ namespace rgl {
 
 		void inputNormalized(float xAxis, float yAxis);
 
+		void inputIncremental(float xdelta, float ydelta);
+		
 		void drawSelf(Canvas2D *canvas, Pixel color);
 
 		/**
@@ -62,6 +63,32 @@ namespace rgl {
 		 */
 		void sync(float fElapsedTime);
 	};
+
+	class GenericAxisController : public AxisController {
+
+		static GenericAxisController *pInstance;
+
+	public:
+		GenericAxisController(float xmin=-1, float ymin=-1, float xmax=-1, float ymax=-1, bool autoX=true, bool autoY=true, bool xinv=false, bool yinv=false);
+		static void enable(float xmin=-1, float ymin=-1, float xmax=-1, float ymax=-1, bool autoX=true, bool autoY=true, bool xinv=false, bool yinv=false);
+		static void disable();
+		static GenericAxisController *instance();
+		inline void poll() {}
+	};
+	
+	inline GenericAxisController *GenericAxisController::instance() { return pInstance; }
+
+	inline void GenericAxisController::enable(float xmin, float xmax, float ymin, float ymax, bool autoX, bool autoY, bool xinv, bool yinv) {
+		if (pInstance == nullptr)
+			pInstance = new GenericAxisController(xmin, xmax, ymin, ymax, autoX, autoY, xinv, yinv);
+	}
+
+	inline void GenericAxisController::disable() {
+		if (pInstance != nullptr) {
+			delete pInstance;
+			pInstance = nullptr;
+		}
+	}
 
 	inline float AxisController::x() { return fAxisX; }
 
