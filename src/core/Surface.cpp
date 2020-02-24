@@ -57,7 +57,7 @@ namespace rgl {
 
 	void Surface::tick(PixFu *engine, float fElapsedTime) {
 
-		pActiveTexture->update();
+		if (buffer()->clearDirty()) pActiveTexture->update();
 		pShader->use();
 
 		// blend the surface with back layers

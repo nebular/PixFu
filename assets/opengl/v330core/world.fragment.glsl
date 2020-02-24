@@ -8,6 +8,7 @@ in vec3 toCameraVector;
 out vec4 color;
 
 uniform sampler2D modelTexture;
+uniform sampler2D dirtyTexture;
 uniform vec3 lightColour;
 uniform float shineDamper;
 uniform float reflectivity;
@@ -16,9 +17,12 @@ void main()
 {
 	// coords in texture
 	vec2 coords = TexCoords;
+
 	// sample the sprite pixel
 	vec4 fincolor = texture(modelTexture, coords);
-
+	vec4 dirtcolor = texture(dirtyTexture, coords);
+	if (dirtcolor.a!=0)
+		fincolor=dirtcolor;
 	
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitLightVector = normalize(toLightVector);

@@ -79,6 +79,7 @@ namespace rgl {
 
 		static std::string TAG;
 		Pixel *pData;
+		bool dirty;
 
 	public:
 
@@ -98,6 +99,8 @@ namespace rgl {
 
 		void clear(Pixel color);
 
+		bool clearDirty();
+		
 		void blank(char ch);
 
 		static Drawable *fromFile(std::string name);
@@ -107,9 +110,11 @@ namespace rgl {
 	inline Pixel *Drawable::getData() { return pData; }
 
 	inline void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
+		dirty = true;
 		if (x < width && y < height && x >= 0 && y >= 0)
 			pData[y * width + x] = pix;
 	}
+inline bool Drawable::clearDirty() { if (dirty) { dirty = false; return true;} else return false; }
 
 	inline Pixel Drawable::getPixel(int x, int y) {
 		if (x<0 || y<0 || x>=width || y>=height) return 0;

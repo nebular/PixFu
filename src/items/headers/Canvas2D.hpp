@@ -18,7 +18,7 @@ class Canvas2D {
 	
 	Drawable *pTarget;
 	Font *pFont;
-	
+
 public:
 	
 	Canvas2D(Drawable *target, Font *defaultFont = nullptr);
@@ -59,6 +59,8 @@ public:
 	
 	int height();
 	
+	bool clearDirty();
+	
 };
 
 inline void Canvas2D::setPixel(int32_t x, int32_t y, Pixel p) { pTarget->setPixel(x,y,p); }
@@ -68,4 +70,6 @@ inline int Canvas2D::width() { return pTarget->width; }
 inline int Canvas2D::height() { return pTarget->height; }
 
 }
+
+
 #endif /* Geometry2D_hpp */

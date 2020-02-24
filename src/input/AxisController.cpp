@@ -9,6 +9,7 @@
 
 #include "AxisController.hpp"
 #include "Canvas2D.hpp"
+#include "Utils.hpp"
 #include <cmath>
 
 
@@ -48,7 +49,7 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 				MARGINV = 20,
 				MARGINH = 20,
 				XSIZE = SW2 * 0.7,
-		YSIZE = SW2 * 0.7;
+				YSIZE = SW2 * 0.7;
 		
 		// y axis
 		int
@@ -75,18 +76,25 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 	}
 
 	void AxisController::inputIncremental(float xdelta, float ydelta) {
+		if (xdelta != 0) nInputCounter+=2;
+		if (nInputCounter>20) nInputCounter = 20;
 		inputNormalized(fNextAxisX + xdelta, fNextAxisY + ydelta);
 	}
 
 	void AxisController::inputNormalized(float xAxis, float yAxis) {
+
 		if (xAxis>XMAX) xAxis = XMAX;
 		if (xAxis<XMIN) xAxis = XMIN;
 		
 		if (yAxis>YMAX) yAxis = YMAX;
-		if (xAxis<XMIN) xAxis = XMIN;
+		if (yAxis<YMIN) yAxis = YMIN;
 		
 		fNextAxisX = xAxis;
 		fNextAxisY = yAxis;
+
+		
+		LogV("axis", SF("axis input %f %f %d", xAxis, yAxis, nInputCounter));
+		
 	}
 
 	void AxisController::inputGyroscope(float radAzimuth, float radPitch) {
@@ -100,29 +108,32 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 		fAxisX = fNextAxisX;
 		fAxisY = fNextAxisY;
 
+		if (nInputCounter>0)
+			nInputCounter--;
 		// process interpolation
 
 		constexpr float THR = 0.001;
 
 		const float STEP = fElapsedTime / 6;
-		const float RECOVERY = STEP;//4;
+		const float RECOVERY = STEP*4;
 
-		if (AUTOX) {
-			if (fAxisX > 0) {
-				fAxisX -= RECOVERY;
-			} else if (XMIN<0 && fAxisX < 0) {
-				fAxisX += RECOVERY;
+		if (nInputCounter==0) {
+			if (AUTOX) {
+				if (fAxisX > 0) {
+					fAxisX -= RECOVERY;
+				} else if (XMIN<0 && fAxisX < 0) {
+					fAxisX += RECOVERY;
+				}
+			}
+
+			if (AUTOY) {
+				if (fAxisY > 0) {
+					fAxisY -= RECOVERY;
+				} else if (YMIN<0 && fAxisY < 0) {
+					fAxisY += RECOVERY;
+				}
 			}
 		}
-
-		if (AUTOY) {
-			if (fAxisY > 0) {
-				fAxisY -= RECOVERY;
-			} else if (YMIN<0 && fAxisY < 0) {
-				fAxisY += RECOVERY;
-			}
-		}
-		
 		if (fCurrentX < fAxisX) fCurrentX += STEP;
 		else if (fCurrentX > fAxisX) fCurrentX -= STEP;
 

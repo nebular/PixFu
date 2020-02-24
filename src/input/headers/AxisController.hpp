@@ -13,8 +13,9 @@ namespace rgl {
 	class AxisController : public InputDevice {
 
 		float fAxisX, fAxisY, fNextAxisX, fNextAxisY;    // raw
-		float fCurrentX, fCurrentY;                        // interpolated
-
+		float fCurrentX, fCurrentY;                      // interpolated
+		int   nInputCounter = 0;
+		
 		const float XMIN, XMAX, YMIN, YMAX;
 		const bool AUTOX, AUTOY, INVX, INVY;
 		
