@@ -19,6 +19,7 @@ namespace rgl {
 	class PixFuExtension {
 
 	public:
+
 		virtual ~PixFuExtension();
 
 		virtual bool init(PixFu *engine);
@@ -29,6 +30,6 @@ namespace rgl {
 	inline PixFuExtension::~PixFuExtension() {}
 
 	inline bool PixFuExtension::init(PixFu *engine) { return true; }
-/*-------------------------------------------------------------------*/
+
 }
 

@@ -14,6 +14,7 @@
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #pragma ide diagnostic ignored "err_ovl_no_viable_member_function_in_call"
+
 namespace rgl {
 
 	Canvas2D::Canvas2D(Drawable *target, Font *defaultFont) : pTarget(target) {

@@ -1,22 +1,22 @@
-#pragma clang diagnostic push
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
-
 //
 //  Layer.cpp
 //  PixFu
 //
-//  A VAO Layer, abstracts drawing a mesh from an array of vertexes and indices.
-//  Vertexes are interleaved <POS - NORM - TEXCOORDS> so it uses only one buffer
-//  The VAO buffers are constructed by calling the init() method, and from then on
-//  draw() to draw the mesh.
+//  A VAO Layer, abstracts drawing a group of meshes from  arrays of vertexes and indices.
+//  Vertexes are interleaved <POS - NORM - TEXCOORDS> so it uses only one VAO buffer per mesh
+//  You can add meshes calling the add() method, init them all callint init(), and from then on
+//  just draw(i) to draw the mesh
 //
 //  This class does not know about shaders, derived classes are expected to take care
-//  of that as needed.
+//  of that as needed. @see Surface.cpp, Terrain.cpp or ObjectCluster.cpp
 //
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 
 #include "PixFu.hpp"
 #include "Utils.hpp"
@@ -35,22 +35,20 @@ namespace rgl {
 	unsigned LayerVao::add(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices) {
 		return add(
 				(float *) &vertices[0],
-				(unsigned) vertices.size(),
+				vertices.size(),
 				&indices[0],
-				(unsigned) indices.size()
+				indices.size()
 		);
 	}
 
 	unsigned LayerVao::add(float *vertices, unsigned numvertices, unsigned *indices, unsigned numindices) {
-		Mesh_t mesh ={ vertices, numvertices, indices, numindices };
+		Mesh_t mesh = {vertices, numvertices, indices, numindices};
 		init(mesh);
 		vMeshes.push_back(mesh);
-		return (unsigned) vMeshes.size();
+		return vMeshes.size();
 	}
 
 	void LayerVao::init(Mesh_t &mesh) {
-
-		LogE("GL", SF("glGenVertexArrays VAO + genVBO + genEBO + bindbuffer + vertexAttribPointer"));
 
 		// generate and bind VAO
 		glGenVertexArrays(1, &mesh.vao);
@@ -58,17 +56,18 @@ namespace rgl {
 
 		// generate vbo
 		glGenBuffers(1, &mesh.vbo);
+
 		// bind and fill vbo
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.vbo);
 		glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(mesh.nVertices * 8 * sizeof(float)), mesh.pVertices, GL_STATIC_DRAW);
 
 		// generate ebo
 		glGenBuffers(1, &mesh.ebo);
-		if (DBG) OpenGlUtils::glError("surface initopengl1");
+		if (DBG) OpenGlUtils::glError("LayerVAO init");
 
 		// store data in attribute list
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(mesh.nIndices * sizeof(unsigned int)),mesh.pIndices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(mesh.nIndices * sizeof(unsigned int)), mesh.pIndices, GL_STATIC_DRAW);
 
 
 		// setup vertex attributes
@@ -84,10 +83,9 @@ namespace rgl {
 
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		if (DBG) OpenGlUtils::glError("surface initopengl2");
-		if (DBG) LogV(TAG, SF("Created buffers, %d vertices, %d indices, VAO %d", mesh.nVertices, mesh.nIndices, mesh.vao));
+		if (DBG) OpenGlUtils::glError("LayerVao Attribs");
+		if (DBG) LogV(TAG, SF("Mesh setup, %d vertices, %d indices, VAO %d", mesh.nVertices, mesh.nIndices, mesh.vao));
 
 		glBindVertexArray(0);
 
@@ -99,15 +97,12 @@ namespace rgl {
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		if (DBG) OpenGlUtils::glError("bind");
+		if (DBG) OpenGlUtils::glError("bind mesh");
 
 	}
 
 	void LayerVao::draw(int index, bool bindBuffers) {
 
-		// optimization:
-		// if drawing objects with the same VAO we will bind just once
-		// then just loop drawElements
 		Mesh_t &mesh = vMeshes[index];
 
 		if (bindBuffers) bind(index);
@@ -124,6 +119,7 @@ namespace rgl {
 	}
 
 	void LayerVao::deinit() {
+
 		unbind();
 
 		for (Mesh_t &mesh:vMeshes) {
@@ -133,8 +129,9 @@ namespace rgl {
 		}
 
 		if (DBG) LogV(TAG, "deinit");
-		if (DBG) OpenGlUtils::glError("surface initopengl");
+		if (DBG) OpenGlUtils::glError("Layerao deinit");
 	}
 
 }
+
 #pragma clang diagnostic pop

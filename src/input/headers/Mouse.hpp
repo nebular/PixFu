@@ -97,9 +97,9 @@ namespace rgl {
 	// button status (Static)
 	inline bool Mouse::isPressed(int button) { return pInstance->pStatePressed[button]; }
 
-	inline bool Mouse::isHeld(int button) { return pInstance-> pStateHeld[button]; }
+	inline bool Mouse::isHeld(int button) { return pInstance->pStateHeld[button]; }
 
-	inline bool Mouse::isReleased(int button) { return pInstance-> pStateReleased[button]; }
+	inline bool Mouse::isReleased(int button) { return pInstance->pStateReleased[button]; }
 
 }
 

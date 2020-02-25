@@ -2,6 +2,9 @@
 //  Shader.hpp
 //  PixFu
 //
+//  The shader class abstracts communication with the shader providing methods to set the
+//  uniforms, and to start and stop the shader.
+//
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //

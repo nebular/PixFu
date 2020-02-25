@@ -2,6 +2,8 @@
 //  Texture2D.hpp
 //  PixFu
 //
+//  A Texture to be used in OpenGL. Contains a drawable that you can get and manipulate.
+//
 //  Created by rodo on 11/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //

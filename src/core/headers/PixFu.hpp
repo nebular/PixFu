@@ -24,11 +24,12 @@
 namespace rgl {
 
 	class PixFu;
+
 	class Surface;
 
-/**
- * The platform-dependent part of PixEngine
- */
+	/**
+	 * The platform-dependent part of PixEngine
+	 */
 
 	class PixFuPlatform {
 
@@ -179,7 +180,6 @@ namespace rgl {
 		Drawable *buffer();
 
 
-
 	public:
 
 		Canvas2D *canvas();
@@ -232,7 +232,7 @@ namespace rgl {
 		void addExtension(PixFuExtension *extension);
 
 		bool removeExtension(PixFuExtension *extension);
-		
+
 		/**
 		 * Adds an input device
 		 * @param inputDevice The instantiated input device (Mouse, Keyboard, AxisController ...)

@@ -14,8 +14,6 @@
 
 #include "olcPixFu.hpp"
 
-
-
 namespace rgl {
 
 	olcPixFu::olcPixFu(std::string appName, std::string shaderName)

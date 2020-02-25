@@ -1,16 +1,16 @@
-#pragma clang diagnostic push
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
-#pragma ide diagnostic ignored "readability-magic-numbers"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-
 //
 //  Font.cpp
 //  LoneKart
 //
 //  Created by rodo on 17/01/2020.
 //  Copyright © 2020 rodo. All rights reserved.
-//
+
+#pragma clang diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
+#pragma ide diagnostic ignored "readability-magic-numbers"
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 
 #include "Font.hpp"
 

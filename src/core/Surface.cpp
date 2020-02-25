@@ -41,7 +41,7 @@ namespace rgl {
 		if (pActiveTexture == nullptr) return false;
 
 		LayerVao::add((float *) VERTICES, sizeof(VERTICES),
-				(unsigned *) INDICES, sizeof(INDICES));
+					  (unsigned *) INDICES, sizeof(INDICES));
 
 		pActiveTexture->upload();
 
@@ -66,7 +66,7 @@ namespace rgl {
 		draw();
 		glDisable(GL_BLEND);
 
-		pShader->stop(); // todo check cool
+		pShader->stop();
 
 	}
 

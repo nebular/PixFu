@@ -43,13 +43,13 @@ namespace rgl {
  	 */
 
 	typedef struct sMesh {
-		float    *pVertices = nullptr;
+		float *pVertices = nullptr;
 		unsigned nVertices = 0;
 		unsigned *pIndices = nullptr;
 		unsigned nIndices = 0;
-		unsigned vao = (unsigned)-1;
-		unsigned vbo = (unsigned)-1;
-		unsigned ebo = (unsigned)-1;
+		unsigned vao = (unsigned) -1;
+		unsigned vbo = (unsigned) -1;
+		unsigned ebo = (unsigned) -1;
 	} Mesh_t;
 
 	class LayerVao {
@@ -62,13 +62,35 @@ namespace rgl {
 
 		std::vector<Mesh_t> vMeshes;
 
-
+		/**
+		 * Add a new mesh to render
+		 * @param vertices  Vertices, must be PPP/NNN/TT
+		 * @param numvertices  Number of vertices
+		 * @param indices Indices
+		 * @param numindices  umber of indices.
+		 * @return The mesh ID
+		 */
 		unsigned add(float *vertices, unsigned numvertices,
-				   unsigned *indices, unsigned numindices);
+					 unsigned *indices, unsigned numindices);
+
+		/**
+		 * Add a nes mesh to render
+		 * @param vertices Vector of Vertexes
+		 * @param indices Vector of indices
+		 * @return  The mesh ID
+		 */
 
 		unsigned add(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices);
 
+		/**
+		 * Binds a mesh for GL-drawing
+		 * @param index The mesh id
+		 */
 		void bind(int index = 0);
+
+		/**
+		 * Unbinds bound mesh
+		 */
 
 		void unbind();
 
@@ -83,21 +105,6 @@ namespace rgl {
 		void deinit();
 
 	};
-
-
-	class VaoLayer : public LayerVao {
-
-	protected:
-		std::vector<Vertex_t> vVertices;
-		std::vector<unsigned> vIndices;
-
-	public:
-		void build();
-	};
-
-	inline void VaoLayer::build() {
-		add(vVertices, vIndices);
-	}
 
 }
 

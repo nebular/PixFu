@@ -95,7 +95,7 @@ namespace rgl {
 		return false;
 	}
 
-/** initializes the engine */
+	/** initializes the engine */
 	bool PixFu::init(int width, int height) {
 
 		pPlatform = PixFuPlatform::instance();
@@ -123,7 +123,7 @@ namespace rgl {
 		return bInited;
 	}
 
-/** sunchronously run the loop */
+	/** sunchronously run the loop */
 	void PixFu::loop() {
 
 		if (!loop_init()) {
@@ -169,7 +169,7 @@ namespace rgl {
 
 	const bool SURFACE = true;
 
-/** loop part: initialization */
+	/** loop part: initialization */
 	bool PixFu::loop_init(bool reinit) {
 
 
@@ -198,7 +198,7 @@ namespace rgl {
 		return true;
 	}
 
-/** loop part: tick */
+	/** loop part: tick */
 	bool PixFu::loop_tick(float fElapsedTime) {
 
 		// todo
@@ -233,7 +233,7 @@ namespace rgl {
 		return bLoopActive;
 	}
 
-/** loop part: reinitialize */
+	/** loop part: reinitialize */
 	bool PixFu::loop_reinit(int newWidth, int newHeight) {
 
 		if (DBG) LogV(TAG, SF("Loop Reinit: Screen size changed to %d,%d", newWidth, newHeight));
@@ -244,7 +244,7 @@ namespace rgl {
 
 	}
 
-/** loop part: deinitialize */
+	/** loop part: deinitialize */
 	void PixFu::loop_deinit() {
 
 		if (DBG) LogV(TAG, "Loop deinit");
@@ -271,14 +271,14 @@ namespace rgl {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 
-/** user method: update */
+	/** user method: update */
 	bool PixFu::onUserUpdate(float fElapsedTime) {
 		return true;
 	}
 
 #pragma clang diagnostic pop
 
-/** user method: destroy */
+	/** user method: destroy */
 	bool PixFu::onUserDestroy() {
 		return true;
 	}

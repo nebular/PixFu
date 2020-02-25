@@ -11,9 +11,12 @@
 #include "Keyboard.hpp"
 #include "Utils.hpp"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 namespace rgl {
 
 	///////// KEYBOARD SINGLETON
+
 	std::string Keyboard::TAG = "Keyboard";
 	Keyboard *Keyboard::pInstance = nullptr;
 
@@ -80,3 +83,5 @@ namespace rgl {
 
 }
 
+
+#pragma clang diagnostic pop

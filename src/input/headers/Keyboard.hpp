@@ -6,8 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef Keyboard_hpp
-#define Keyboard_hpp
+#pragma once
 
 #include "PixFu.hpp"
 
@@ -92,4 +91,3 @@ namespace rgl {
 	inline bool Keyboard::isHeld(Keys key) { return pInstance->pStateHeld[key]; }
 
 }
-#endif /* Keyboard_hpp */

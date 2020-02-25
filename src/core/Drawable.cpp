@@ -40,12 +40,6 @@ namespace rgl {
 			Colors::GREY,
 			Colors::WHITE;
 
-/*
- constexpr Pixel::Pixel(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
- constexpr Pixel::Pixel(uint32_t p);
- constexpr Pixel Pixel::scale(float mult);
- */
-
 
 	Drawable::Drawable(int x, int y) : width(x), height(y) {
 		pData = new rgl::Pixel[x * y];
@@ -58,21 +52,12 @@ namespace rgl {
 		if (DBG) LogV(TAG, SF("Free Drawable %dx%d (%dkb)", width, height, width * height / 1000));
 	}
 
-/*
- void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
- if (x < width && y < height && x >= 0 && y >= 0)
- pData[y * width + x] = pix;
- }
- 
- Pixel Drawable::getPixel(int x, int y) {
- return pData[y * width + x];
- }
- */
 	Drawable *Drawable::fromFile(std::string sImageFile) {
 
 		int width, height;
 
 		////////////////////////////////////////////////////////////////////////////
+
 		// Use libpng, Thanks to Guillaume Cottenceau
 		// https://gist.github.com/niw/5963798
 
@@ -121,6 +106,7 @@ namespace rgl {
 			row_pointers[y] = (png_byte *) malloc(png_get_rowbytes(png, info));
 		}
 		png_read_image(png, row_pointers);
+
 		////////////////////////////////////////////////////////////////////////////
 
 		Drawable *d = new Drawable(width, height);

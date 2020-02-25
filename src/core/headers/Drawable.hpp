@@ -85,23 +85,77 @@ namespace rgl {
 
 		const int width, height;
 
+		/**
+		 * Creates an empty drawable
+		 * @param w Width in PX
+		 * @param h height in PX
+		 */
 		Drawable(int w, int h);
 
 		~Drawable();
 
+		/**
+		 * Gets supporting buffer
+		 * @return The raw pixel buffer
+		 */
+
 		Pixel *getData();
 
+		/**
+		 * Sets a pixel
+		 * @param x coord
+		 * @param y coord
+		 * @param pix color
+		 */
 		void setPixel(int x, int y, Pixel pix);
+
+		/**
+		 * Gets pixel at position
+		 * @param x coord
+		 * @param y coord
+		 * @return Pixel
+		 */
 
 		Pixel getPixel(int x, int y);
 
+		/**
+		 * Samples with normalized coordinates
+		 * @param x  normalized x
+		 * @param y  normalized y
+		 * @return The pixel
+		 */
+
 		Pixel sample(float x, float y);
+
+		/**
+		 * Clears the buffer to the provided pixel color
+		 * @param color The color
+		 */
 
 		void clear(Pixel color);
 
-		bool clearDirty();
-		
+		/**
+		 * Clears the buffer using a fast memset. So all components must be the same. Useful mainly to
+		 * efficientlt clear to transparent (0x0000000)
+		 * @param ch
+		 */
+
 		void blank(char ch);
+
+		/**
+		 * Clears the dirty flag if set. Flag is set by setPixel(). Used by other classes to know
+		 * if a drawable has changed.
+		 * @return true if flag was cleared
+		 */
+
+		bool clearDirty();
+
+
+		/**
+		 * Creates a drawable from a PNG file
+		 * @param name The filename
+		 * @return a Drawable
+		 */
 
 		static Drawable *fromFile(std::string name);
 
@@ -114,11 +168,17 @@ namespace rgl {
 		if (x < width && y < height && x >= 0 && y >= 0)
 			pData[y * width + x] = pix;
 	}
-inline bool Drawable::clearDirty() { if (dirty) { dirty = false; return true;} else return false; }
+
+	inline bool Drawable::clearDirty() {
+		if (dirty) {
+			dirty = false;
+			return true;
+		} else return false;
+	}
 
 	inline Pixel Drawable::getPixel(int x, int y) {
-		if (x<0 || y<0 || x>=width || y>=height) return 0;
-			return pData[y * width + x];
+		if (x < 0 || y < 0 || x >= width || y >= height) return 0;
+		return pData[y * width + x];
 	}
 
 };

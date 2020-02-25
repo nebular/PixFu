@@ -15,16 +15,17 @@
 
 namespace rgl {
 
-GenericAxisController *GenericAxisController::pInstance = nullptr;
+	GenericAxisController *GenericAxisController::pInstance = nullptr;
 
-GenericAxisController::GenericAxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY, bool invx, bool invy)
-: AxisController::AxisController(xmin,xmax,ymin,ymax, autoCenterX, autoCenterY, invx, invy) {}
+	GenericAxisController::GenericAxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY,
+												 bool invx, bool invy)
+			: AxisController::AxisController(xmin, xmax, ymin, ymax, autoCenterX, autoCenterY, invx, invy) {}
 
 
-AxisController::AxisController()
-: AxisController::AxisController(-1,1,-1,1, true, true) {}
+	AxisController::AxisController()
+			: AxisController::AxisController(-1, 1, -1, 1, true, true) {}
 
-AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY, bool xinv, bool yinv)
+	AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY, bool xinv, bool yinv)
 			: fAxisX(0),
 			  fAxisY(0),
 			  fNextAxisX(0),
@@ -33,8 +34,7 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 			  fCurrentY(0),
 			  XMIN(xmin), XMAX(xmax), YMIN(ymin), YMAX(ymax),
 			  INVX(xinv), INVY(yinv),
-			  AUTOX(autoCenterX), AUTOY(autoCenterY)
-			  {}
+			  AUTOX(autoCenterX), AUTOY(autoCenterY) {}
 
 	AxisController::~AxisController() = default;
 
@@ -48,9 +48,9 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 		int
 				MARGINV = 20,
 				MARGINH = 20,
-				XSIZE = SW2 * 0.7,
-				YSIZE = SW2 * 0.7;
-		
+				XSIZE = (int)(SW2 * 0.7),
+				YSIZE = (int)(SW2 * 0.7);
+
 		// y axis
 		int
 				HX = 2 * SW2 - MARGINV,
@@ -67,8 +67,6 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 				HY = 2 * SH2 - MARGINH,
 				WS2 = XSIZE / 2;
 
-		pos = INVX ? 1 - fAxisX : fAxisX;
-
 		// azimuth horizontal
 		canvas->drawLine(SW2 - WS2, HY, SW2 + WS2, HY, color);
 		canvas->fillCircle(static_cast<int32_t>(SW2 + WS2 * fAxisX), HY, static_cast<int32_t>(5.0f), color);
@@ -76,25 +74,25 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 	}
 
 	void AxisController::inputIncremental(float xdelta, float ydelta) {
-		if (xdelta != 0) nInputCounter+=2;
-		if (nInputCounter>20) nInputCounter = 20;
+		if (xdelta != 0) nInputCounter += 2;
+		if (nInputCounter > 20) nInputCounter = 20;
 		inputNormalized(fNextAxisX + xdelta, fNextAxisY + ydelta);
 	}
 
 	void AxisController::inputNormalized(float xAxis, float yAxis) {
 
-		if (xAxis>XMAX) xAxis = XMAX;
-		if (xAxis<XMIN) xAxis = XMIN;
-		
-		if (yAxis>YMAX) yAxis = YMAX;
-		if (yAxis<YMIN) yAxis = YMIN;
-		
+		if (xAxis > XMAX) xAxis = XMAX;
+		if (xAxis < XMIN) xAxis = XMIN;
+
+		if (yAxis > YMAX) yAxis = YMAX;
+		if (yAxis < YMIN) yAxis = YMIN;
+
 		fNextAxisX = xAxis;
 		fNextAxisY = yAxis;
 
-		
+
 		LogV("axis", SF("axis input %f %f %d", xAxis, yAxis, nInputCounter));
-		
+
 	}
 
 	void AxisController::inputGyroscope(float radAzimuth, float radPitch) {
@@ -108,20 +106,20 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 		fAxisX = fNextAxisX;
 		fAxisY = fNextAxisY;
 
-		if (nInputCounter>0)
+		if (nInputCounter > 0)
 			nInputCounter--;
 		// process interpolation
 
 		constexpr float THR = 0.001;
 
-		const float STEP = fElapsedTime/6;
-		const float RECOVERY = STEP*4;
+		const float STEP = fElapsedTime / 6;
+		const float RECOVERY = STEP * 4;
 
-		if (nInputCounter==0) {
+		if (nInputCounter == 0) {
 			if (AUTOX) {
 				if (fAxisX > 0) {
 					fAxisX -= RECOVERY;
-				} else if (XMIN<0 && fAxisX < 0) {
+				} else if (XMIN < 0 && fAxisX < 0) {
 					fAxisX += RECOVERY;
 				}
 			}
@@ -129,14 +127,14 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 			if (AUTOY) {
 				if (fAxisY > 0) {
 					fAxisY -= RECOVERY;
-				} else if (YMIN<0 && fAxisY < 0) {
+				} else if (YMIN < 0 && fAxisY < 0) {
 					fAxisY += RECOVERY;
 				}
 			}
 		}
-		
+
 		float lerp = 4;
-		
+
 		fCurrentX += (fAxisX - fCurrentX) * lerp * fElapsedTime;
 		fCurrentY += (fAxisY - fCurrentY) * lerp * fElapsedTime;
 
@@ -145,10 +143,10 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 
 		if (dx < THR) fCurrentX = fAxisX;
 		if (dy < THR) fCurrentY = fAxisY;
-		
+
 		fNextAxisX = fAxisX;
 		fNextAxisY = fAxisY;
-		
+
 	}
 
 }

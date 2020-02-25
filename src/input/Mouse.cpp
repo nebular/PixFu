@@ -10,6 +10,8 @@
 
 #include "Mouse.hpp"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 namespace rgl {
 
 	///////// MOUSE SINGLETON
@@ -84,3 +86,5 @@ namespace rgl {
 
 }
 
+
+#pragma clang diagnostic pop

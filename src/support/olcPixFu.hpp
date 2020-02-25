@@ -34,6 +34,7 @@ namespace rgl {
 		bool bRestarted = false;
 
 	protected:
+
 		bool isRestarted();
 
 	public:

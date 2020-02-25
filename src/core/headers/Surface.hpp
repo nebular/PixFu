@@ -2,6 +2,12 @@
 //  Surface.hpp
 //  PixEngine
 //
+//  This extension is the primary surface. Provides a canvas to draw into, that gets rendered
+//  full-screen by openGL as the topmost texture (any extensions drawing will be behind). This
+//  surface s used for the UI and got generic 2D graphics.
+//
+//  You may also start your PixFu instance without the surface extension, if you don't need it.
+//
 //  Created by rodo on 17/02/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 //
@@ -15,7 +21,9 @@
 namespace rgl {
 
 	class Canvas2D;
+
 	class Shader;
+
 	class Texture2D;
 
 	class Surface : public PixFuExtension, public LayerVao {
@@ -62,16 +70,17 @@ namespace rgl {
 		Drawable *buffer();
 
 		// gets the shader
-		Shader  *shader();
+		Shader *shader();
 
-		Canvas2D  *canvas();
+		// gets a 2D canvas
+		Canvas2D *canvas();
 
 	};
 
 	inline Drawable *Surface::buffer() { return pActiveTexture->buffer(); }
 
-	inline Shader  *Surface::shader() { return pShader; }
+	inline Shader *Surface::shader() { return pShader; }
 
-	inline Canvas2D  *Surface::canvas() { return pCanvas; }
+	inline Canvas2D *Surface::canvas() { return pCanvas; }
 
 }
