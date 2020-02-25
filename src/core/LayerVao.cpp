@@ -35,9 +35,9 @@ namespace rgl {
 	unsigned LayerVao::add(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices) {
 		return add(
 				(float *) &vertices[0],
-				vertices.size(),
+				(unsigned)vertices.size(),
 				&indices[0],
-				indices.size()
+				(unsigned)indices.size()
 		);
 	}
 
@@ -45,7 +45,7 @@ namespace rgl {
 		Mesh_t mesh = {vertices, numvertices, indices, numindices};
 		init(mesh);
 		vMeshes.push_back(mesh);
-		return vMeshes.size();
+		return (unsigned)vMeshes.size();
 	}
 
 	void LayerVao::init(Mesh_t &mesh) {

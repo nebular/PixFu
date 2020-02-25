@@ -68,8 +68,8 @@ namespace rgl {
 
 		/**
 		 * Draws the axis on a canvas
-		 * @param canvas
-		 * @param color
+		 * @param canvas A Canvas
+		 * @param color Color
 		 */
 
 		void drawSelf(Canvas2D *canvas, Pixel color);

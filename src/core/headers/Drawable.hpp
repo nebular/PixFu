@@ -137,10 +137,10 @@ namespace rgl {
 		/**
 		 * Clears the buffer using a fast memset. So all components must be the same. Useful mainly to
 		 * efficientlt clear to transparent (0x0000000)
-		 * @param ch
+		 * @param colorbyte byte to fill the buffer with
 		 */
 
-		void blank(char ch);
+		void blank(char colorbyte);
 
 		/**
 		 * Clears the dirty flag if set. Flag is set by setPixel(). Used by other classes to know
