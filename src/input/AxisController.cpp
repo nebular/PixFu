@@ -114,7 +114,7 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 
 		constexpr float THR = 0.001;
 
-		const float STEP = fElapsedTime / 6;
+		const float STEP = fElapsedTime/6;
 		const float RECOVERY = STEP*4;
 
 		if (nInputCounter==0) {
@@ -134,14 +134,12 @@ AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, b
 				}
 			}
 		}
-		if (fCurrentX < fAxisX) fCurrentX += STEP;
-		else if (fCurrentX > fAxisX) fCurrentX -= STEP;
-
-		if (fCurrentY < fAxisY) fCurrentY += STEP;
-		else if (fCurrentY > fAxisY) fCurrentY -= STEP;
-
 		
-	
+		float lerp = 4;
+		
+		fCurrentX += (fAxisX - fCurrentX) * lerp * fElapsedTime;
+		fCurrentY += (fAxisY - fCurrentY) * lerp * fElapsedTime;
+
 		float dx = fabs(fCurrentX - fAxisX);
 		float dy = fabs(fCurrentY - fAxisY);
 
