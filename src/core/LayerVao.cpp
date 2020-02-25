@@ -104,7 +104,6 @@ namespace rgl {
 	void LayerVao::draw(int index, bool bindBuffers) {
 
 		Mesh_t &mesh = vMeshes[index];
-
 		if (bindBuffers) bind(index);
 		glDrawElements(GL_TRIANGLES, mesh.nIndices, GL_UNSIGNED_INT, 0);
 		if (bindBuffers) unbind();
