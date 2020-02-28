@@ -57,7 +57,9 @@ namespace rgl {
 
 	void Surface::tick(PixFu *engine, float fElapsedTime) {
 
+		// only update texture if it has changed
 		if (buffer()->clearDirty()) pActiveTexture->update();
+
 		pShader->use();
 
 		// blend the surface with back layers

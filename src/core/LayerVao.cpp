@@ -106,6 +106,7 @@ namespace rgl {
 		Mesh_t &mesh = vMeshes[index];
 		if (bindBuffers) bind(index);
 		glDrawElements(GL_TRIANGLES, mesh.nIndices, GL_UNSIGNED_INT, 0);
+//		glDrawElements(GL_LINES, mesh.nIndices, GL_UNSIGNED_INT, 0);
 		if (bindBuffers) unbind();
 	}
 

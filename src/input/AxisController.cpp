@@ -75,7 +75,7 @@ namespace rgl {
 
 	void AxisController::inputIncremental(float xdelta, float ydelta) {
 		if (xdelta != 0) nInputCounter += 2;
-		if (nInputCounter > 20) nInputCounter = 20;
+		if (nInputCounter > 5) nInputCounter = 5;
 		inputNormalized(fNextAxisX + xdelta, fNextAxisY + ydelta);
 	}
 
@@ -111,25 +111,15 @@ namespace rgl {
 		// process interpolation
 
 		constexpr float THR = 0.001;
-
-		const float STEP = fElapsedTime / 6;
-		const float RECOVERY = STEP * 4;
+		constexpr float RECOVERY = 0.9;
 
 		if (nInputCounter == 0) {
 			if (AUTOX) {
-				if (fAxisX > 0) {
-					fAxisX -= RECOVERY;
-				} else if (XMIN < 0 && fAxisX < 0) {
-					fAxisX += RECOVERY;
-				}
+				fAxisX*=RECOVERY;
 			}
 
 			if (AUTOY) {
-				if (fAxisY > 0) {
-					fAxisY -= RECOVERY;
-				} else if (YMIN < 0 && fAxisY < 0) {
-					fAxisY += RECOVERY;
-				}
+				fAxisY*=RECOVERY;
 			}
 		}
 

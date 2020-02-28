@@ -6,8 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#ifndef Geometry2D_hpp
-#define Geometry2D_hpp
+#pragma once
 
 #include "Drawable.hpp"
 #include "Font.hpp"
@@ -58,9 +57,7 @@ public:
 	int width();
 	
 	int height();
-	
-	bool clearDirty();
-	
+		
 };
 
 inline void Canvas2D::setPixel(int32_t x, int32_t y, Pixel p) { pTarget->setPixel(x,y,p); }
@@ -69,7 +66,9 @@ inline int Canvas2D::width() { return pTarget->width; }
 
 inline int Canvas2D::height() { return pTarget->height; }
 
+inline void Canvas2D::clear(Pixel color) { pTarget->clear(color); }
+
+inline void Canvas2D::blank() { pTarget->blank(0); }
+
+
 }
-
-
-#endif /* Geometry2D_hpp */
