@@ -54,6 +54,7 @@ namespace rgl {
 
 /*-------------------------------------------------------------------*/
 
+	const bool SURFACE = true;
 	const std::string PixFu::TAG = "PixFu";
 
 	PixFu::PixFu(const std::string appName, const std::string shader)
@@ -167,8 +168,6 @@ namespace rgl {
 
 	}
 
-	const bool SURFACE = true;
-
 	/** loop part: initialization */
 	bool PixFu::loop_init(bool reinit) {
 
@@ -261,22 +260,10 @@ namespace rgl {
 		return true;
 	}
 
-	Drawable *PixFu::buffer() { return pSurface->buffer(); }
-
-	Canvas2D *PixFu::canvas() { return pSurface->canvas(); }
-
-	Shader *PixFu::shader() { return pSurface->shader(); }
-
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
-
 	/** user method: update */
 	bool PixFu::onUserUpdate(float fElapsedTime) {
 		return true;
 	}
-
-#pragma clang diagnostic pop
 
 	/** user method: destroy */
 	bool PixFu::onUserDestroy() {
