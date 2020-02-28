@@ -1,0 +1,46 @@
+# Blender MTL File: 'kart_peach_rot0.blend'
+# Material Count: 4
+
+newmtl mt_Kart_Peach_Tire_S
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /Users/rodo/Downloads/Peach Kart/Tex/F2_Item_Kart_Peach_Tire_S.png
+
+newmtl mt_Peach
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /Users/rodo/Downloads/Peach Kart/Tex/F2_Item_Kart_Peach_Body_S.png
+
+newmtl mt_Peach_nuki
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /Users/rodo/Downloads/Peach Kart/Tex/F2_Item_Kart_Peach_Body_S.png
+
+newmtl mt_kart_Peach_S
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /Users/rodo/Downloads/Peach Kart/Tex/F2_Item_Kart_Peach_Kart_S.png
