@@ -21,6 +21,7 @@ void main()
 	// sample the sprite pixel
 	vec4 fincolor = texture(modelTexture, coords);
 	vec4 dirtcolor = texture(dirtyTexture, coords);
+
 	if (dirtcolor.a!=0)
 		fincolor=dirtcolor;
 	

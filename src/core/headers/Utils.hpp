@@ -16,7 +16,7 @@
 namespace rgl {
 
 	// global debug info flag
-	static constexpr bool DBG = true;
+	static constexpr bool DBG = false;
 
 	// ms now
 	inline long nowms() {
