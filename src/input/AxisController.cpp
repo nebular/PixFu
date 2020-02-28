@@ -48,8 +48,8 @@ namespace rgl {
 		int
 				MARGINV = 20,
 				MARGINH = 20,
-				XSIZE = (int)(SW2 * 0.7),
-				YSIZE = (int)(SW2 * 0.7);
+				XSIZE = (int) (SW2 * 0.7),
+				YSIZE = (int) (SW2 * 0.7);
 
 		// y axis
 		int
@@ -115,11 +115,11 @@ namespace rgl {
 
 		if (nInputCounter == 0) {
 			if (AUTOX) {
-				fAxisX*=RECOVERY;
+				fAxisX *= RECOVERY;
 			}
 
 			if (AUTOY) {
-				fAxisY*=RECOVERY;
+				fAxisY *= RECOVERY;
 			}
 		}
 

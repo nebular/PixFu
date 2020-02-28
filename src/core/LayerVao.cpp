@@ -15,6 +15,7 @@
 //
 
 #pragma clang diagnostic push
+#pragma ide diagnostic ignored "RedundantCast"
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 
@@ -35,9 +36,9 @@ namespace rgl {
 	unsigned LayerVao::add(std::vector<Vertex_t> &vertices, std::vector<unsigned> &indices) {
 		return add(
 				(float *) &vertices[0],
-				(unsigned)vertices.size(),
+				(unsigned) vertices.size(),
 				&indices[0],
-				(unsigned)indices.size()
+				(unsigned) indices.size()
 		);
 	}
 
@@ -45,7 +46,7 @@ namespace rgl {
 		Mesh_t mesh = {vertices, numvertices, indices, numindices};
 		init(mesh);
 		vMeshes.push_back(mesh);
-		return (unsigned)vMeshes.size();
+		return (unsigned) vMeshes.size();
 	}
 
 	void LayerVao::init(Mesh_t &mesh) {

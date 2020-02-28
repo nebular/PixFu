@@ -11,6 +11,8 @@
 #include "Font.hpp"
 #include "Canvas2D.hpp"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 namespace rgl {
 
 	std::string Surface::TAG = "Surface";
@@ -74,3 +76,5 @@ namespace rgl {
 
 }
 
+
+#pragma clang diagnostic pop
