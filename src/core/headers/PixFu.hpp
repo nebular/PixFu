@@ -8,7 +8,9 @@
 #pragma once
 
 #pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCDFAInspection"
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma ide diagnostic ignored "OCSimplifyInspection"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
@@ -255,7 +257,6 @@ namespace rgl {
 	inline Canvas2D *PixFu::canvas() { return pSurface->canvas(); }
 
 	inline Shader *PixFu::shader() { return pSurface->shader(); }
-
 
 }
 

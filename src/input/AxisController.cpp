@@ -33,8 +33,9 @@ namespace rgl {
 			  fCurrentX(0),
 			  fCurrentY(0),
 			  XMIN(xmin), XMAX(xmax), YMIN(ymin), YMAX(ymax),
-			  INVX(xinv), INVY(yinv),
-			  AUTOX(autoCenterX), AUTOY(autoCenterY) {}
+			  AUTOX(autoCenterX), AUTOY(autoCenterY),
+			  INVX(xinv), INVY(yinv)
+			  {}
 
 	AxisController::~AxisController() = default;
 

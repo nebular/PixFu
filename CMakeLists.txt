@@ -27,7 +27,7 @@ include_directories(src/core/headers)
 include_directories(src/input/headers)
 include_directories(src/items/headers)
 include_directories(src/support)
-include_directories(src/thirdparty/glm)
+include_directories(src/thirdparty)
 
 include_directories(src/arch/android/libpng/jni)
 

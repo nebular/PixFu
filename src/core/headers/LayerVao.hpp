@@ -23,7 +23,8 @@
 #include "PixFuExtension.hpp"
 #include <string>
 #include <vector>
-#include "glm.hpp"
+#include "glm/vec2.hpp"
+#include "glm/vec3.hpp"
 
 namespace rgl {
 
