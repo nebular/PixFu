@@ -11,8 +11,8 @@ namespace rgl {
 
 	GyroController *GyroController::pCurrentInstance = nullptr;
 
-	GyroController::GyroController(int xlen, int ylen, bool autoStart) : AxisController(xlen,
-																						ylen) {
+	GyroController::GyroController(int xlen, int ylen, bool autoStart)
+	: AxisController(-1,1,-1,1) {
 
 		sensorManager = AcquireASensorManagerInstance();
 		if (sensorManager == nullptr) throw std::runtime_error("No sensor manager");

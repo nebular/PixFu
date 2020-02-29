@@ -45,7 +45,7 @@ namespace rgl {
 
 		static void enable(int xlen, int ylen);
 
-		static GyroController *currentInstance();
+		static GyroController *instance();
 
 		static GyroController *pCurrentInstance;
 
@@ -53,7 +53,7 @@ namespace rgl {
 
 	inline ASensorEvent GyroController::raw() { return tCurrentEvent; }
 
-	inline GyroController *GyroController::currentInstance() { return pCurrentInstance; }
+	inline GyroController *GyroController::instance() { return pCurrentInstance; }
 
 	inline void GyroController::enable(int xlen, int ylen) {
 		pCurrentInstance = new GyroController(xlen, ylen);

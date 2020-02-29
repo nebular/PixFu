@@ -39,7 +39,9 @@ namespace rgl {
 
 	public:
 
-		olcPixFu(std::string appName, std::string shaderName);
+		olcPixFu();
+
+		olcPixFu(std::string appName, std::string shaderName="default");
 
 		HwButton_t GetMouse(int button);
 
