@@ -6,7 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include <arch/android/plugins/lonescreenkey.h>
+// #include <arch/android/plugins/lonescreenkey.h>
 
 #pragma clang diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
@@ -57,8 +57,8 @@ namespace rgl {
 
 		bool result = OnUserUpdate(fElapsedTime);
 
-		LoneScreenKey *l = rgl::LoneScreenKey::currentInstance;
-		if (l != nullptr) l->DrawSelf(canvas(), rgl::Colors::WHITE, true);
+//		LoneScreenKey *l = rgl::LoneScreenKey::currentInstance;
+//		if (l != nullptr) l->DrawSelf(canvas(), rgl::Colors::WHITE, true);
 
 		return result;
 
