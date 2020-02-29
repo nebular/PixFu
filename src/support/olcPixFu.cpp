@@ -7,6 +7,7 @@
 //
 
 #include <arch/android/plugins/lonescreenkey.h>
+
 #pragma clang diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma clang diagnostic ignored "-Wunused-parameter"
@@ -15,8 +16,6 @@
 #include "olcPixFu.hpp"
 
 namespace rgl {
-
-	olcPixFu::olcPixFu():olcPixFu("olcApp") {}
 
 	olcPixFu::olcPixFu(std::string appName, std::string shaderName)
 			: PixFu(appName, shaderName) {};
@@ -59,7 +58,7 @@ namespace rgl {
 		bool result = OnUserUpdate(fElapsedTime);
 
 		LoneScreenKey *l = rgl::LoneScreenKey::currentInstance;
-		if (l!=nullptr) l->DrawSelf(canvas(), rgl::Colors::WHITE, true);
+		if (l != nullptr) l->DrawSelf(canvas(), rgl::Colors::WHITE, true);
 
 		return result;
 

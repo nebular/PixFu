@@ -181,8 +181,6 @@ namespace rgl {
 
 	public:
 
-		Canvas2D *canvas();
-
 		const std::string APPNAME;                            // application name
 
 		PixFu(const std::string appname = "pixFuApp", const std::string shader = "default");
@@ -222,6 +220,7 @@ namespace rgl {
 		virtual bool onUserDestroy();
 
 		Shader *shader();
+		Canvas2D *canvas();
 
 		/**
 		 * Adds an extension to the engine. Added extensions are integrated into the loop
