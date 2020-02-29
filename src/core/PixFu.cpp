@@ -14,6 +14,7 @@
 #include "OpenGlUtils.h"
 
 #pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCDFAInspection"
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
