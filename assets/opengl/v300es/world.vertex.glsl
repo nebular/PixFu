@@ -29,7 +29,4 @@ void main()
 
 	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 
-//	vec4 p = projectionMatrix * viewMatrix * vec4(aPos.xyz, 1.0);
-//	gl_Position = p; // vec4(p.xyz,1);
-
 }

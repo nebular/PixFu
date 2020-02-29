@@ -1,15 +1,13 @@
-varying vec2 TexCoords;
-varying vec3 surfaceNormal;
-varying vec3 toLightVector;
-varying vec3 toCameraVector;
-
-// out vec4 color;
-
 uniform sampler2D modelTexture;
 uniform sampler2D dirtyTexture;
 uniform vec3 lightColour;
 uniform float shineDamper;
 uniform float reflectivity;
+
+varying vec2 TexCoords;
+varying vec3 surfaceNormal;
+varying vec3 toLightVector;
+varying vec3 toCameraVector;
 
 void main()
 {
