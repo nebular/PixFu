@@ -15,7 +15,7 @@
 #include "OpenGlUtils.h"
 #include "Texture2D.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	class Shader {
 

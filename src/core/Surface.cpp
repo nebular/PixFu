@@ -14,7 +14,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
 #pragma clang diagnostic ignored "-Wunused-parameter"
-namespace rgl {
+namespace Pix {
 
 	std::string Surface::TAG = "Surface";
 
@@ -40,7 +40,7 @@ namespace rgl {
 		pActiveTexture = nullptr;
 	}
 
-	bool Surface::init(PixFu *engine) {
+	bool Surface::init(Fu *engine) {
 
 		if (pActiveTexture == nullptr) return false;
 
@@ -58,7 +58,7 @@ namespace rgl {
 
 	}
 
-	void Surface::tick(PixFu *engine, float fElapsedTime) {
+	void Surface::tick(Fu *engine, float fElapsedTime) {
 
 		// only update texture if it has changed
 		if (buffer()->clearDirty()) pActiveTexture->update();

@@ -20,13 +20,13 @@
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Utils.hpp"
 #include "LayerVao.hpp"
 #include "Texture2D.hpp"
 #include "OpenGlUtils.h"
 
-namespace rgl {
+namespace Pix {
 
 	const std::string LayerVao::TAG = "LayerVao";
 

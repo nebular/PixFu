@@ -6,7 +6,7 @@
 //  Copyright © 2020 rodo. All rights reserved.
 //
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Mouse.hpp"
 #include "Utils.hpp"
 #include "Surface.hpp"
@@ -21,19 +21,19 @@
 #pragma ide diagnostic ignored "UnusedValue"
 #pragma ide diagnostic ignored "OCSimplifyInspection"
 
-namespace rgl {
+namespace Pix {
 /*-------------------------------------------------------------------*/
 
-	const std::string PixFuPlatform::TAG = "PixFuPlaf";
+	const std::string FuPlatform::TAG = "PixFuPlaf";
 
 // current platform
-	PixFuPlatform *PixFuPlatform::spCurrentInstance = nullptr;
+	FuPlatform *FuPlatform::spCurrentInstance = nullptr;
 
 // platform cwd
-	std::string PixFuPlatform::ROOTPATH;
+	std::string FuPlatform::ROOTPATH;
 
 /** Get current platform */
-	PixFuPlatform *PixFuPlatform::instance() {
+	FuPlatform *FuPlatform::instance() {
 
 		if (spCurrentInstance == nullptr)
 			throw std::runtime_error("No platform initialized.");
@@ -44,7 +44,7 @@ namespace rgl {
 
 /** static: Init the platform */
 
-	void PixFuPlatform::init(PixFuPlatform *platform) {
+	void FuPlatform::init(FuPlatform *platform) {
 
 		if (spCurrentInstance == nullptr) {
 			if (DBG) LogV(TAG, "Setting current platform");
@@ -56,16 +56,16 @@ namespace rgl {
 /*-------------------------------------------------------------------*/
 
 	const bool SURFACE = true;
-	const std::string PixFu::TAG = "PixFu";
+	const std::string Fu::TAG = "PixFu";
 
-	PixFu::PixFu(const std::string appName, const std::string shader)
+	Fu::Fu(const std::string appName, const std::string shader)
 			: SHADERNAME(std::move(shader)),
 			  pPlatform(nullptr),
 			  nScreenWidth(0),
 			  nScreenHeight(0),
 			  APPNAME(std::move(appName)) {}
 
-	PixFu::~PixFu() {
+	Fu::~Fu() {
 
 		LogV(TAG, SF("Destruct application %s", APPNAME.c_str()));
 
@@ -86,9 +86,9 @@ namespace rgl {
 
 	}
 
-	bool PixFu::removeExtension(PixFuExtension *e) {
+	bool Fu::removeExtension(FuExtension *e) {
 		int i = 0;
-		for (PixFuExtension *ex : vExtensions) {
+		for (FuExtension *ex : vExtensions) {
 			if (ex == e) {
 				vExtensions.erase(vExtensions.begin() + i);
 				return true;
@@ -98,9 +98,9 @@ namespace rgl {
 	}
 
 	/** initializes the engine */
-	bool PixFu::init(int width, int height) {
+	bool Fu::init(int width, int height) {
 
-		pPlatform = PixFuPlatform::instance();
+		pPlatform = FuPlatform::instance();
 
 		nScreenWidth = width;
 		nScreenHeight = height;
@@ -126,7 +126,7 @@ namespace rgl {
 	}
 
 	/** sunchronously run the loop */
-	void PixFu::loop() {
+	void Fu::loop() {
 
 		if (!loop_init()) {
 			if (DBG) LogE(TAG, "Error in egine init");
@@ -170,7 +170,7 @@ namespace rgl {
 	}
 
 	/** loop part: initialization */
-	bool PixFu::loop_init(bool reinit) {
+	bool Fu::loop_init(bool reinit) {
 
 
 		bLoopActive = true;
@@ -193,7 +193,7 @@ namespace rgl {
 			if (DBG) LogV(TAG, "Initing Extensions");
 
 			// initialize PixFu Extensions
-			for (PixFuExtension *extension : vExtensions)
+			for (FuExtension *extension : vExtensions)
 				if (!extension->init(this)) return false;
 
 		}
@@ -203,7 +203,7 @@ namespace rgl {
 	}
 
 	/** loop part: tick */
-	bool PixFu::loop_tick(float fElapsedTime) {
+	bool Fu::loop_tick(float fElapsedTime) {
 
 		// todo
 		std::pair<bool, bool> status = pPlatform->events();
@@ -223,7 +223,7 @@ namespace rgl {
 			bLoopActive = onUserUpdate(fElapsedTime);
 
 			// update PixFu Extensions
-			for (PixFuExtension *extension : vExtensions)
+			for (FuExtension *extension : vExtensions)
 				extension->tick(this, fElapsedTime);
 
 			// swap frames
@@ -238,7 +238,7 @@ namespace rgl {
 	}
 
 	/** loop part: reinitialize */
-	bool PixFu::loop_reinit(int newWidth, int newHeight) {
+	bool Fu::loop_reinit(int newWidth, int newHeight) {
 
 		if (DBG) LogV(TAG, SF("Loop Reinit: Screen size changed to %d,%d", newWidth, newHeight));
 		loop_deinit();
@@ -249,7 +249,7 @@ namespace rgl {
 	}
 
 	/** loop part: deinitialize */
-	void PixFu::loop_deinit() {
+	void Fu::loop_deinit() {
 
 		if (DBG) LogV(TAG, "Loop deinit");
 		bLoopActive = false;
@@ -261,17 +261,17 @@ namespace rgl {
 	}
 
 	/** user method: create */
-	bool PixFu::onUserCreate(bool restarted) {
+	bool Fu::onUserCreate(bool restarted) {
 		return true;
 	}
 
 	/** user method: update */
-	bool PixFu::onUserUpdate(float fElapsedTime) {
+	bool Fu::onUserUpdate(float fElapsedTime) {
 		return true;
 	}
 
 	/** user method: destroy */
-	bool PixFu::onUserDestroy() {
+	bool Fu::onUserDestroy() {
 		return true;
 	}
 }

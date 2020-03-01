@@ -15,7 +15,7 @@
 #include <cassert>
 #include "arch/android/androidapi.h"
 
-namespace rgl {
+namespace Pix {
 
 	class GyroController : public AxisController {
 

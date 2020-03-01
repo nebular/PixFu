@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	enum Keys {
 		NONE,

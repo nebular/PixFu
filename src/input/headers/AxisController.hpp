@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Canvas2D.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	class AxisController : public InputDevice {
 

@@ -10,22 +10,22 @@
 #include "plugins/lonescreenkey.h"
 #include "Utils.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	typedef struct sMotionEvent {
 		int PointersCount, Action, PointerId, RawAction;
 		int32_t X0, Y0, X1, Y1;
 	} MotionEvent_t;
 
-	class PixFuPlatformAndroid : public PixFuPlatform {
+	class PixFuPlatformAndroid : public FuPlatform {
 
 		LoneScreenKey *cLoneKeys;                // screenkeys helper class
 
 		MotionEvent_t tCurrentMotionEvent;
 
-		PixFu *pBootInstance;
+		Fu *pBootInstance;
 
-		bool init(PixFu *engine) override;
+		bool init(Fu *engine) override;
 
 		std::pair<bool, bool> events() override;
 
@@ -33,22 +33,22 @@ namespace rgl {
 
 		void deinit() override;
 
-		void onFps(PixFu *engine, int fps) override;
+		void onFps(Fu *engine, int fps) override;
 
 
 	public:
 
-		PixFuPlatformAndroid(PixFu *bootInstance);
+		PixFuPlatformAndroid(Fu *bootInstance);
 
 		~PixFuPlatformAndroid();
 
-		PixFu *engine();
+		Fu *engine();
 
 		void inputMotionEvent(MotionEvent_t event);
 
 	};
 
-	inline PixFu *PixFuPlatformAndroid::engine() { return pBootInstance; }
+	inline Fu *PixFuPlatformAndroid::engine() { return pBootInstance; }
 
 }
 #endif

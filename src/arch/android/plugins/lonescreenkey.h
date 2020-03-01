@@ -10,7 +10,7 @@
 
 #define NO_KEYZ -1
 
-namespace rgl {
+namespace Pix {
 
 	typedef struct sScreenKey {
 		int code;

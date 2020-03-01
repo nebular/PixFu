@@ -11,7 +11,7 @@
 #include <iostream>
 #include <cmath>
 
-namespace rgl {
+namespace Pix {
 
 	void LogV(const std::string &tag, std::string text) {
 		std::cerr << "[V:" << tag << "] " << text << std::endl;

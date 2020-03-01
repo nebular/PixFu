@@ -20,13 +20,13 @@
 #pragma ide diagnostic ignored "OCUnusedStructInspection"
 #pragma once
 
-#include "PixFuExtension.hpp"
+#include "FuExtension.hpp"
 #include <string>
 #include <vector>
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	// The Vertex contains the position, the normal and the texture cooordinates
 

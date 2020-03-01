@@ -13,7 +13,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
 #pragma clang diagnostic ignored "-Wunused-parameter"
-namespace rgl {
+namespace Pix {
 
 	///////// MOUSE SINGLETON
 	std::string Mouse::TAG = "Mouse";

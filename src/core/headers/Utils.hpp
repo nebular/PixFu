@@ -13,7 +13,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace rgl {
+namespace Pix {
 
 	// global debug info flag
 	static constexpr bool DBG = false;

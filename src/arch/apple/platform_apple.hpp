@@ -1,4 +1,4 @@
-#ifdef __APPLE__
+#ifndef __APPLE__
 //
 // Created by rodo on 2020-01-24.
 //
@@ -10,7 +10,7 @@
 #include "Utils.hpp"
 #include "OpenGL.h"
 
-namespace rgl {
+namespace Pix {
 
 	/** Platform configuration, you can pass this object when initing the platform */
 	typedef struct sAppleConfig {

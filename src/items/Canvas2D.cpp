@@ -15,14 +15,14 @@
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #pragma ide diagnostic ignored "err_ovl_no_viable_member_function_in_call"
 
-namespace rgl {
+namespace Pix {
 
 	Canvas2D::Canvas2D(Drawable *target, Font *defaultFont) : pTarget(target) {
 		pFont = defaultFont;
 	}
 
 	void
-	Canvas2D::drawString(int32_t x, int32_t y, std::string sText, rgl::Pixel col, uint32_t scale) {
+	Canvas2D::drawString(int32_t x, int32_t y, std::string sText, Pix::Pixel col, uint32_t scale) {
 		if (pFont != nullptr)
 			pFont->drawString(pTarget, x, y, sText, col, scale);
 	}
@@ -374,7 +374,7 @@ namespace rgl {
 
 	void
 	Canvas2D::drawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates,
-								 float x, float y, float r, float s, std::vector<rgl::Pixel> col) {
+								 float x, float y, float r, float s, std::vector<Pix::Pixel> col) {
 		// pair.first = x coordinate
 		// pair.second = y coordinate
 
@@ -409,7 +409,7 @@ namespace rgl {
 		}
 	}
 
-	void Canvas2D::drawSprite(int32_t x, int32_t y, rgl::Drawable *sprite, uint32_t sampleWidth) {
+	void Canvas2D::drawSprite(int32_t x, int32_t y, Pix::Drawable *sprite, uint32_t sampleWidth) {
 		if (sprite == nullptr) return;
 
 		if (sampleWidth != 0) {

@@ -15,7 +15,7 @@
 #include <iostream>
 #include <streambuf>
 
-namespace rgl {
+namespace Pix {
 
 	constexpr unsigned NO_TEXTURE = (unsigned)-1;
 
@@ -41,7 +41,7 @@ namespace rgl {
 
 		static GLuint getGlTexture(GLuint glChannel);
 
-		static GLuint loadTexture(rgl::Drawable *img, GLuint texId = NO_TEXTURE, bool repeat = false);
+		static GLuint loadTexture(Pix::Drawable *img, GLuint texId = NO_TEXTURE, bool repeat = false);
 	};
 
 }

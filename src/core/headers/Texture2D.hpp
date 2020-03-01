@@ -13,7 +13,7 @@
 #include "OpenGL.h"
 #include "Drawable.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	class Drawable;
 

@@ -4,7 +4,7 @@
 // Created by rodo on 2020-01-24.
 //
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
 #include "platform_android.hpp"
@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-namespace rgl {
+namespace Pix {
 
 	void LogV(const std::string &tag, std::string text) {
 		ALOGV("[V:%s] %s", tag.c_str(), text.c_str());
@@ -33,7 +33,7 @@ namespace rgl {
 	static constexpr int ACTION_POINTER_DOWN = 5;
 	static constexpr int ACTION_POINTER_UP = 6;
 
-	PixFuPlatformAndroid::PixFuPlatformAndroid(PixFu *bootInstance) {
+	PixFuPlatformAndroid::PixFuPlatformAndroid(Fu *bootInstance) {
 		OpenGlUtils::VERSION = "v300es";
 		pBootInstance = bootInstance;
 	}
@@ -42,7 +42,7 @@ namespace rgl {
 		deinit();
 	}
 
-	bool PixFuPlatformAndroid::init(PixFu *engine) {
+	bool PixFuPlatformAndroid::init(Fu *engine) {
 
 		Mouse::enable();
 		Keyboard::enable();
@@ -71,7 +71,7 @@ namespace rgl {
 		// something will come here for sure
 	}
 
-	void PixFuPlatformAndroid::onFps(PixFu *engine, int fps) {
+	void PixFuPlatformAndroid::onFps(Fu *engine, int fps) {
 		std::string sTitle = "PixFu - FPS: " + std::to_string(fps);
 	}
 
@@ -83,7 +83,7 @@ namespace rgl {
 
 	}
 
-	void PixFu::start() {
+	void Fu::start() {
 		// this platform does not run a loop
 	}
 

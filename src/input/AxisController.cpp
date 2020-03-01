@@ -13,7 +13,7 @@
 #include <cmath>
 
 
-namespace rgl {
+namespace Pix {
 
 	GenericAxisController *GenericAxisController::pInstance = nullptr;
 

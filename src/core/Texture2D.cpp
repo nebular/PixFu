@@ -9,7 +9,7 @@
 #include "Texture2D.hpp"
 #include "OpenGlUtils.h"
 
-namespace rgl {
+namespace Pix {
 
 	Texture2D::Texture2D(Drawable *buffer) : pBuffer(buffer) {}
 

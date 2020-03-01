@@ -39,7 +39,7 @@ add_library(pixFu SHARED
         src/core/Drawable.cpp
         src/core/LayerVao.cpp
         src/core/OpenGlUtils.cpp
-        src/core/PixFu.cpp
+        src/core/Fu.cpp
         src/core/Surface.cpp
         src/core/Texture2D.cpp
 
@@ -50,7 +50,7 @@ add_library(pixFu SHARED
         src/items/Canvas2D.cpp
         src/items/Font.cpp
 
-        src/support/olcPixFu.cpp
+        src/support/FuOLC.cpp
 
         src/arch/android/platform_android.cpp
         src/arch/android/plugins/lonescreenkey.cpp

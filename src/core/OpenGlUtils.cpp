@@ -8,20 +8,20 @@
 //
 
 #include "OpenGlUtils.h"
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Utils.hpp"
 
 #include <fstream>
 #include <iostream>
 
 // Convenience methods
-namespace rgl {
+namespace Pix {
 
 	std::string OpenGlUtils::TAG = "OpenGLUtils";
 	std::string OpenGlUtils::VERSION = "v330core";
 
 	std::string OpenGlUtils::loadShaderFile(const std::string &sFile) {
-		std::string sFilename = rgl::PixFuPlatform::getPath("/opengl/" + VERSION + "/" + sFile);
+		std::string sFilename = Pix::FuPlatform::getPath("/opengl/" + VERSION + "/" + sFile);
 
 		std::ifstream file(sFilename, std::ios::in | std::ios::binary);
 		std::ifstream file2(sFilename, std::ios::in | std::ios::binary);
@@ -53,7 +53,7 @@ namespace rgl {
 			char *message = (char *) alloca(length * sizeof(char));
 			glGetShaderInfoLog(shader, length, &length, message);
 
-			rgl::LogE(TAG, rgl::SF("Shader Failed to Compile: %s", message));
+			Pix::LogE(TAG, Pix::SF("Shader Failed to Compile: %s", message));
 			exit(1);
 		}
 
@@ -94,13 +94,13 @@ namespace rgl {
 		GLenum err = 0;
 
 		while ((err = glGetError())) {
-			rgl::LogV(TAG, rgl::SF("OpenGL %s, error %d", tag.c_str(), err));
+			Pix::LogV(TAG, Pix::SF("OpenGL %s, error %d", tag.c_str(), err));
 		}
 	}
 
 	GLuint OpenGlUtils::getGlTexture(uint glChannel) { return GL_TEXTURE0 + glChannel - 1; }
 
-	GLuint OpenGlUtils::loadTexture(rgl::Drawable *img, GLuint texId, bool repeat) {
+	GLuint OpenGlUtils::loadTexture(Pix::Drawable *img, GLuint texId, bool repeat) {
 
 		if (img == nullptr) return NO_TEXTURE;
 

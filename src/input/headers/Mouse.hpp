@@ -11,10 +11,10 @@
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #pragma once
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Utils.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	class Mouse : public InputDevice {
 

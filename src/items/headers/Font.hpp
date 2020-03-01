@@ -10,7 +10,7 @@
 #define Font_hpp
 #include "Drawable.hpp"
 
-namespace rgl {
+namespace Pix {
 	class Font {
 
 		Drawable *pFontSprite;

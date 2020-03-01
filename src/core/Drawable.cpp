@@ -12,14 +12,14 @@
 #include "png.h"
 
 #include "Drawable.hpp"
-#include "PixFu.hpp"
+#include "Fu.hpp"
 
 #pragma clang diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "readability-magic-numbers"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
-namespace rgl {
+namespace Pix {
 
 	std::string Drawable::TAG = "Drawable";
 
@@ -42,7 +42,7 @@ namespace rgl {
 
 
 	Drawable::Drawable(int x, int y) : width(x), height(y) {
-		pData = new rgl::Pixel[x * y];
+		pData = new Pix::Pixel[x * y];
 		if (DBG) LogV(TAG, SF("New Drawable %dx%d (%dkb)", width, height, width * height / 1000));
 	}
 
@@ -64,7 +64,7 @@ namespace rgl {
 		png_structp png;
 		png_infop info;
 
-		sImageFile = PixFuPlatform::getPath(sImageFile);
+		sImageFile = FuPlatform::getPath(sImageFile);
 
 		FILE *f = fopen(sImageFile.c_str(), "rb");
 		if (!f) return nullptr;
@@ -116,7 +116,7 @@ namespace rgl {
 			png_bytep row = row_pointers[y];
 			for (int x = 0; x < width; x++) {
 				png_bytep px = &(row[x * 4]);
-				d->setPixel(x, y, rgl::Pixel(px[0], px[1], px[2], px[3]));
+				d->setPixel(x, y, Pix::Pixel(px[0], px[1], px[2], px[3]));
 			}
 		}
 

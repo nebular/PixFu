@@ -1,5 +1,5 @@
 //
-//  olcPixFu.hpp
+//  FuOLC.hpp
 //  PixEngine
 //
 //  This is a base engine that emulates OneLoneCoder PGE interface
@@ -17,19 +17,19 @@
 #ifndef olcPixFu_hpp
 #define olcPixFu_hpp
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Canvas2D.hpp"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	typedef struct HwButton {
 		bool bPressed, bHeld, bReleased;
 	} HwButton_t;
 
 
-	class olcPixFu : public PixFu {
+	class FuOLC : public Fu {
 
 		bool bRestarted = false;
 
@@ -39,7 +39,7 @@ namespace rgl {
 
 	public:
 
-		olcPixFu(std::string appName="olcPixFuApp", std::string shaderName="default");
+		FuOLC(std::string appName="olcPixFuApp", std::string shaderName="default");
 
 		HwButton_t GetMouse(int button);
 
@@ -61,36 +61,36 @@ namespace rgl {
 
 		virtual bool OnUserCreate() = 0;
 
-		void Clear(rgl::Pixel color = rgl::Pixel(0, 0, 0, 0));
+		void Clear(Pix::Pixel color = Pix::Pixel(0, 0, 0, 0));
 
-		void DrawString(int32_t x, int32_t y, std::string sText, rgl::Pixel col,
+		void DrawString(int32_t x, int32_t y, std::string sText, Pix::Pixel col,
 						uint32_t scale = 1);
 
-		void Draw(uint32_t x, uint32_t y, rgl::Pixel color);
+		void Draw(uint32_t x, uint32_t y, Pix::Pixel color);
 
 		void
 		DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x,
-						   float y, float r, float s, std::vector<rgl::Pixel> col);
+						   float y, float r, float s, std::vector<Pix::Pixel> col);
 
-		void DrawLine(int32_t x1, int32_t y1, int32_t x2, int32_t y2, rgl::Pixel p,
+		void DrawLine(int32_t x1, int32_t y1, int32_t x2, int32_t y2, Pix::Pixel p,
 					  uint32_t pattern = 0xFFFFFFFF);
 
 
-		void DrawCircle(int32_t x, int32_t y, int32_t radius, rgl::Pixel p, uint8_t mask = 0xff);
+		void DrawCircle(int32_t x, int32_t y, int32_t radius, Pix::Pixel p, uint8_t mask = 0xff);
 
-		void FillCircle(int32_t x, int32_t y, int32_t radius, rgl::Pixel p);
+		void FillCircle(int32_t x, int32_t y, int32_t radius, Pix::Pixel p);
 
-		void DrawRect(int32_t x, int32_t y, int32_t w, int32_t h, rgl::Pixel p);
+		void DrawRect(int32_t x, int32_t y, int32_t w, int32_t h, Pix::Pixel p);
 
-		void FillRect(int32_t x, int32_t y, int32_t w, int32_t h, rgl::Pixel p);
+		void FillRect(int32_t x, int32_t y, int32_t w, int32_t h, Pix::Pixel p);
 
 		void DrawTriangle(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3,
-						  rgl::Pixel p);
+						  Pix::Pixel p);
 
 		void FillTriangle(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3,
-						  rgl::Pixel p);
+						  Pix::Pixel p);
 
-		void DrawSprite(int32_t x, int32_t y, rgl::Drawable *sprite, uint32_t sampleWidth = 1);
+		void DrawSprite(int32_t x, int32_t y, Pix::Drawable *sprite, uint32_t sampleWidth = 1);
 
 	};
 

@@ -15,7 +15,7 @@
 
 #include <string>
 
-namespace rgl {
+namespace Pix {
 
 	struct Pixel {
 
@@ -163,7 +163,7 @@ namespace rgl {
 
 	inline Pixel *Drawable::getData() { return pData; }
 
-	inline void Drawable::setPixel(int x, int y, rgl::Pixel pix) {
+	inline void Drawable::setPixel(int x, int y, Pix::Pixel pix) {
 		dirty = true;
 		if (x < width && y < height && x >= 0 && y >= 0)
 			pData[y * width + x] = pix;

@@ -15,10 +15,10 @@
 #pragma once
 
 #include "Shader.hpp"
-#include "PixFuExtension.hpp"
+#include "FuExtension.hpp"
 #include "LayerVao.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	class Canvas2D;
 
@@ -26,7 +26,7 @@ namespace rgl {
 
 	class Texture2D;
 
-	class Surface : public PixFuExtension, public LayerVao {
+	class Surface : public FuExtension, public LayerVao {
 
 		static std::string TAG;
 
@@ -64,9 +64,9 @@ namespace rgl {
 
 		virtual ~Surface();
 
-		virtual bool init(PixFu *engine) override;
+		virtual bool init(Fu *engine) override;
 
-		virtual void tick(PixFu *engine, float fElapsedTime) override;
+		virtual void tick(Fu *engine, float fElapsedTime) override;
 
 		// get the backing memory buffer
 		Drawable *buffer();

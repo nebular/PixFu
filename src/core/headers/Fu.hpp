@@ -16,15 +16,15 @@
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
 #include "Utils.hpp"
-#include "PixFuExtension.hpp"
+#include "FuExtension.hpp"
 #include "Surface.hpp"
 
 #include <string>
 #include <vector>
 
-namespace rgl {
+namespace Pix {
 
-	class PixFu;
+	class Fu;
 	class Canvas2D;
 	class Shader;
 
@@ -32,10 +32,10 @@ namespace rgl {
 	 * The platform-dependent part of PixEngine
 	 */
 
-	class PixFuPlatform {
+	class FuPlatform {
 
 		static const std::string TAG;
-		static PixFuPlatform *spCurrentInstance;
+		static FuPlatform *spCurrentInstance;
 
 	protected:
 
@@ -44,12 +44,12 @@ namespace rgl {
 
 	public:
 
-		virtual ~PixFuPlatform();
+		virtual ~FuPlatform();
 
 		/**
 		 * Initializes the platform window to run the provided engine
 		 */
-		virtual bool init(rgl::PixFu *engine) = 0;
+		virtual bool init(Pix::Fu *engine) = 0;
 
 		/**
 		 * Process any platform events, and return if the loop should be running and if the
@@ -73,15 +73,15 @@ namespace rgl {
 		 * or in this case to handle window resizes. 
 		 */
 
-		virtual void onFps(PixFu *engine, int fps);
+		virtual void onFps(Fu *engine, int fps);
 
 		/* ------------ Static Platform Functions */
 
 		/** Initializes the platform */
-		static void init(PixFuPlatform *platform);
+		static void init(FuPlatform *platform);
 
 		/** Gets platform instance */
-		static PixFuPlatform *instance();
+		static FuPlatform *instance();
 
 		/** Get file path */
 		static std::string getPath(std::string relpath);
@@ -91,18 +91,18 @@ namespace rgl {
 
 	};
 
-	inline PixFuPlatform::~PixFuPlatform() {}
+	inline FuPlatform::~FuPlatform() {}
 
-	inline std::string PixFuPlatform::getPath(std::string relpath) {
+	inline std::string FuPlatform::getPath(std::string relpath) {
 		return ROOTPATH + relpath;
 	}
 
-	inline void PixFuPlatform::setPath(std::string abspath) {
+	inline void FuPlatform::setPath(std::string abspath) {
 		if (DBG) LogV(TAG, SF("Local Path Root is %s", abspath.c_str()));
 		ROOTPATH = abspath;
 	}
 
-	inline void PixFuPlatform::onFps(PixFu *engine, int fps) {}
+	inline void FuPlatform::onFps(Fu *engine, int fps) {}
 
 /*-------------------------------------------------------------------*/
 
@@ -125,7 +125,7 @@ namespace rgl {
 
 /*-------------------------------------------------------------------*/
 
-	class PixFu {
+	class Fu {
 
 		static const std::string TAG;
 
@@ -139,10 +139,10 @@ namespace rgl {
 
 		const std::string SHADERNAME;                       // shader filename
 
-		PixFuPlatform *pPlatform = nullptr;                 // platform layer
+		FuPlatform *pPlatform = nullptr;                 // platform layer
 
 		Surface *pSurface = nullptr;                        // primary surface
-		std::vector<PixFuExtension *> vExtensions;          // extensions
+		std::vector<FuExtension *> vExtensions;          // extensions
 		std::vector<InputDevice *> vInputDevices;           // input devices
 
 		bool bLoopActive = false;                           // whether loop is active
@@ -185,9 +185,9 @@ namespace rgl {
 
 		const std::string APPNAME;                            // application name
 
-		PixFu(const std::string appname = "pixFuApp", const std::string shader = "default");
+		Fu(const std::string appname = "pixFuApp", const std::string shader = "default");
 
-		virtual ~PixFu();
+		virtual ~Fu();
 
 		/**
 		 * Initializes the engine
@@ -229,9 +229,9 @@ namespace rgl {
 		 * and can paint in OpenGL.
 		 * @param extension The instantiated extension to add
 		 */
-		void addExtension(PixFuExtension *extension);
+		void addExtension(FuExtension *extension);
 
-		bool removeExtension(PixFuExtension *extension);
+		bool removeExtension(FuExtension *extension);
 
 		/**
 		 * Adds an input device
@@ -242,21 +242,21 @@ namespace rgl {
 
 	};
 
-	inline int PixFu::screenWidth() { return nScreenWidth; }
+	inline int Fu::screenWidth() { return nScreenWidth; }
 
-	inline int PixFu::screenHeight() { return nScreenHeight; }
+	inline int Fu::screenHeight() { return nScreenHeight; }
 
-	inline void PixFu::addExtension(PixFuExtension *e) { vExtensions.push_back(e); }
+	inline void Fu::addExtension(FuExtension *e) { vExtensions.push_back(e); }
 
-	inline void PixFu::addInputDevice(InputDevice *inputDevice) {
+	inline void Fu::addInputDevice(InputDevice *inputDevice) {
 		vInputDevices.push_back(inputDevice);
 	}
 
-	inline Drawable *PixFu::buffer() { return pSurface->buffer(); }
+	inline Drawable *Fu::buffer() { return pSurface->buffer(); }
 
-	inline Canvas2D *PixFu::canvas() { return pSurface->canvas(); }
+	inline Canvas2D *Fu::canvas() { return pSurface->canvas(); }
 
-	inline Shader *PixFu::shader() { return pSurface->shader(); }
+	inline Shader *Fu::shader() { return pSurface->shader(); }
 
 }
 

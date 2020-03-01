@@ -11,7 +11,7 @@
 #include "Drawable.hpp"
 #include "Font.hpp"
 
-namespace rgl {
+namespace Pix {
 
 class Canvas2D {
 	
@@ -28,12 +28,12 @@ public:
 	
 	void blank();
 	
-	void drawString(int32_t x, int32_t y, std::string sText, rgl::Pixel col,
+	void drawString(int32_t x, int32_t y, std::string sText, Pix::Pixel col,
 					uint32_t scale = 1);
 	
 	void
 	drawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x,
-					   float y, float r, float s, std::vector<rgl::Pixel> col);
+					   float y, float r, float s, std::vector<Pix::Pixel> col);
 	
 	void drawLine(int32_t x1, int32_t y1, int32_t x2, int32_t y2, Pixel p,
 				  uint32_t pattern = 0xFFFFFFFF);
@@ -52,7 +52,7 @@ public:
 	void fillTriangle(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3,
 					  Pixel p);
 	
-	void drawSprite(int32_t x, int32_t y, rgl::Drawable *drawable, uint32_t sampleWidth=0);
+	void drawSprite(int32_t x, int32_t y, Pix::Drawable *drawable, uint32_t sampleWidth=0);
 
 	int width();
 	

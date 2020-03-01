@@ -5,7 +5,7 @@
 #include "GyroController.hpp"
 
 
-namespace rgl {
+namespace Pix {
 
 	const int LOOPER_ID_USER = 3;
 

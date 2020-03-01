@@ -4,12 +4,12 @@
 
 #include "lib/pixFu_launcher/Launcher.h"
 #include "lonescreenkey.h"
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Keyboard.hpp"
 #include "Canvas2D.hpp"
 #include "Mouse.hpp"
 
-namespace rgl {
+namespace Pix {
 
 	LoneScreenKey *LoneScreenKey::currentInstance = nullptr;
 
@@ -34,10 +34,10 @@ namespace rgl {
 
 // convenience to add 4 arrow keys
 	void LoneScreenKey::addCursors(int PX, int PY) {
-		add({rgl::Keys::UP, PX, PY + 0, 100, 50});
-		add({rgl::Keys::LEFT, PX, PY + 50, 50, 50});
-		add({rgl::Keys::RIGHT, PX + 50, PY + 50, 50, 50});
-		add({rgl::Keys::DOWN, PX, PY + 100, 100, 50});
+		add({Pix::Keys::UP, PX, PY + 0, 100, 50});
+		add({Pix::Keys::LEFT, PX, PY + 50, 50, 50});
+		add({Pix::Keys::RIGHT, PX + 50, PY + 50, 50, 50});
+		add({Pix::Keys::DOWN, PX, PY + 100, 100, 50});
 
 	}
 
@@ -52,13 +52,13 @@ namespace rgl {
 		vKeys.clear();
 	}
 
-	void LoneScreenKey::DrawSelf(rgl::Canvas2D *canvas, Pixel color, bool mouse) {
+	void LoneScreenKey::DrawSelf(Pix::Canvas2D *canvas, Pixel color, bool mouse) {
 
 		if (mouse)
 			canvas->drawCircle(Mouse::x(), Mouse::y(), 40.0, Colors::RED);
 
 		for (ScreenKey_t key : vKeys) {
-			if (((!key.mouse && Keyboard::instance()->isHeld(static_cast<rgl::Keys>(key.code)))
+			if (((!key.mouse && Keyboard::instance()->isHeld(static_cast<Pix::Keys>(key.code)))
 				 || (key.mouse && aMyMouseStats[key.code])))
 				canvas->fillRect(key.x0, key.y0, key.w, key.h, color);
 			else

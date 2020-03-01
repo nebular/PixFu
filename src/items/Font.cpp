@@ -15,7 +15,7 @@
 #include "Font.hpp"
 
 
-namespace rgl {
+namespace Pix {
 
 	Font::Font(std::string filename, int w, int h) {
 		pFontSprite = Drawable::fromFile(std::move(filename));
@@ -30,7 +30,7 @@ namespace rgl {
 
 
 	void Font::drawString(Drawable *target, int32_t x, int32_t y, const std::string &sText,
-						  rgl::Pixel col,
+						  Pix::Pixel col,
 						  uint32_t scale) {
 		int sx = 0;
 		int sy = 0;
@@ -46,7 +46,7 @@ namespace rgl {
 				if (scale > 1) {
 					for (uint32_t i = 0; i < nWidth; i++)
 						for (uint32_t j = 0; j < nHeight; j++) {
-							rgl::Pixel pix = pFontSprite->getPixel(i + ox * nWidth,
+							Pix::Pixel pix = pFontSprite->getPixel(i + ox * nWidth,
 																   j + oy * nHeight);
 							if (pix.a != 0) {
 								for (uint32_t is = 0; is < scale; is++)
