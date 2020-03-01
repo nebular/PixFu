@@ -30,7 +30,7 @@ namespace rgl {
 
 		if (DBG) LogV(TAG, SF("Creating, %dx%d, shader %s", width, height, shaderName.c_str()));
 		pActiveTexture = new Texture2D(width, height);
-
+		pCanvas = new Canvas2D(pActiveTexture->buffer(), new Font());
 	}
 
 	Surface::~Surface() {
@@ -54,7 +54,6 @@ namespace rgl {
 		pShader->setVec2("iResolution", nWidth, nHeight);
 		pShader->stop();
 
-		pCanvas = new Canvas2D(pActiveTexture->buffer(), new Font());
 		return true;
 
 	}
