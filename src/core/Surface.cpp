@@ -21,11 +21,12 @@ namespace rgl {
 	constexpr float Surface::VERTICES[32];
 	constexpr unsigned int Surface::INDICES[6];
 
-	Surface::Surface(int width, int height, const std::string &shaderName, const std::string &samplerName)
+	Surface::Surface(int width, int height, const std::string &shaderName, const std::string &samplerName, bool blend)
 			: nWidth(width),
 			  nHeight(height),
 			  pShader(new Shader(shaderName)),
-			  sSamplerName(samplerName) {
+			  sSamplerName(samplerName),
+			  bBlend(blend){
 
 		if (DBG) LogV(TAG, SF("Creating, %dx%d, shader %s", width, height, shaderName.c_str()));
 		pActiveTexture = new Texture2D(width, height);
@@ -65,12 +66,18 @@ namespace rgl {
 
 		pShader->use();
 
-		// blend the surface with back layers
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		if (bBlend) {
+			// blend the surface with back layers
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		}
+		
 		draw();
-		glDisable(GL_BLEND);
-
+		
+		if (bBlend) {
+			glDisable(GL_BLEND);
+		}
+		
 		pShader->stop();
 
 	}

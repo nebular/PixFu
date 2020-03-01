@@ -46,6 +46,7 @@ namespace rgl {
 
 	private:
 		const int nWidth, nHeight;       // texture size
+		const bool bBlend;				 // whether to blend (if not topmost texture)
 
 		Shader *pShader;
 		Canvas2D *pCanvas;
@@ -58,7 +59,8 @@ namespace rgl {
 		Surface(int width,
 				int height,
 				const std::string &shaderName = "default",
-				const std::string &samplerName = "glbuffer");
+				const std::string &samplerName = "glbuffer",
+				bool blend = false);
 
 		virtual ~Surface();
 

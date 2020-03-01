@@ -176,13 +176,17 @@ namespace rgl {
 		bLoopActive = true;
 
 		// Create user resources as part of this thread
-		if (!onUserCreate(reinit))
-			return false;
+//		if (!onUserCreate(reinit))
+//			return false;
 
 		if (SURFACE) {
-			pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer");
+			pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer", vExtensions.size()!=0);
 			addExtension(pSurface);
 		}
+
+		// Create user resources as part of this thread
+		if (!onUserCreate(reinit))
+			return false;
 
 		if (DBG) LogV(TAG, SF("Calling userCreate, reinit %d", reinit));
 		if (!reinit) {
