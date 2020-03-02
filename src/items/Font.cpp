@@ -19,8 +19,10 @@
 
 namespace Pix {
 
-	Font::Font(std::string filename, int w, int h) {
-		pFontSprite = Drawable::fromFile(std::move(filename));
+	Font::Font(std::string fontName, int w, int h) {
+		fontName = "fonts/"+fontName+".png";
+		pFontSprite = Drawable::fromFile(fontName);
+		if (pFontSprite == nullptr) throw new std::runtime_error("Font "+fontName+" not found.");
 		nWidth = w;
 		nHeight = h;
 	}
@@ -30,7 +32,7 @@ namespace Pix {
 		pFontSprite = nullptr;
 	}
 
-
+	// code from onelonecoder.com
 	void Font::drawString(Drawable *target, int32_t x, int32_t y, const std::string &sText,
 						  Pix::Pixel col,
 						  uint32_t scale) {
