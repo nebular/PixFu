@@ -2,6 +2,8 @@
 //  Font.cpp
 //  LoneKart
 //
+//  Font routines Copyright 2018 - 2019 OneLoneCoder.com
+//
 //  Created by rodo on 17/01/2020.
 //  Copyright © 2020 rodo. All rights reserved.
 
