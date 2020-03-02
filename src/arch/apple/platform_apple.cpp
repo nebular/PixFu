@@ -4,7 +4,7 @@
 // Created by rodo on 2020-01-24.
 //
 
-#include "PixFu.hpp"
+#include "Fu.hpp"
 #include "Mouse.hpp"
 #include "Keyboard.hpp"
 #include "platform_apple.hpp"
@@ -27,7 +27,7 @@ namespace Pix {
 
 	PixFuPlatformApple::PixFuPlatformApple(AppleConfig_t config) : mConfiguration(config) {}
 
-	bool PixFuPlatformApple::init(PixFu *engine) {
+	bool PixFuPlatformApple::init(Fu *engine) {
 
 		try {
 			init_application();
@@ -76,7 +76,7 @@ namespace Pix {
 		close_application();
 	}
 
-	void PixFuPlatformApple::onFps(PixFu *engine, int fps) {
+	void PixFuPlatformApple::onFps(Fu *engine, int fps) {
 
 		std::string sTitle = engine->APPNAME + " - FPS: " + std::to_string(fps);
 		set_window_name(sTitle.c_str());
@@ -130,7 +130,7 @@ namespace Pix {
 
 	}
 
-	void PixFu::start() {
+	void Fu::start() {
 		loop();
 	}
 
