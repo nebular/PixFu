@@ -20,9 +20,9 @@
 namespace Pix {
 
 	Font::Font(std::string fontName, int w, int h) {
-		fontName = "fonts/"+fontName+".png";
+		fontName = "fonts/" + fontName + ".png";
 		pFontSprite = Drawable::fromFile(fontName);
-		if (pFontSprite == nullptr) throw new std::runtime_error("Font "+fontName+" not found.");
+		if (pFontSprite == nullptr) throw new std::runtime_error("Font " + fontName + " not found.");
 		nWidth = w;
 		nHeight = h;
 	}

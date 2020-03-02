@@ -26,7 +26,7 @@ namespace Pix {
 			  nHeight(height),
 			  pShader(new Shader(shaderName)),
 			  sSamplerName(samplerName),
-			  bBlend(blend){
+			  bBlend(blend) {
 
 		if (DBG) LogV(TAG, SF("Creating, %dx%d, shader %s", width, height, shaderName.c_str()));
 		pActiveTexture = new Texture2D(width, height);
@@ -70,13 +70,13 @@ namespace Pix {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		}
-		
+
 		draw();
-		
+
 		if (bBlend) {
 			glDisable(GL_BLEND);
 		}
-		
+
 		pShader->stop();
 
 	}

@@ -73,19 +73,19 @@ namespace Pix {
 	}
 
 	void FuOLC::DrawString(int32_t x, int32_t y, std::string sText, Pix::Pixel col,
-							  uint32_t scale) {
+						   uint32_t scale) {
 		canvas()->drawString(x, y, sText, col, scale);
 	}
 
 	void
 	FuOLC::DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates,
-								 float x,
-								 float y, float r, float s, std::vector<Pix::Pixel> col) {
+							  float x,
+							  float y, float r, float s, std::vector<Pix::Pixel> col) {
 		canvas()->drawWireFrameModel(vecModelCoordinates, x, y, r, s, col);
 	}
 
 	void FuOLC::DrawLine(int32_t x1, int32_t y1, int32_t x2, int32_t y2, Pix::Pixel p,
-							uint32_t pattern) {
+						 uint32_t pattern) {
 		canvas()->drawLine(x1, y1, x2, y2, p, pattern);
 	}
 
@@ -109,13 +109,13 @@ namespace Pix {
 
 	void
 	FuOLC::DrawTriangle(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3,
-						   Pix::Pixel p) {
+						Pix::Pixel p) {
 		canvas()->drawTriangle(x1, y1, x2, y2, x3, y3, p);
 	}
 
 	void
 	FuOLC::FillTriangle(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t x3, int32_t y3,
-						   Pix::Pixel p) {
+						Pix::Pixel p) {
 		canvas()->fillTriangle(x1, y1, x2, y2, x3, y3, p);
 	}
 

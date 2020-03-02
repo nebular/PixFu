@@ -39,7 +39,7 @@ namespace Pix {
 
 	public:
 
-		FuOLC(std::string appName="olcPixFuApp", std::string shaderName="default");
+		FuOLC(std::string appName = "olcPixFuApp", std::string shaderName = "default");
 
 		HwButton_t GetMouse(int button);
 
