@@ -1,14 +1,15 @@
-#ifndef __APPLE__
+#ifdef __APPLE__
+
 //
 // Created by rodo on 2020-01-24.
 //
 
-#ifndef GLES3JNI_APPLE_H
-#define GLES3JNI_APPLE_H
+#pragma once
 
 #include "cocoawindowing.h"
 #include "Utils.hpp"
 #include "OpenGL.h"
+#include "Fu.hpp"
 
 namespace Pix {
 
@@ -18,7 +19,7 @@ namespace Pix {
 		bool recreateToResized = false;
 	} AppleConfig_t;
 
-	class PixFuPlatformApple : public PixFuPlatform {
+	class PixFuPlatformApple : public FuPlatform {
 
 		static constexpr unsigned APPLE_NUM_KEYS = 72;
 		
@@ -40,7 +41,7 @@ namespace Pix {
 		/**
 		 * Initializes the platform window to run the provided engine
 		 */
-		bool init(PixFu *engine);
+		bool init(Fu *engine);
 
 		/**
 		 * Process any platform events, and return if the loop should be running and if the
@@ -63,7 +64,7 @@ namespace Pix {
 		 * Called periodically (but not every frame) can be used to show stats,
 		 * or in this case to peek window size to detect user resizes
 		 */
-		void onFps(PixFu *engine, int fps);
+		void onFps(Fu *engine, int fps);
 
 		/**
 		 * Gets CWD for user files
@@ -73,4 +74,3 @@ namespace Pix {
 	};
 }
 #endif //GLES3JNI_APPLE_H
-#endif
