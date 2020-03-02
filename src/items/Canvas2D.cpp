@@ -2,8 +2,12 @@
 //  Geometry2D.cpp
 //  PixFu
 //
-//  Created by rodo on 11/02/2020.
-//  Copyright © 2020 rodo. All rights reserved.
+//  A class that can draw geometric shapes, colors and text to a Drawable. The engine class
+//  creates one, that you can access by engine->canvas().  The world extension also creates
+//  one that you can use to draw on the 3D world. Or you can create them yourself to draw to
+//  a buffer.
+//
+//  All routines Copyright 2018 - 2019 OneLoneCoder.com
 //
 
 #include "Canvas2D.hpp"

@@ -180,7 +180,7 @@ namespace Pix {
 //			return false;
 
 		if (SURFACE) {
-			pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer", vExtensions.size()!=0);
+			pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer", vExtensions.size() != 0);
 			addExtension(pSurface);
 		}
 
