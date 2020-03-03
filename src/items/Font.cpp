@@ -30,7 +30,7 @@ namespace Pix {
 		pFontSprite = nullptr;
 	}
 
-	// code from onelonecoder.com
+	// code from onelonecoder.com, tweaked for multicolor and color maps
 	void Font::drawString(Drawable *target, int32_t x, int32_t y, const std::string &sText,
 						  Pix::Pixel col,
 						  uint32_t scale) {
@@ -38,15 +38,23 @@ namespace Pix {
 		int sy = 0;
 
 		for (auto c : sText) {
+
 			if (c == '\n') {
 				sx = 0;
 				sy += INFO.charHeight * scale;
 			} else {
+
 				const int glyphsPerWidth = pFontSprite->width/INFO.charWidth;
 
-				int32_t ox = (c - INFO.firstChar) % glyphsPerWidth;
-				int32_t oy = (c - INFO.firstChar) / glyphsPerWidth;
+				bool isZero = col.r==0 && col.g==0 && col.b==0;
+				int code = c;
 
+				if (INFO.multiColor && isZero && col.a < INFO.colorVersions)
+					code+=(col.a-1)*INFO.totalChars;
+				
+				int32_t ox = (code - INFO.firstChar) % glyphsPerWidth;
+				int32_t oy = (code - INFO.firstChar) / glyphsPerWidth;
+					
 				if (scale > 1) {
 					for (uint32_t i = 0; i < INFO.charWidth; i++)
 						for (uint32_t j = 0; j < INFO.charHeight; j++) {
@@ -57,7 +65,7 @@ namespace Pix {
 									for (uint32_t js = 0; js < scale; js++)
 										target->setPixel(x + sx + (i * scale) + is,
 														 y + sy + (j * scale) + js,
-														 pix.r + pix.b + pix.g == 0 ? pix : col);
+														 INFO.multiColor ? pix : ( isZero ? col : pix));
 							}
 						}
 				} else {
@@ -66,7 +74,7 @@ namespace Pix {
 							Pixel pix = pFontSprite->getPixel(i + ox * INFO.charWidth, j + oy * INFO.charHeight);
 							if (pix.a != 0) {
 								target->setPixel(x + sx + i, y + sy + j,
-												 pix.r + pix.b + pix.g == 0 ? pix : col);
+												 INFO.multiColor ? pix : (isZero ? col : pix));
 							}
 						}
 				}
