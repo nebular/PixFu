@@ -17,8 +17,8 @@
 
 namespace Pix {
 
-	FuOLC::FuOLC(std::string appName, std::string shaderName)
-			: Fu(appName, shaderName) {};
+	FuOLC::FuOLC(std::string appName, FuConfig_t configuration)
+			: Fu(appName, configuration) {};
 
 	HwButton_t FuOLC::GetMouse(int button) {
 		Mouse *m = Mouse::instance();

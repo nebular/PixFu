@@ -58,8 +58,8 @@ namespace Pix {
 	const bool SURFACE = true;
 	const std::string Fu::TAG = "PixFu";
 
-	Fu::Fu(const std::string appName, const std::string shader)
-			: SHADERNAME(std::move(shader)),
+	Fu::Fu(const std::string appName, FuConfig_t configuration)
+			: CONFIG(std::move(configuration)),
 			  pPlatform(nullptr),
 			  nScreenWidth(0),
 			  nScreenHeight(0),
@@ -172,15 +172,10 @@ namespace Pix {
 	/** loop part: initialization */
 	bool Fu::loop_init(bool reinit) {
 
-
 		bLoopActive = true;
 
-		// Create user resources as part of this thread
-//		if (!onUserCreate(reinit))
-//			return false;
-
 		if (SURFACE) {
-			pSurface = new Surface(nScreenWidth, nScreenHeight, SHADERNAME, "glbuffer", vExtensions.size() != 0);
+			pSurface = new Surface(nScreenWidth, nScreenHeight, CONFIG.fontInfo, CONFIG.shaderName, "glbuffer", vExtensions.size() != 0);
 			addExtension(pSurface);
 		}
 

@@ -19,12 +19,10 @@
 
 namespace Pix {
 
-	Font::Font(std::string fontName, int w, int h) {
-		fontName = "fonts/" + fontName + ".png";
+	Font::Font(FontInfo_t fontInfo):INFO(std::move(fontInfo)) {
+		std::string fontName = "fonts/" + std::string(INFO.name) + ".png";
 		pFontSprite = Drawable::fromFile(fontName);
 		if (pFontSprite == nullptr) throw new std::runtime_error("Font " + fontName + " not found.");
-		nWidth = w;
-		nHeight = h;
 	}
 
 	Font::~Font() {
@@ -42,16 +40,18 @@ namespace Pix {
 		for (auto c : sText) {
 			if (c == '\n') {
 				sx = 0;
-				sy += nHeight * scale;
+				sy += INFO.charHeight * scale;
 			} else {
-				int32_t ox = (c - 32) % 16;
-				int32_t oy = (c - 32) / 16;
+				const int glyphsPerWidth = pFontSprite->width/INFO.charWidth;
+
+				int32_t ox = (c - INFO.firstChar) % glyphsPerWidth;
+				int32_t oy = (c - INFO.firstChar) / glyphsPerWidth;
 
 				if (scale > 1) {
-					for (uint32_t i = 0; i < nWidth; i++)
-						for (uint32_t j = 0; j < nHeight; j++) {
-							Pix::Pixel pix = pFontSprite->getPixel(i + ox * nWidth,
-																   j + oy * nHeight);
+					for (uint32_t i = 0; i < INFO.charWidth; i++)
+						for (uint32_t j = 0; j < INFO.charHeight; j++) {
+							Pix::Pixel pix = pFontSprite->getPixel(i + ox * INFO.charWidth,
+																   j + oy * INFO.charHeight);
 							if (pix.a != 0) {
 								for (uint32_t is = 0; is < scale; is++)
 									for (uint32_t js = 0; js < scale; js++)
@@ -61,16 +61,16 @@ namespace Pix {
 							}
 						}
 				} else {
-					for (uint32_t i = 0; i < nWidth; i++)
-						for (uint32_t j = 0; j < nWidth; j++) {
-							Pixel pix = pFontSprite->getPixel(i + ox * nWidth, j + oy * nHeight);
+					for (uint32_t i = 0; i < INFO.charWidth; i++)
+						for (uint32_t j = 0; j < INFO.charWidth; j++) {
+							Pixel pix = pFontSprite->getPixel(i + ox * INFO.charWidth, j + oy * INFO.charHeight);
 							if (pix.a != 0) {
 								target->setPixel(x + sx + i, y + sy + j,
 												 pix.r + pix.b + pix.g == 0 ? pix : col);
 							}
 						}
 				}
-				sx += nWidth * scale;
+				sx += INFO.charWidth * scale;
 			}
 		}
 	}

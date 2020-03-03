@@ -17,6 +17,7 @@
 #include "Shader.hpp"
 #include "FuExtension.hpp"
 #include "LayerVao.hpp"
+#include "Font.hpp"
 
 namespace Pix {
 
@@ -58,8 +59,9 @@ namespace Pix {
 
 		Surface(int width,
 				int height,
-				const std::string &shaderName = "default",
-				const std::string &samplerName = "glbuffer",
+				const FontInfo_t fontInfo = {},
+				const std::string shaderName = "default",
+				const std::string samplerName = "glbuffer",
 				bool blend = false);
 
 		virtual ~Surface();

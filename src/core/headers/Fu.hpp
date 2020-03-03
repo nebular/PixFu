@@ -125,6 +125,11 @@ namespace Pix {
 
 /*-------------------------------------------------------------------*/
 
+	typedef struct sFuConfig {
+		const FontInfo_t fontInfo;
+		const std::string shaderName;
+	} FuConfig_t;
+
 	class Fu {
 
 		static const std::string TAG;
@@ -137,7 +142,7 @@ namespace Pix {
 
 		friend class PixFuPlatformApple;
 
-		const std::string SHADERNAME;                       // shader filename
+		const FuConfig_t CONFIG;                       // shader filename
 
 		FuPlatform *pPlatform = nullptr;                 // platform layer
 
@@ -185,7 +190,7 @@ namespace Pix {
 
 		const std::string APPNAME;                            // application name
 
-		Fu(const std::string appname = "pixFuApp", const std::string shader = "default");
+		Fu(const std::string appname = "pixFuApp", FuConfig_t config = {});
 
 		virtual ~Fu();
 

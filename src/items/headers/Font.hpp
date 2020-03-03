@@ -11,26 +11,35 @@
 
 #pragma once
 #include "Drawable.hpp"
+#include <string_view>
 
 namespace Pix {
+
+	typedef struct sFontInfo {
+		const std::string_view name = "default";
+		const int charWidth = 8;
+		const int charHeight = 8;
+		const int firstChar = 32;
+	} FontInfo_t;
+
+	static FontInfo_t FONT_DEFAULT = {};
+	static FontInfo_t FONT_BIASAM = { "Bisasam16x16.png",16,16};
+	static FontInfo_t FONT_BIASAM_STROKE = { "Bisasam16x16_stroke.png", 16,16};
 
 	class Font {
 
 		Drawable *pFontSprite;
-		int nWidth, nHeight;
-
+		const FontInfo_t INFO;
+		
 	public:
 
 		/**
-		 Creates a new font, loading its bitmap.
-		 @param fontName The font name, the font bitmap is expected at /fonts/<name>.png in the
-						 application assets
-		 @param charWidth Character Width in px
-		 @param charHeight Character Height in px
+		 * Creates a new font, loading its bitmap.
+		 * )@param fontInfo The font descriptor
 		 */
 
-		Font(std::string fontName = "default", int charWidth = 8, int charHeight = 8);
-
+		Font(FontInfo_t fontInfo={});
+		
 		~Font();
 
 		void

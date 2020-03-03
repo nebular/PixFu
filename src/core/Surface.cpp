@@ -21,16 +21,16 @@ namespace Pix {
 	constexpr float Surface::VERTICES[32];
 	constexpr unsigned int Surface::INDICES[6];
 
-	Surface::Surface(int width, int height, const std::string &shaderName, const std::string &samplerName, bool blend)
+	Surface::Surface(int width, int height, const FontInfo_t fontInfo, const std::string shaderName, const std::string samplerName, bool blend)
 			: nWidth(width),
 			  nHeight(height),
-			  pShader(new Shader(shaderName)),
-			  sSamplerName(samplerName),
+			  pShader(new Shader(std::move(shaderName))),
+			  sSamplerName(std::move(samplerName)),
 			  bBlend(blend) {
 
 		if (DBG) LogV(TAG, SF("Creating, %dx%d, shader %s", width, height, shaderName.c_str()));
 		pActiveTexture = new Texture2D(width, height);
-		pCanvas = new Canvas2D(pActiveTexture->buffer(), new Font());
+		pCanvas = new Canvas2D(pActiveTexture->buffer(), new Font(fontInfo));
 	}
 
 	Surface::~Surface() {
