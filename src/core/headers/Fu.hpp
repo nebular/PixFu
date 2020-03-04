@@ -142,12 +142,12 @@ namespace Pix {
 
 		friend class PixFuPlatformApple;
 
-		const FuConfig_t CONFIG;                       // shader filename
+		const FuConfig_t CONFIG;                       		// shader filename
 
-		FuPlatform *pPlatform = nullptr;                 // platform layer
+		FuPlatform *pPlatform = nullptr;                 	// platform layer
 
 		Surface *pSurface = nullptr;                        // primary surface
-		std::vector<FuExtension *> vExtensions;          // extensions
+		std::vector<FuExtension *> vExtensions;          	// extensions
 		std::vector<InputDevice *> vInputDevices;           // input devices
 
 		bool bLoopActive = false;                           // whether loop is active
@@ -178,11 +178,11 @@ namespace Pix {
 
 	protected:
 
-
 		/**
 		 * Gets the memory-backing buffer
 		 * @return The buffer you can write to
 		 */
+
 		Drawable *buffer();
 
 
@@ -200,17 +200,20 @@ namespace Pix {
 		 * @param height Screen Height
 		 * @return success
 		 */
+
 		bool init(int width, int height);
 
 		/**
 		 * Runs the loop if this platform uses it. This function would then be blocking.
 		 */
+
 		void start();
 
 		/**
 		 * Get screen width
 		 * @return screen width in pixels
 		 */
+
 		int screenWidth();
 
 		/**
@@ -234,6 +237,7 @@ namespace Pix {
 		 * and can paint in OpenGL.
 		 * @param extension The instantiated extension to add
 		 */
+
 		void addExtension(FuExtension *extension);
 
 		bool removeExtension(FuExtension *extension);
