@@ -111,6 +111,7 @@ namespace Pix {
  */
 
 	class InputDevice {
+
 	public:
 		virtual ~InputDevice();
 
