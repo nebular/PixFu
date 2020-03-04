@@ -70,7 +70,24 @@ namespace Pix {
 				PINK = {255, 128, 255},
 				YELLOW = {255, 255, 0},
 				GREY = {128, 128, 128},
-				WHITE = {255, 255, 255};
+				WHITE = {255, 255, 255},
+				// indexed color codes (for multicolor fonts)
+				COLOR_1 = {0,0,0,1},
+				COLOR_2 = {0,0,0,2},
+				COLOR_3 = {0,0,0,3},
+				COLOR_4 = {0,0,0,4},
+				COLOR_5 = {0,0,0,5},
+				COLOR_6 = {0,0,0,6},
+				COLOR_7 = {0,0,0,7},
+				COLOR_8 = {0,0,0,8},
+				COLOR_9 = {0,0,0,9},
+				COLOR_10 = {0,0,0,10},
+				COLOR_11 = {0,0,0,11},
+				COLOR_12 = {0,0,0,12},
+				COLOR_13 = {0,0,0,13},
+				COLOR_14 = {0,0,0,14},
+				COLOR_15 = {0,0,0,15},
+				COLOR_16 = {0,0,0,16};
 
 	};
 
