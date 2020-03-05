@@ -112,21 +112,21 @@ namespace Pix {
 
 		for (int i = 0; i < NUMKEYS; i++) {
 			if (get_key_down(::Key::All[i])) {
-				pNextState[i] = true;
+				Keyboard::pNextState[i] = true;
 			}
 			if (get_key_up(::Key::All[i])) {
-				pNextState[i] = false;
+				Keyboard::pNextState[i] = false;
 			}
 		}
 
-		if (get_modifier_key_down(::SHIFT)) 	pNextState[Keys::SHIFT] = true;
-		if (get_modifier_key_up(::SHIFT)) 		pNextState[Keys::SHIFT] = false;
-		if (get_modifier_key_down(::CONTROL)) 	pNextState[Keys::CTRL] = true;
-		if (get_modifier_key_up(::CONTROL)) 	pNextState[Keys::CTRL] = false;
-		if (get_modifier_key_down(::OPTION)) 	pNextState[Keys::ALT] = true;
-		if (get_modifier_key_up(::OPTION)) 		pNextState[Keys::ALT] = false;
-		if (get_modifier_key_down(::COMMAND)) 	pNextState[Keys::COMMAND] = true;
-		if (get_modifier_key_up(::COMMAND)) 	pNextState[Keys::COMMAND] = false;
+		if (get_modifier_key_down(::SHIFT)) 	Keyboard::pNextState[Keys::SHIFT] = true;
+		if (get_modifier_key_up(::SHIFT)) 		Keyboard::pNextState[Keys::SHIFT] = false;
+		if (get_modifier_key_down(::CONTROL)) 	Keyboard::pNextState[Keys::CTRL] = true;
+		if (get_modifier_key_up(::CONTROL)) 	Keyboard::pNextState[Keys::CTRL] = false;
+		if (get_modifier_key_down(::OPTION)) 	Keyboard::pNextState[Keys::ALT] = true;
+		if (get_modifier_key_up(::OPTION)) 		Keyboard::pNextState[Keys::ALT] = false;
+		if (get_modifier_key_down(::COMMAND)) 	Keyboard::pNextState[Keys::COMMAND] = true;
+		if (get_modifier_key_up(::COMMAND)) 	Keyboard::pNextState[Keys::COMMAND] = false;
 
 	}
 
