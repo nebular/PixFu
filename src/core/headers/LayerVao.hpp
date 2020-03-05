@@ -56,7 +56,7 @@ namespace Pix {
 	class LayerVao {
 
 		static const std::string TAG;
-
+		
 		void init(Mesh_t &mesh);
 
 	protected:
@@ -96,6 +96,8 @@ namespace Pix {
 		void unbind();
 
 	public:
+
+		static GLenum DRAWMODE;
 
 		virtual ~LayerVao();
 
