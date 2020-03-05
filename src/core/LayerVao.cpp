@@ -30,6 +30,9 @@ namespace Pix {
 
 	const std::string LayerVao::TAG = "LayerVao";
 
+	// debug mode may change it to LINES
+	GLenum LayerVao::DRAWMODE = GL_TRIANGLES;
+
 	LayerVao::~LayerVao() {
 		if (DBG) LogV(TAG, "Layer destroyed");
 	}
@@ -107,7 +110,7 @@ namespace Pix {
 
 		Mesh_t &mesh = vMeshes[index];
 		if (bindBuffers) bind(index);
-		glDrawElements(GL_TRIANGLES, mesh.nIndices, GL_UNSIGNED_INT, 0);
+		glDrawElements(DRAWMODE, mesh.nIndices, GL_UNSIGNED_INT, 0);
 //		glDrawElements(GL_LINES, mesh.nIndices, GL_UNSIGNED_INT, 0);
 		if (bindBuffers) unbind();
 	}

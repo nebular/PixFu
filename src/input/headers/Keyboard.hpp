@@ -33,38 +33,60 @@ namespace Pix {
 		static std::string TAG;
 		static Keyboard *pInstance;
 
-		bool *pNextState;
-		bool *pThisState;
-		bool *pStatePressed;
-		bool *pStateReleased;
-		bool *pStateHeld;
+		static bool *pNextState;
+		static bool *pThisState;
+		static bool *pStatePressed;
+		static bool *pStateReleased;
+		static bool *pStateHeld;
 
 		Keyboard(int numkeys);
 
-		bool _isPressed(Keys key);
-
-		bool _isHeld(Keys key);
-
-		bool _isReleased(Keys key);
-
-		bool *getBuffer();
+		static bool *getBuffer();
 
 	public:
 
 		const int NUMKEYS;
 
+		/**
+		 * Enables the keyboard. If called before onUserUpdate, then the keyboard
+		 * will be automatically added as an Input Device. If called after, you will
+		 * need to dd it (addInputDevice(Keyboard::instance()))
+		 */
+
 		static void enable(int numkeys = 67);
+
+		/**
+		  * Disables the keyboard input device.
+		 */
 
 		static void disable();
 
-		static Keyboard *instance();
+		/**
+		 * Whether a key is pressed
+		 * @param key key code
+		 * @return whether
+		 */
 
 		static bool isPressed(Keys key);
 
+		/**
+		 * Whether a key is held
+		 * @param key key code
+		 * @return whether
+		 */
+
 		static bool isHeld(Keys key);
+
+		/**
+		 * Whether a key is released
+		 * @param key key code
+		 * @return whether
+		 */
 
 		static bool isReleased(Keys key);
 
+		static Keyboard *instance();
+		
 		~Keyboard();
 
 		void poll();
@@ -73,21 +95,13 @@ namespace Pix {
 	};
 
 	inline Keyboard *Keyboard::instance() { return pInstance; }
-
 	inline bool *Keyboard::getBuffer() { return pNextState; }
 
-// query key position
-	inline bool Keyboard::_isPressed(Keys key) { return pStatePressed[key]; }
+	// query key position (static)
+	inline bool Keyboard::isPressed(Keys key) { return pStatePressed[key]; }
 
-	inline bool Keyboard::_isReleased(Keys key) { return pStateReleased[key]; }
+	inline bool Keyboard::isReleased(Keys key) { return pStateReleased[key]; }
 
-	inline bool Keyboard::_isHeld(Keys key) { return pStateHeld[key]; }
-
-// query key position (static)
-	inline bool Keyboard::isPressed(Keys key) { return pInstance->pStatePressed[key]; }
-
-	inline bool Keyboard::isReleased(Keys key) { return pInstance->pStateReleased[key]; }
-
-	inline bool Keyboard::isHeld(Keys key) { return pInstance->pStateHeld[key]; }
+	inline bool Keyboard::isHeld(Keys key) { return pStateHeld[key]; }
 
 }

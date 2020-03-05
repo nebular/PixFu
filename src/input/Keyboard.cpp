@@ -20,6 +20,11 @@ namespace Pix {
 
 	std::string Keyboard::TAG = "Keyboard";
 	Keyboard *Keyboard::pInstance = nullptr;
+	bool *Keyboard::pNextState = nullptr;
+	bool *Keyboard::pThisState = nullptr;
+	bool *Keyboard::pStatePressed = nullptr;
+	bool *Keyboard::pStateReleased = nullptr;
+	bool *Keyboard::pStateHeld = nullptr;
 
 	void Keyboard::enable(int numkeys) {
 		if (pInstance == nullptr)
@@ -34,6 +39,9 @@ namespace Pix {
 	}
 
 	Keyboard::Keyboard(int numkeys) : NUMKEYS(numkeys) {
+
+		if (pInstance != nullptr)
+			throw std::runtime_error("Keyboard can only be created once!");
 
 		if (DBG)
 			LogV(TAG, SF("construct for %d keys", numkeys));
@@ -62,23 +70,25 @@ namespace Pix {
 
 	void Keyboard::sync(float fElapsedTime) {
 
-		for (int i = 0; i < NUMKEYS; i++) {
+		if (pInstance != nullptr) {
+			for (int i = 0; i < NUMKEYS; i++) {
 
-			pStateReleased[i] = pStatePressed[i] = false;
+				pStateReleased[i] = pStatePressed[i] = false;
 
-			if (pNextState[i] != pThisState[i]) {
-				if (pNextState[i]) {
-					pStatePressed[i] = !pStateHeld[i];
-					pStateHeld[i] = true;
-					LogV(TAG, SF("Held %d", i));
-				} else {
-					pStateReleased[i] = true;
-					pStateHeld[i] = false;
-					LogV(TAG, SF("Release %d", i));
+				if (pNextState[i] != pThisState[i]) {
+					if (pNextState[i]) {
+						pStatePressed[i] = !pStateHeld[i];
+						pStateHeld[i] = true;
+						if (DBG) LogV(TAG, SF("Held %d", i));
+					} else {
+						pStateReleased[i] = true;
+						pStateHeld[i] = false;
+						if (DBG) LogV(TAG, SF("Release %d", i));
+					}
 				}
-			}
 
-			pThisState[i] = pNextState[i];
+				pThisState[i] = pNextState[i];
+			}
 		}
 	}
 

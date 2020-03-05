@@ -26,8 +26,7 @@ namespace Pix {
 	}
 
 	HwButton_t FuOLC::GetKey(Keys key) {
-		Keyboard *k = Keyboard::instance();
-		return {k->isPressed(key), k->isHeld(key), k->isReleased(key)};
+		return {Keyboard::isPressed(key), Keyboard::isHeld(key), Keyboard::isReleased(key)};
 	}
 
 	int FuOLC::GetMouseX() {

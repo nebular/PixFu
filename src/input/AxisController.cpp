@@ -92,7 +92,7 @@ namespace Pix {
 		fNextAxisY = yAxis;
 
 
-		LogV("axis", SF("axis input %f %f %d", xAxis, yAxis, nInputCounter));
+		if (DBG) LogV("axis", SF("axis input %f %f %d", xAxis, yAxis, nInputCounter));
 
 	}
 
