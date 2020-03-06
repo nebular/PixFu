@@ -57,6 +57,7 @@ namespace Pix {
 
 	const bool SURFACE = true;
 	const std::string Fu::TAG = "PixFu";
+	float Fu::METRONOME = 0;
 
 	Fu::Fu(const std::string appName, FuConfig_t configuration)
 			: CONFIG(std::move(configuration)),
@@ -199,6 +200,8 @@ namespace Pix {
 
 	/** loop part: tick */
 	bool Fu::loop_tick(float fElapsedTime) {
+
+		METRONOME+=fElapsedTime;
 
 		// todo
 		std::pair<bool, bool> status = pPlatform->events();

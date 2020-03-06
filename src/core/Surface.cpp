@@ -14,16 +14,17 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCDFAInspection"
 #pragma clang diagnostic ignored "-Wunused-parameter"
+
 namespace Pix {
 
 	std::string Surface::TAG = "Surface";
 
 	std::vector<Vertex_t> Surface::VERTICES={
-			// positions          // colors           // texture coords
-		{{1.0f, 1.0f, 0.0f}  , {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},// top right
-		{{1.0f, -1.0f, 0.0f} , {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom right
+			// positions       // colors/norms     // texture coords
+		{{ 1.0f,  1.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}}, // top right
+		{{ 1.0f, -1.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom right
 		{{-1.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}}, // bottom left
-		{{-1.0f, 1.0f, 0.0f} , {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}  // top left
+		{{-1.0f,  1.0f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}  // top left
 	};
 
 	std::vector<unsigned> Surface::INDICES={

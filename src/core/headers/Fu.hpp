@@ -186,10 +186,13 @@ namespace Pix {
 
 		Drawable *buffer();
 
-
 	public:
 
-		const std::string APPNAME;                            // application name
+		// a time accumulator
+		static float METRONOME;
+		
+		// application name
+		const std::string APPNAME;
 
 		Fu(const std::string appname = "pixFuApp", FuConfig_t config = {});
 
