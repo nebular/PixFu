@@ -20,7 +20,8 @@ namespace Pix {
 		int nInputCounter = 0;
 
 		const float XMIN, XMAX, YMIN, YMAX;
-		const bool AUTOX, AUTOY, INVX, INVY;
+		const float AUTOX, AUTOY;
+		const bool INVX, INVY;
 
 	public:
 
@@ -32,13 +33,13 @@ namespace Pix {
 		 * @param xmax MAximum calue for the X axis
 		 * @param ymin Minimum calue for the Y axis
 		 * @param ymax MAximum calue for the X axis
-		 * @param autoX Whether to auto-center X if no input
-		 * @param autoY Whether to auto-center Y if no input
+		 * @param autoX auto-decrease perc, 1=none
+		 * @param autoY auto-decrease perc, 1=none
 		 * @param invx Whether to display the axis inverted
 		 * @param invy Whether to display the axis inverted
 		 */
 
-		AxisController(float xmin = -1, float xmax = 1, float ymin = -1, float ymax = 1, bool autoX = false, bool autoY = false,
+		AxisController(float xmin = -1, float xmax = 1, float ymin = -1, float ymax = 1, float autoX = 1.0F, bool autoY = 1.0F,
 					   bool invx = false, bool invy = false);
 
 		virtual ~AxisController();
@@ -127,11 +128,11 @@ namespace Pix {
 		static GenericAxisController *pInstance;
 
 	public:
-		GenericAxisController(float xmin = -1, float ymin = -1, float xmax = -1, float ymax = -1, bool autoX = true, bool autoY = true,
+		GenericAxisController(float xmin = -1, float ymin = -1, float xmax = -1, float ymax = -1, float autoX = 1.0F, float autoY = 1.0F,
 							  bool xinv = false, bool yinv = false);
 
 		static void
-		enable(float xmin = -1, float ymin = -1, float xmax = -1, float ymax = -1, bool autoX = true, bool autoY = true, bool xinv = false,
+		enable(float xmin = -1, float ymin = -1, float xmax = -1, float ymax = -1, float autoX = 1.0F, float autoY = 1.0F, bool xinv = false,
 			   bool yinv = false);
 
 		static void disable();
@@ -144,7 +145,7 @@ namespace Pix {
 	inline GenericAxisController *GenericAxisController::instance() { return pInstance; }
 
 	inline void
-	GenericAxisController::enable(float xmin, float xmax, float ymin, float ymax, bool autoX, bool autoY, bool xinv, bool yinv) {
+	GenericAxisController::enable(float xmin, float xmax, float ymin, float ymax, float autoX, float autoY, bool xinv, bool yinv) {
 		if (pInstance == nullptr)
 			pInstance = new GenericAxisController(xmin, xmax, ymin, ymax, autoX, autoY, xinv, yinv);
 	}
