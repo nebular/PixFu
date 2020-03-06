@@ -13,34 +13,31 @@
 
 namespace Pix {
 
+	typedef struct sAxisControllerConfig {
+		const float XMIN=-1, XMAX=1, YMIN=-1, YMAX=1;
+		const float AUTOX=0.9F, AUTOY=0.8F;
+		const bool INVX=false, INVY=true;
+	} AxisControllerConfig_t;
+
 	class AxisController : public InputDevice {
 
+		inline static const std::string TAG="AxisController";
+		
+		const AxisControllerConfig_t CONFIG;
+		
 		float fAxisX, fAxisY, fNextAxisX, fNextAxisY;    // raw
 		float fCurrentX, fCurrentY;                      // interpolated
 		int nInputCounter = 0;
 
-		const float XMIN, XMAX, YMIN, YMAX;
-		const float AUTOX, AUTOY;
-		const bool INVX, INVY;
-
+	
 	public:
-
-		AxisController();
 
 		/**
 		 * Constructs the Axis Controller
-		 * @param xmin Minimum calue for the X axis
-		 * @param xmax MAximum calue for the X axis
-		 * @param ymin Minimum calue for the Y axis
-		 * @param ymax MAximum calue for the X axis
-		 * @param autoX auto-decrease perc, 1=none
-		 * @param autoY auto-decrease perc, 1=none
-		 * @param invx Whether to display the axis inverted
-		 * @param invy Whether to display the axis inverted
+		 * @param config Configurator
 		 */
 
-		AxisController(float xmin = -1, float xmax = 1, float ymin = -1, float ymax = 1, float autoX = 1.0F, float autoY = 1.0F,
-					   bool invx = false, bool invy = false);
+		AxisController(AxisControllerConfig_t config={});
 
 		virtual ~AxisController();
 
@@ -128,12 +125,10 @@ namespace Pix {
 		static GenericAxisController *pInstance;
 
 	public:
-		GenericAxisController(float xmin = -1, float ymin = -1, float xmax = -1, float ymax = -1, float autoX = 1.0F, float autoY = 1.0F,
-							  bool xinv = false, bool yinv = false);
 
-		static void
-		enable(float xmin = -1, float ymin = -1, float xmax = -1, float ymax = -1, float autoX = 1.0F, float autoY = 1.0F, bool xinv = false,
-			   bool yinv = false);
+		GenericAxisController(AxisControllerConfig_t config = {});
+
+		static void enable(AxisControllerConfig_t config = {});
 
 		static void disable();
 
@@ -145,9 +140,9 @@ namespace Pix {
 	inline GenericAxisController *GenericAxisController::instance() { return pInstance; }
 
 	inline void
-	GenericAxisController::enable(float xmin, float xmax, float ymin, float ymax, float autoX, float autoY, bool xinv, bool yinv) {
+	GenericAxisController::enable(AxisControllerConfig_t config) {
 		if (pInstance == nullptr)
-			pInstance = new GenericAxisController(xmin, xmax, ymin, ymax, autoX, autoY, xinv, yinv);
+			pInstance = new GenericAxisController(config);
 	}
 
 	inline void GenericAxisController::disable() {

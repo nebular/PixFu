@@ -17,30 +17,22 @@ namespace Pix {
 
 	GenericAxisController *GenericAxisController::pInstance = nullptr;
 
-	GenericAxisController::GenericAxisController(float xmin, float xmax, float ymin, float ymax, float autoCenterX, float autoCenterY,
-												 bool invx, bool invy)
-			: AxisController::AxisController(xmin, xmax, ymin, ymax, autoCenterX, autoCenterY, invx, invy) {}
+	GenericAxisController::GenericAxisController(AxisControllerConfig_t config)
+			: AxisController::AxisController(config) {}
 
-
-	AxisController::AxisController()
-			: AxisController::AxisController(-1, 1, -1, 1, 0.9F, 0.9F) {}
-
-	AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, float autoX, float autoY, bool invx, bool invy)
+	AxisController::AxisController(AxisControllerConfig_t config)
 			: fAxisX(0),
 			  fAxisY(0),
 			  fNextAxisX(0),
 			  fNextAxisY(0),
 			  fCurrentX(0),
 			  fCurrentY(0),
-			  XMIN(xmin), XMAX(xmax), YMIN(ymin), YMAX(ymax),
-			  AUTOX(autoX), AUTOY(autoY),
-			  INVX(invx), INVY(invy)
+			  CONFIG(std::move(config))
 			  {}
 
 	AxisController::~AxisController() = default;
 
 	void AxisController::drawSelf(Canvas2D *canvas, Pixel color) {
-
 
 		int
 				SW2 = canvas->width() / 2,
@@ -57,7 +49,7 @@ namespace Pix {
 				HX = 2 * SW2 - MARGINV,
 				HS2 = YSIZE / 2;
 
-		float pos = INVY ? -fAxisY : fAxisY;
+		float pos = CONFIG.INVY ? -fAxisY : fAxisY;
 
 		// pitch vertical
 		canvas->drawLine(HX, SH2 - HS2, HX, SH2 + HS2, color);
@@ -82,17 +74,17 @@ namespace Pix {
 
 	void AxisController::inputNormalized(float xAxis, float yAxis) {
 
-		if (xAxis > XMAX) xAxis = XMAX;
-		if (xAxis < XMIN) xAxis = XMIN;
+		if (xAxis > CONFIG.XMAX) xAxis = CONFIG.XMAX;
+		if (xAxis < CONFIG.XMIN) xAxis = CONFIG.XMIN;
 
-		if (yAxis > YMAX) yAxis = YMAX;
-		if (yAxis < YMIN) yAxis = YMIN;
+		if (yAxis > CONFIG.YMAX) yAxis = CONFIG.YMAX;
+		if (yAxis < CONFIG.YMIN) yAxis = CONFIG.YMIN;
 
 		fNextAxisX = xAxis;
 		fNextAxisY = yAxis;
 
-
-		if (DBG) LogV("axis", SF("axis input %f %f %d", xAxis, yAxis, nInputCounter));
+		if (DBG)
+			LogV(TAG, SF("axis input %f %f %d", xAxis, yAxis, nInputCounter));
 
 	}
 
@@ -109,14 +101,15 @@ namespace Pix {
 
 		if (nInputCounter > 0)
 			nInputCounter--;
+		
 		// process interpolation
 
 		constexpr float THR = 0.001;
 
 		// auto center constants
 		if (nInputCounter == 0) {
-			fAxisX *= AUTOX;
-			fAxisY *= AUTOY;
+			fAxisX *= CONFIG.AUTOX;
+			fAxisY *= CONFIG.AUTOY;
 		}
 
 		float lerp = 4;
