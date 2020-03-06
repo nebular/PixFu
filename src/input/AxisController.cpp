@@ -17,15 +17,15 @@ namespace Pix {
 
 	GenericAxisController *GenericAxisController::pInstance = nullptr;
 
-	GenericAxisController::GenericAxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY,
+	GenericAxisController::GenericAxisController(float xmin, float xmax, float ymin, float ymax, float autoCenterX, float autoCenterY,
 												 bool invx, bool invy)
 			: AxisController::AxisController(xmin, xmax, ymin, ymax, autoCenterX, autoCenterY, invx, invy) {}
 
 
 	AxisController::AxisController()
-			: AxisController::AxisController(-1, 1, -1, 1, true, true) {}
+			: AxisController::AxisController(-1, 1, -1, 1, 0.9F, 0.9F) {}
 
-	AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, bool autoCenterX, bool autoCenterY, bool xinv, bool yinv)
+	AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, float autoCenterX, float autoCenterY, bool xinv, bool yinv)
 			: fAxisX(0),
 			  fAxisY(0),
 			  fNextAxisX(0),
@@ -112,16 +112,11 @@ namespace Pix {
 		// process interpolation
 
 		constexpr float THR = 0.001;
-		constexpr float RECOVERY = 0.9;
 
+		// auto center constants
 		if (nInputCounter == 0) {
-			if (AUTOX) {
-				fAxisX *= RECOVERY;
-			}
-
-			if (AUTOY) {
-				fAxisY *= RECOVERY;
-			}
+			fAxisX *= AUTOX;
+			fAxisY *= AUTOY;
 		}
 
 		float lerp = 4;
