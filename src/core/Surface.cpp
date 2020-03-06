@@ -44,8 +44,8 @@ namespace Pix {
 
 		if (pActiveTexture == nullptr) return false;
 
-		LayerVao::add((float *) VERTICES, sizeof(VERTICES),
-					  (unsigned *) INDICES, sizeof(INDICES));
+		LayerVao::add((float *) VERTICES, sizeof(VERTICES)/sizeof(float),
+					  (unsigned *) INDICES, sizeof(INDICES)/sizeof(unsigned));
 
 		pActiveTexture->upload();
 

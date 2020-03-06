@@ -49,7 +49,7 @@ namespace Pix {
 	unsigned LayerVao::add(float *vertices, unsigned numvertices, unsigned *indices, unsigned numindices) {
 		Mesh_t mesh = {vertices, numvertices, indices, numindices};
 		init(mesh);
-		vMeshes.emplace_back(mesh);
+		vMeshes.push_back(mesh);
 		return (unsigned) vMeshes.size();
 	}
 
