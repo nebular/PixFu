@@ -25,7 +25,7 @@ namespace Pix {
 	AxisController::AxisController()
 			: AxisController::AxisController(-1, 1, -1, 1, 0.9F, 0.9F) {}
 
-	AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, float autoCenterX, float autoCenterY, bool xinv, bool yinv)
+	AxisController::AxisController(float xmin, float xmax, float ymin, float ymax, float autoX, float autoY, bool invx, bool invy)
 			: fAxisX(0),
 			  fAxisY(0),
 			  fNextAxisX(0),
@@ -33,8 +33,8 @@ namespace Pix {
 			  fCurrentX(0),
 			  fCurrentY(0),
 			  XMIN(xmin), XMAX(xmax), YMIN(ymin), YMAX(ymax),
-			  AUTOX(autoCenterX), AUTOY(autoCenterY),
-			  INVX(xinv), INVY(yinv)
+			  AUTOX(autoX), AUTOY(autoY),
+			  INVX(invx), INVY(invy)
 			  {}
 
 	AxisController::~AxisController() = default;

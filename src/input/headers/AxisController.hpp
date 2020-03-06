@@ -39,7 +39,7 @@ namespace Pix {
 		 * @param invy Whether to display the axis inverted
 		 */
 
-		AxisController(float xmin = -1, float xmax = 1, float ymin = -1, float ymax = 1, float autoX = 1.0F, bool autoY = 1.0F,
+		AxisController(float xmin = -1, float xmax = 1, float ymin = -1, float ymax = 1, float autoX = 1.0F, float autoY = 1.0F,
 					   bool invx = false, bool invy = false);
 
 		virtual ~AxisController();
