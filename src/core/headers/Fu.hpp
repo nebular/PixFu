@@ -259,7 +259,7 @@ namespace Pix {
 	inline void Fu::addExtension(FuExtension *e) { vExtensions.push_back(e); }
 
 	inline void Fu::addInputDevice(InputDevice *inputDevice) {
-		vInputDevices.push_back(inputDevice);
+		vInputDevices.emplace_back(inputDevice);
 	}
 
 	inline Drawable *Fu::buffer() { return pSurface->buffer(); }
