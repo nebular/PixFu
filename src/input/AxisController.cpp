@@ -1,4 +1,8 @@
 #pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCSimplifyInspection"
+#pragma ide diagnostic ignored "readability-magic-numbers"
+#pragma ide diagnostic ignored "cppcoreguidelines-avoid-magic-numbers"
+#pragma ide diagnostic ignored "OCDFAInspection"
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma ide diagnostic ignored "readability-isolate-declaration"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
@@ -27,7 +31,7 @@ namespace Pix {
 			  fNextAxisY(0),
 			  fCurrentX(0),
 			  fCurrentY(0),
-			  CONFIG(std::move(config))
+			  CONFIG(config)
 			  {}
 
 	AxisController::~AxisController() = default;
@@ -41,8 +45,8 @@ namespace Pix {
 		int
 				MARGINV = 20,
 				MARGINH = 20,
-				XSIZE = (int) (SW2 * 0.7),
-				YSIZE = (int) (SW2 * 0.7);
+				XSIZE = (int) (SW2 * 0.7F),
+				YSIZE = (int) (SW2 * 0.7F);
 
 		// y axis
 		int
@@ -53,7 +57,7 @@ namespace Pix {
 
 		// pitch vertical
 		canvas->drawLine(HX, SH2 - HS2, HX, SH2 + HS2, color);
-		canvas->fillCircle(HX, static_cast<int32_t>(SH2 + HS2 * pos), static_cast<int32_t>(5.0f), color);
+		canvas->fillCircle(HX, static_cast<int32_t>(SH2 + HS2 * pos), static_cast<int32_t>(5.0F), color);
 
 		// x axis
 		int
@@ -62,7 +66,7 @@ namespace Pix {
 
 		// azimuth horizontal
 		canvas->drawLine(SW2 - WS2, HY, SW2 + WS2, HY, color);
-		canvas->fillCircle(static_cast<int32_t>(SW2 + WS2 * fAxisX), HY, static_cast<int32_t>(5.0f), color);
+		canvas->fillCircle(static_cast<int32_t>(SW2 + WS2 * fAxisX), HY, static_cast<int32_t>(5.0F), color);
 
 	}
 

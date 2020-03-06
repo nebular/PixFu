@@ -30,7 +30,7 @@ namespace Pix {
 
 		ASensorManager *AcquireASensorManagerInstance(void);
 
-		GyroController(int xlen, int ylen, bool autoStart = true);
+		GyroController(bool autoStart);
 
 		~GyroController();
 
@@ -56,7 +56,7 @@ namespace Pix {
 	inline GyroController *GyroController::instance() { return pCurrentInstance; }
 
 	inline void GyroController::enable(int xlen, int ylen) {
-		pCurrentInstance = new GyroController(xlen, ylen);
+		pCurrentInstance = new GyroController(false);
 	}
 
 }
