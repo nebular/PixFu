@@ -32,18 +32,8 @@ namespace Pix {
 		static std::string TAG;
 
 	public:
-		static constexpr float VERTICES[32]{
-				// positions          // colors           // texture coords
-				1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
-				1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-				-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-				-1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
-		};
-
-		static constexpr unsigned int INDICES[6]{
-				0, 1, 3, // first triangle
-				1, 2, 3  // second triangle
-		};
+		static std::vector<Vertex_t> VERTICES;
+		static std::vector<unsigned> INDICES;
 
 	private:
 		const int nWidth, nHeight;       // texture size

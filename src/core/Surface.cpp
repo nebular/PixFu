@@ -18,8 +18,18 @@ namespace Pix {
 
 	std::string Surface::TAG = "Surface";
 
-	constexpr float Surface::VERTICES[32];
-	constexpr unsigned int Surface::INDICES[6];
+	std::vector<Vertex_t> Surface::VERTICES={
+			// positions          // colors           // texture coords
+		{{1.0f, 1.0f, 0.0f}  , {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},// top right
+		{{1.0f, -1.0f, 0.0f} , {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // bottom right
+		{{-1.0f, -1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}}, // bottom left
+		{{-1.0f, 1.0f, 0.0f} , {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}  // top left
+	};
+
+	std::vector<unsigned> Surface::INDICES={
+			0, 1, 3, // first triangle
+			1, 2, 3  // second triangle
+	};
 
 	Surface::Surface(int width, int height, const FontInfo_t fontInfo, const std::string shaderName, const std::string samplerName, bool blend)
 			: nWidth(width),
@@ -44,8 +54,7 @@ namespace Pix {
 
 		if (pActiveTexture == nullptr) return false;
 
-		LayerVao::add((float *) VERTICES, sizeof(VERTICES)/sizeof(float),
-					  (unsigned *) INDICES, sizeof(INDICES)/sizeof(unsigned));
+		LayerVao::add(VERTICES, INDICES);
 
 		pActiveTexture->upload();
 
