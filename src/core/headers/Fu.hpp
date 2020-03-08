@@ -115,6 +115,8 @@ namespace Pix {
 	public:
 		virtual ~InputDevice();
 
+		virtual void init(Fu *engine) = 0;
+		
 		// poll device values if makes sense. called by the engine loop.
 		virtual void poll() = 0;
 
@@ -263,6 +265,7 @@ namespace Pix {
 
 	inline void Fu::addInputDevice(InputDevice *inputDevice) {
 		vInputDevices.emplace_back(inputDevice);
+		inputDevice->init(this);
 	}
 
 	inline Drawable *Fu::buffer() { return pSurface->buffer(); }

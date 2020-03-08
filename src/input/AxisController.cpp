@@ -71,8 +71,10 @@ namespace Pix {
 	}
 
 	void AxisController::inputIncremental(float xdelta, float ydelta) {
-		if (xdelta != 0) nInputCounter += 2;
-		if (nInputCounter > 5) nInputCounter = 5;
+		if (xdelta != 0) nInputCounterX += 2;
+		if (nInputCounterX > 6) nInputCounterX = 6;
+		if (ydelta != 0) nInputCounterY += 2;
+		if (nInputCounterY > 6) nInputCounterY = 6;
 		inputNormalized(fNextAxisX + xdelta, fNextAxisY + ydelta);
 	}
 
@@ -88,7 +90,7 @@ namespace Pix {
 		fNextAxisY = yAxis;
 
 		if (DBG)
-			LogV(TAG, SF("axis input %f %f %d", xAxis, yAxis, nInputCounter));
+			LogV(TAG, SF("axis input %f %f", xAxis, yAxis));
 
 	}
 
@@ -103,18 +105,16 @@ namespace Pix {
 		fAxisX = fNextAxisX;
 		fAxisY = fNextAxisY;
 
-		if (nInputCounter > 0)
-			nInputCounter--;
-		
+		if (nInputCounterX > 0) nInputCounterX--;
+		if (nInputCounterY > 0) nInputCounterY--;
+
 		// process interpolation
 
 		constexpr float THR = 0.001;
 
 		// auto center constants
-		if (nInputCounter == 0) {
-			fAxisX *= CONFIG.AUTOX;
-			fAxisY *= CONFIG.AUTOY;
-		}
+		if (nInputCounterX == 0) fAxisX *= CONFIG.AUTOX;
+		if (nInputCounterY == 0) fAxisY *= CONFIG.AUTOY;
 
 		float lerp = 4;
 

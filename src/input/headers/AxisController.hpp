@@ -27,7 +27,8 @@ namespace Pix {
 		
 		float fAxisX, fAxisY, fNextAxisX, fNextAxisY;    // raw
 		float fCurrentX, fCurrentY;                      // interpolated
-		int nInputCounter = 0;
+		int nInputCounterX = 0;
+		int nInputCounterY = 0;
 
 	
 	public:
@@ -40,6 +41,8 @@ namespace Pix {
 		AxisController(AxisControllerConfig_t config={});
 
 		virtual ~AxisController();
+
+		void init(Fu *engine);
 
 		/**
 		 * Input data from a gyroscope
@@ -105,6 +108,7 @@ namespace Pix {
 		void sync(float fElapsedTime);
 	};
 
+	inline void AxisController::init(Fu *engine) {}
 
 	inline float AxisController::x() { return fAxisX; }
 

@@ -26,6 +26,7 @@ namespace Pix {
 
 		int nX = 0, nY = 0, nWheelX = 0, nWheelY = 0;
 		int nNewX = 0, nNewY = 0, nNewWheelX = 0, nNewWheelY = 0;
+		int nScreenWidth, nScreenHeight;
 		bool *pNextButtonState = nullptr;
 		bool *pButtonState = nullptr;
 		bool *pStatePressed;
@@ -59,6 +60,10 @@ namespace Pix {
 
 		static int y();
 
+		static float xNdc();
+
+		static float yNdc();
+
 		static bool isPressed(int button);
 
 		static bool isHeld(int button);
@@ -67,19 +72,27 @@ namespace Pix {
 
 		~Mouse();
 
+		void init(Fu *engine);
+		
 		void poll();
 
 		void sync(float fElapsedTime);
 
 	};
 
+	inline void Mouse::init (Fu *engine) {
+		nScreenWidth = engine->screenWidth();
+		nScreenHeight = engine->screenHeight();
+	}
+
 	inline bool *Mouse::getBuffer() { return pNextButtonState; }
 
 
 	// query mouse position (static)
 	inline int Mouse::x() { return pInstance->nX; }
-
 	inline int Mouse::y() { return pInstance->nY; }
+	inline float Mouse::xNdc() { return 2.0f*((float)pInstance->nX / pInstance->nScreenWidth - 0.5f); }
+	inline float Mouse::yNdc() { return  -2.0f*((float)pInstance->nY / pInstance->nScreenHeight - 0.5f); }
 
 	// input coordinates from platform layer
 	inline void Mouse::input(int px, int py) {

@@ -89,11 +89,13 @@ namespace Pix {
 		
 		~Keyboard();
 
+		void init(Fu *engine);
 		void poll();
 
 		void sync(float fElapsedTime);
 	};
 
+	inline void Keyboard::init(Fu *engine) {}
 	inline Keyboard *Keyboard::instance() { return pInstance; }
 	inline bool *Keyboard::getBuffer() { return pNextState; }
 

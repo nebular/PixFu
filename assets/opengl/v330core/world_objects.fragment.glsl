@@ -11,6 +11,7 @@ uniform sampler2D modelTexture;
 uniform vec3 lightColour;
 uniform float shineDamper;
 uniform float reflectivity;
+uniform vec4 tintMode;
 
 //vec3 lightColour=vec3(1,0,1);
 //float shineDamper = 1;
@@ -39,10 +40,8 @@ void main()
 	specularFactor = max(specularFactor,0.0);
 	float dampedFactor = pow(specularFactor,shineDamper);
 	vec3 finalSpecular = dampedFactor * reflectivity * lightColour;
-
-		
 	
-	
+	if (tintMode.w==1.) fincolor*=tintMode;
 	color =  vec4(diffuse,1.0) * fincolor + vec4(finalSpecular,1.0);
 
 	
