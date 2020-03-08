@@ -36,8 +36,8 @@ namespace Pix {
 			: nWidth(width),
 			  nHeight(height),
 			  pShader(new Shader(std::move(shaderName))),
-			  sSamplerName(std::move(samplerName)),
-			  bBlend(blend) {
+			  bBlend(blend),
+			  sSamplerName(std::move(samplerName)) {
 
 		if (DBG) LogV(TAG, SF("Creating, %dx%d, shader %s", width, height, shaderName.c_str()));
 		pActiveTexture = new Texture2D(width, height);

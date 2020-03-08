@@ -11,6 +11,7 @@
 #include "OpenGlUtils.h"
 #include "Utils.hpp"
 #include "androidapi.h"
+#include "VirtualKeys.hpp"
 
 #include <iostream>
 
@@ -47,9 +48,9 @@ namespace Pix {
 		Mouse::enable();
 		Keyboard::enable();
 
-		cLoneKeys = new LoneScreenKey(1);
-		LoneScreenKey::currentInstance = cLoneKeys; // todo singleton
+		VirtualKeys::enable({ Colors::WHITE, 1, true});
 
+		cLoneKeys = VirtualKeys::instance();
 		cLoneKeys->reset();
 
 		return true;
@@ -111,7 +112,7 @@ namespace Pix {
 
 		// Iterate through virtual keys and set their state.
 		// will return 0 -> key pressed with primary pointer (X0Y0), 1 -> with secondary (X1Y1), -1 No key pressed.
-		int keysRegion = cLoneKeys->sync(tCurrentMotionEvent.X0, tCurrentMotionEvent.Y0,
+		int keysRegion = cLoneKeys->input(tCurrentMotionEvent.X0, tCurrentMotionEvent.Y0,
 										 tCurrentMotionEvent.X1, tCurrentMotionEvent.Y1,
 										 tCurrentMotionEvent.Action == ACTION_UP);
 

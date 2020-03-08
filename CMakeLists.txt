@@ -53,7 +53,6 @@ add_library(pixFu SHARED
         src/support/FuOLC.cpp
 
         src/arch/android/platform_android.cpp
-        src/arch/android/plugins/lonescreenkey.cpp
         src/arch/android/input/GyroController.cpp
         )
 

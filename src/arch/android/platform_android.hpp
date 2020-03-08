@@ -7,7 +7,7 @@
 #define PIXENGINE_ANDROID_ANDROIDLAYER_H
 
 #include "OpenGL.h"
-#include "plugins/lonescreenkey.h"
+#include "VirtualKeys.hpp"
 #include "Utils.hpp"
 
 namespace Pix {
@@ -19,7 +19,7 @@ namespace Pix {
 
 	class PixFuPlatformAndroid : public FuPlatform {
 
-		LoneScreenKey *cLoneKeys;                // screenkeys helper class
+		VirtualKeys *cLoneKeys;                // screenkeys helper class
 
 		MotionEvent_t tCurrentMotionEvent;
 
