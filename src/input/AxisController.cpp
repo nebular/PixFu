@@ -25,13 +25,14 @@ namespace Pix {
 			: AxisController::AxisController(config) {}
 
 	AxisController::AxisController(AxisControllerConfig_t config)
-			: fAxisX(0),
+			:
+			  CONFIG(config),
+			  fAxisX(0),
 			  fAxisY(0),
 			  fNextAxisX(0),
 			  fNextAxisY(0),
 			  fCurrentX(0),
-			  fCurrentY(0),
-			  CONFIG(config)
+			  fCurrentY(0)
 			  {}
 
 	AxisController::~AxisController() = default;

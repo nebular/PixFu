@@ -45,6 +45,7 @@ add_library(pixFu SHARED
 
         src/input/Keyboard.cpp
         src/input/AxisController.cpp
+        src/input/VirtualKeys.cpp
         src/input/Mouse.cpp
 
         src/items/Canvas2D.cpp

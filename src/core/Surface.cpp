@@ -35,8 +35,8 @@ namespace Pix {
 	Surface::Surface(int width, int height, const FontInfo_t fontInfo, const std::string shaderName, const std::string samplerName, bool blend)
 			: nWidth(width),
 			  nHeight(height),
-			  pShader(new Shader(std::move(shaderName))),
 			  bBlend(blend),
+			  pShader(new Shader(std::move(shaderName))),
 			  sSamplerName(std::move(samplerName)) {
 
 		if (DBG) LogV(TAG, SF("Creating, %dx%d, shader %s", width, height, shaderName.c_str()));
