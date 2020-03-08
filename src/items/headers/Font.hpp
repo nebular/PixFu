@@ -46,9 +46,10 @@ namespace Pix {
 	class Font {
 
 		Drawable *pFontSprite;
-		const FontInfo_t INFO;
 		
 	public:
+
+		const FontInfo_t INFO;
 
 		/**
 		 * Creates a new font, loading its bitmap.

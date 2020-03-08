@@ -261,7 +261,14 @@ namespace Pix {
 
 	inline int Fu::screenHeight() { return nScreenHeight; }
 
-	inline void Fu::addExtension(FuExtension *e) { vExtensions.push_back(e); }
+	inline void Fu::addExtension(FuExtension *e) {
+	
+		if (e->ONCONSTRUCT && bLoopActive)
+			throw std::runtime_error("Extension has to be added on constructor");
+		
+		vExtensions.push_back(e);
+		
+	}
 
 	inline void Fu::addInputDevice(InputDevice *inputDevice) {
 		vInputDevices.emplace_back(inputDevice);

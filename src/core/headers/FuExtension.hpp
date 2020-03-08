@@ -20,14 +20,19 @@ namespace Pix {
 
 	public:
 
-		virtual ~FuExtension();
+		const bool ONCONSTRUCT;
+
+		FuExtension(bool requireOnConstruct = false);
+		
+		virtual ~FuExtension() = default;
 
 		virtual bool init(Fu *engine);
 
 		virtual void tick(Fu *engine, float fElapsedTime) = 0;
 	};
 
-	inline FuExtension::~FuExtension() {}
+	inline FuExtension::FuExtension(bool requireOnConstruct)
+	: ONCONSTRUCT(requireOnConstruct) {}
 
 	inline bool FuExtension::init(Fu *engine) { return true; }
 

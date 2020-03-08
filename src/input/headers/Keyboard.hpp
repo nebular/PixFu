@@ -28,7 +28,7 @@ namespace Pix {
 
 		friend class PixFuPlatformAndroid;
 
-		friend class LoneScreenKey;
+		friend class VirtualKeys;
 
 		static std::string TAG;
 		static Keyboard *pInstance;

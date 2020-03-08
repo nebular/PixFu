@@ -186,6 +186,7 @@ namespace Pix {
 
 		if (DBG) LogV(TAG, SF("Calling userCreate, reinit %d", reinit));
 		if (!reinit) {
+
 			if (DBG) LogV(TAG, "Initing Extensions");
 
 			// initialize PixFu Extensions

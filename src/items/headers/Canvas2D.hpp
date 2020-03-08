@@ -57,6 +57,8 @@ public:
 	int width();
 	
 	int height();
+	
+	Font *font();
 		
 };
 
@@ -70,5 +72,6 @@ inline void Canvas2D::clear(Pixel color) { pTarget->clear(color); }
 
 inline void Canvas2D::blank() { pTarget->blank(0); }
 
+inline Font *Canvas2D::font() { return pFont; }
 
 }
