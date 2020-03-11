@@ -20,18 +20,17 @@ uniform float iTime;
 
 void main()
 {
-	vec3 lp = vec3(lightPosition.x*sin(iTime), lightPosition.y, lightPosition.z*cos(iTime));
+//	vec3 lp = vec3(lightPosition.x*sin(iTime), lightPosition.y*sin(iTime), lightPosition.z*cos(iTime));
 
 	vec4 worldPosition = transformationMatrix * vec4(aPos,1.0);
 
-	surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
-	toLightVector = lp - worldPosition.xyz;
-//	toLightVector = lightPosition - worldPosition.xyz;
-	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
-	toCameraVector = (invViewMatrix * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
+	// pre-normalize for fragment
+	surfaceNormal = normalize((transformationMatrix * vec4(normal,0.0)).xyz);
+//	toLightVector = normalize(lp - worldPosition.xyz);
+	toLightVector = normalize(lightPosition - worldPosition.xyz);
+	toCameraVector = normalize((invViewMatrix * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz);
 
 	TexCoords = vec2(aTexCoord.x,1-aTexCoord.y);
-//	TexCoords = vec2(aTexCoord.x,aTexCoord.y);
 
 	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 

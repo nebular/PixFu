@@ -11,13 +11,16 @@
 
 namespace Pix {
 
-	Texture2D::Texture2D(Drawable *buffer) : pBuffer(buffer) {}
+	Texture2D::Texture2D(Drawable *buffer, bool repeat)
+	: pBuffer(buffer), REPEATMODE(repeat) {}
 
-	Texture2D::Texture2D(int width, int height) {
+	Texture2D::Texture2D(int width, int height, bool repeat)
+	: REPEATMODE(repeat) {
 		pBuffer = new Drawable(width, height);
 	}
 
-	Texture2D::Texture2D(std::string filename) {
+	Texture2D::Texture2D(std::string filename, bool repeat)
+	: REPEATMODE(repeat) {
 		std::string copy = filename;
 		pBuffer = Drawable::fromFile(std::move(filename));
 		if (pBuffer == nullptr) throw std::runtime_error("File not found " + copy);
@@ -30,7 +33,7 @@ namespace Pix {
 
 	bool Texture2D::upload() {
 		if (pBuffer != nullptr) {
-			glChannel = OpenGlUtils::loadTexture(pBuffer, NO_TEXTURE);
+			glChannel = OpenGlUtils::loadTexture(pBuffer, NO_TEXTURE, REPEATMODE);
 			return glChannel >= 0;
 		}
 		return false;

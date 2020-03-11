@@ -22,18 +22,20 @@ namespace Pix {
 		Drawable *pBuffer;
 		GLuint glChannel = -1;
 
+		const bool REPEATMODE;
+		
 	public:
 
 		~Texture2D();
 
 		// New Texture (buffer)
-		Texture2D(Drawable *buffer);
+		Texture2D(Drawable *buffer, bool repeat = false);
 
 		// New Texture (blank)
-		Texture2D(int width, int height);
+		Texture2D(int width, int height, bool repeat = false);
 
 		// New Texture (from file)
-		Texture2D(std::string filename);
+		Texture2D(std::string filename, bool repeat = false);
 
 		bool upload();    // Upload texture to graphics card
 		GLuint id();    // Get texture id

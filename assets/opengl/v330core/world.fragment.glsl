@@ -12,6 +12,9 @@ uniform sampler2D dirtyTexture;
 uniform vec3 lightColour;
 uniform float shineDamper;
 uniform float reflectivity;
+uniform float iTime;
+
+float AMBIENTSTRENGTH = 0.1;
 
 void main()
 {
@@ -41,6 +44,6 @@ void main()
 	float dampedFactor = pow(specularFactor,shineDamper);
 	vec3 finalSpecular = dampedFactor * reflectivity * lightColour;
 	
-	color =  vec4(diffuse,1.0) * fincolor + vec4(finalSpecular,1.0);
-
+	color =  vec4(AMBIENTSTRENGTH*lightColour,1.0) + vec4(diffuse,1.0) * fincolor + vec4(finalSpecular,1.0);
+	
 }
