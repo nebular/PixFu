@@ -20,21 +20,21 @@ uniform float iTime;
 
 void main()
 {
-//	vec3 lp = vec3(lightPosition.x*sin(iTime), lightPosition.y*sin(iTime), lightPosition.z*cos(iTime));
 
 	vec4 worldPosition = transformationMatrix * vec4(aPos,1.0);
 
 	// pre-normalize for fragment
 	surfaceNormal = normalize((transformationMatrix * vec4(normal,0.0)).xyz);
-//	toLightVector = normalize(lp - worldPosition.xyz);
+
+	//  animate lights test
+	//	vec3 lp = vec3(lightPosition.x*sin(iTime), lightPosition.y*sin(iTime), lightPosition.z*cos(iTime));
+	//	toLightVector = normalize(lp - worldPosition.xyz);
+
 	toLightVector = normalize(lightPosition - worldPosition.xyz);
 	toCameraVector = normalize((invViewMatrix * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz);
 
 	TexCoords = vec2(aTexCoord.x,1-aTexCoord.y);
 
 	gl_Position = projectionMatrix * viewMatrix * worldPosition;
-
-//	vec4 p = projectionMatrix * viewMatrix * vec4(aPos.xyz, 1.0);
-//	gl_Position = p; // vec4(p.xyz,1);
 
 }
