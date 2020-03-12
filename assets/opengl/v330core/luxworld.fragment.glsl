@@ -49,12 +49,70 @@ struct PointLight {
 	int enabled;
 };
 
+struct SpotLight {
+
+	vec3 position;
+    vec3 direction;
+    float cutOff;
+    float outerCutOff;
+  
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+	
+    float constant;
+    float linear;
+    float quadratic;
+	
+	float ka;
+	int enabled;
+
+};
+
 uniform float iTime;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
+uniform SpotLight spotLights[NR_POINT_LIGHTS];
 uniform Material material;
 
 uniform sampler2D materialTexture;
 uniform sampler2D dirtyTexture;
+
+vec3 CalcSpotLight(SpotLight light, vec3 fragpos, vec3 incolor) {
+
+	vec3 lightDir = normalize(light.position - FragPos);
+    
+    // check if lighting is inside the spotlight cone
+    float theta = dot(lightDir, normalize(-light.direction));
+    
+    if(theta > light.cutOff) {
+
+		// remember that we're working with angles as cosines instead of degrees
+		// so a '>' is used.
+
+		float distance    = length(light.position - FragPos);
+		float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+		// ambient
+		vec3 ambient  = (light.ambient * material.ambient);
+
+		// diffuse
+		float diff = max(dot(surfaceNormal, lightDir), 0.0);
+		vec3 diffuse  = (light.diffuse  * diff 	* incolor) * attenuation;
+
+		// specular
+		vec3 viewDir = normalize(toCameraVector - FragPos);
+		vec3 reflectDir = reflect(-lightDir, surfaceNormal);
+		float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+		vec3 specular = material.illum==2 ? light.specular * spec * material.specular * attenuation : vec3(0,0,0);
+
+		return light.ka * ambient + diffuse + specular;
+
+	} else {
+		// else, use ambient light so scene isn't completely dark outside the spotlight.
+		return vec3(0,0,0);
+		// FragColor = vec4(light.ambient * texture(material.diffuse, TexCoords).rgb, 1.0);
+	  }
+}
 
 vec3 CalcPointLight(PointLight light,  vec3 fragPos, vec3 incolor)
 {
@@ -86,12 +144,14 @@ vec4 applyLightModel2(vec4  fincolor) {
 	vec3 result = directionalLightAmbient
 		+ directionalLightDiffuse*fincolor.xyz
 		+ directionalLightSpecular;
-	
+	result=vec3(0,0,0);
 	// phase 2: Point lights
-    for(int i = 0; i < NR_POINT_LIGHTS; i++)
+    for(int i = 0; i < NR_POINT_LIGHTS; i++) {
 		if (pointLights[i].enabled == 1)
 			result += CalcPointLight(pointLights[i], FragPos, fincolor.xyz);
- 
+		if (spotLights[i].enabled == 1)
+			result += CalcSpotLight(spotLights[i], FragPos, fincolor.xyz);
+	}
 	// phase 3: Spot light
     // result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
     
