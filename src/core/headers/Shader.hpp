@@ -14,6 +14,8 @@
 #include "OpenGL.h"
 #include "OpenGlUtils.h"
 #include "Texture2D.hpp"
+#include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
 
 namespace Pix {
 
@@ -47,6 +49,10 @@ namespace Pix {
 		void setVec3(const std::string &name, float x, float y, float z) const;
 
 		void setVec4(const std::string &name, float x, float y, float z, float w) const;
+
+		void setVec4(const std::string &name, glm::vec4 v);
+
+		void setVec3(const std::string &name, glm::vec3 v);
 
 		void setMat2(const std::string &name, const float *mat2) const;
 
@@ -111,6 +117,14 @@ namespace Pix {
 
 	inline void Shader::setVec4(const std::string &name, float x, float y, float z, float w) const {
 		glUniform4f(glGetUniformLocation(ID, name.c_str()), x, y, z, w);
+	}
+
+	inline void Shader::setVec4(const std::string &name, glm::vec4 v) {
+		glUniform4f(glGetUniformLocation(ID, name.c_str()), v.x, v.y, v.z, v.w);
+	}
+
+	inline void Shader::setVec3(const std::string &name, glm::vec3 v) {
+		glUniform3f(glGetUniformLocation(ID, name.c_str()), v.x, v.y, v.z);
 	}
 
 	inline void Shader::setMat2(const std::string &name, const float *mat) const {

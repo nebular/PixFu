@@ -111,7 +111,6 @@ namespace Pix {
 		Mesh_t &mesh = vMeshes[index];
 		if (bindBuffers) bind(index);
 		glDrawElements(DRAWMODE, mesh.nIndices, GL_UNSIGNED_INT, 0);
-//		glDrawElements(GL_LINES, mesh.nIndices, GL_UNSIGNED_INT, 0);
 		if (bindBuffers) unbind();
 	}
 

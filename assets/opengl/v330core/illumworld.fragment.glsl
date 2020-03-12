@@ -41,7 +41,7 @@ void main() {
 		fincolor = texture(materialTexture, coords);
 
 	// ambient, ka = a,bient weight
-	vec3 ambient = light.ka * light.ambient * material.ambient;
+	vec3 ambient = light.ka * light.ka * light.ambient * material.ambient;
 
 	// diffuse
 	float diff = max(dot(surfaceNormal, toLightVector), 0.2);

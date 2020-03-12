@@ -62,6 +62,8 @@ void main() {
 		? texture(materialTexture, coords)
 		: vec4(1,1,1,1);
 	
+	/////////////////////////////////////////////////////////////// lighting
+	
 	// ambient
 	vec3 ambient = light.ka * light.ambient * material.ambient;
 
