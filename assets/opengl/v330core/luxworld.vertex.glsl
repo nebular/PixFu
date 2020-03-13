@@ -31,7 +31,6 @@ struct DirLight {
 	vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-	float ka;
 };
 
 uniform mat4 transformationMatrix;
@@ -54,7 +53,7 @@ void CalcDirLight(DirLight light) {
     float spec = material.illum==2 ? pow(max(dot(toCameraVector, reflectDir), 0.0), material.shininess) : 0;
     
 	// combine results
-    directionalLightAmbient  = light.ka * light.ambient  * material.ambient;
+    directionalLightAmbient  = light.ambient  * material.ambient;
     directionalLightDiffuse  = light.diffuse  * diff * material.diffuse;
     directionalLightSpecular = light.specular * spec * material.specular;
 
