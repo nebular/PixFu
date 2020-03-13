@@ -16,15 +16,19 @@
 #include "Texture2D.hpp"
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
+#include "glm/matrix.hpp"
 #include <vector>
 
 namespace Pix {
+
+	class Camera;
 
 	class Shader {
 
 		GLuint ID;
 		
 	protected:
+		
 		GLuint getLocator(const std::string &name);
 		
 	public:
@@ -39,6 +43,7 @@ namespace Pix {
 		void cleanup();
 
 		void textureUnit(std::string sampler2d, Texture2D *texture);
+		void textureUnit(GLuint locator, Texture2D *texture);
 
 		// utility uniform functions
 
@@ -80,7 +85,12 @@ namespace Pix {
 		setInt(sampler2d, texture->unit());
 	}
 
-	inline void Shader::bindAttribute(GLuint attribute, std::string variableName) {
+	inline void Shader::textureUnit(GLuint locator, Texture2D *texture) {
+		setInt(locator, texture->unit());
+	}
+
+
+inline void Shader::bindAttribute(GLuint attribute, std::string variableName) {
 		glBindAttribLocation(ID, attribute, variableName.c_str());
 	}
 
@@ -151,9 +161,6 @@ namespace Pix {
 		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, mat);
 	}
 
-
-	
-
 	inline void Shader::setBool(const GLint locator, bool value) const {
 		glUniform1i(locator, (int) value);
 	}
@@ -197,5 +204,27 @@ namespace Pix {
 	inline void Shader::setMat4(const GLint locator, const float *mat) const {
 		glUniformMatrix4fv(locator, 1, GL_FALSE, mat);
 	}
+	
+	class Shader3D : public Shader {
+
+	protected:
+		GLuint LOC_TRANSFORMATIONMATRIX;
+		GLuint LOC_VIEWMATRIX;
+		GLuint LOC_INVVIEWMATRIX;
+		GLuint LOC_PROJECTIONMATRIX;
+
+	public:
+
+		Shader3D (const std::string& name);
+		
+		virtual void loadTransformationMatrix(glm::mat4 &matrix);
+
+		virtual void loadViewMatrix(Camera *camera);
+
+		virtual void loadProjectionMatrix(glm::mat4 &projection);
+
+	};
+
+
 
 };

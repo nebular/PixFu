@@ -124,6 +124,7 @@ void CalcPointLight(PointLight light,  vec3 fragPos, vec3 incolor)
     vec3 ambient  = (light.ambient  		* material.ambient) * attenuation;
     vec3 diffuse  = (light.diffuse  * diff 	* incolor) * attenuation;
 	vec3 specular = material.illum==2 ? light.specular * spec * material.specular * attenuation : vec3(0,0,0);
+
 	resultLight += ambient + diffuse + specular;
 	
 }
