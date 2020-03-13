@@ -30,6 +30,7 @@ struct SpotLight {
 
 	vec3 position;
     vec3 direction;
+	
     float cutOff;
     float outerCutOff;
   
@@ -140,6 +141,7 @@ vec4 applyLightModel2(vec4 fincolor) {
 		+ directionalLightSpecular;
 
 	result=vec3(0,0,0);
+
 	// phase 2: Point lights
     for(int i = 0; i < NR_POINT_LIGHTS; i++) {
 		if (pointLights[i].enabled == 1)
@@ -185,7 +187,7 @@ void main() {
 		: vec4(1,1,1,1);
 	
 	// tint
-	if (tintMode.w==1.) fincolor*=tintMode;
+	// if (tintMode.w==1.) fincolor*=tintMode;
 
 	/////////////////////////////////////////////////////////////// lighting
 	color = applyLightModel2(fincolor);
