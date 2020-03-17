@@ -30,11 +30,11 @@ struct Material {
 struct PointLight {
 
 	vec3 position;
-    
+
 	vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-	
+
 	vec3 params; // constant, linear, quadratic
 	int enabled;
 };
@@ -43,12 +43,12 @@ struct SpotLight {
 
 	vec3 position;
     vec3 direction;
-	
+
     vec2 cutOff;
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-	
+
 	vec3 params; // constant, linear, quadratic
 	int enabled;
 
@@ -71,7 +71,7 @@ vec3 resultLight;
 
 vec3 calcSpotlightInBounds(SpotLight light, vec3 fragPos, vec3 incolor, vec3 lightDir, float intensity) {
 
-	
+
 	// remember that we're working with angles as cosines instead of degrees
 	// so a '>' is used.
 
@@ -96,7 +96,7 @@ vec3 calcSpotlightInBounds(SpotLight light, vec3 fragPos, vec3 incolor, vec3 lig
 }
 
 vec3 CalcSpotLight(SpotLight light, vec3 fragPos, vec3 incolor) {
-	
+
 	vec3 lightDir = normalize(light.position - fragPos);
 
 	// check if lighting is inside the spotlight cone
@@ -110,26 +110,26 @@ vec3 CalcSpotLight(SpotLight light, vec3 fragPos, vec3 incolor) {
 	return theta > light.cutOff.y
 		? calcSpotlightInBounds(light, fragPos, incolor, lightDir, intensity)
 		: zeros;
-	
+
 }
 
 vec3 CalcPointLight(PointLight light,  vec3 fragPos, vec3 incolor)
 {
-	
+
     vec3 lightDir = normalize(light.position - fragPos);
-    
+
 	// diffuse shading
     float diff = max(dot(surfaceNormal, lightDir), 0.0);
-    
+
 	// specular shading
     vec3 reflectDir = reflect(-lightDir, surfaceNormal);
     float spec = pow(max(dot(toCameraVector, reflectDir), 0.0), material.shininess);
-    
+
 	// attenuation
     float distance    = length(light.position - fragPos);
     float attenuation = 1.0 / (light.params.x + light.params.y * distance +
   			     light.params.z * (distance * distance));
-	
+
 	// combine results
     return
 		  (light.ambient  			* material.ambient) * attenuation
@@ -148,12 +148,12 @@ vec3 applyLightSpots(vec4 fincolor) {
 }
 
 vec3 applyLightModel(vec4 fincolor) {
-	
+
     // phase 1: Directional lighting
 	resultLight = directionalLightAmbient
 		+ directionalLightDiffuse*fincolor.xyz
 		+ directionalLightSpecular;
-	
+
 	return lightMode == 0 ? resultLight : applyLightSpots(fincolor);
 }
 
@@ -164,7 +164,7 @@ void main() {
 
 	// syntax is strange because I read somewhere that IF is very slow
 	// compared to ternary operator
-	
+
 	// check point is into texture animation region
 	bool apply= material.animConfig.z != 0
 		&& coords.x >= reg.x && coords.y >= reg.y
@@ -184,11 +184,11 @@ void main() {
 	vec4 fincolor = material.hasTexture == 1
 		? texture(materialTexture, coords)
 		: vec4(1,1,1,1);
-	
+
 	// tint
 	if (tintMode.w==1.) fincolor*=tintMode;
 
 	/////////////////////////////////////////////////////////////// lighting
 	color = vec4(applyLightModel(fincolor), fincolor.w);
-	
+
 }
