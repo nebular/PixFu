@@ -100,7 +100,7 @@ namespace Pix {
 
 	GLuint OpenGlUtils::getGlTexture(uint glChannel) { return GL_TEXTURE0 + glChannel - 1; }
 
-	GLuint OpenGlUtils::loadTexture(Pix::Drawable *img, GLuint texId, bool repeat) {
+	GLuint OpenGlUtils::loadTexture(Pix::Drawable *img, GLuint texId, bool repeat, GLuint sampleMode) {
 
 		if (img == nullptr) return NO_TEXTURE;
 
@@ -112,8 +112,8 @@ namespace Pix {
 			glActiveTexture(texUnit);
 			glBindTexture(GL_TEXTURE_2D, texId);    // any subsequent texture commands will configure the currently bound texture:
 
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, sampleMode);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, sampleMode);
 
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, repeat ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, repeat ? GL_REPEAT : GL_CLAMP_TO_EDGE);
