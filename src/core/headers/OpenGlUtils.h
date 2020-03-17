@@ -32,8 +32,7 @@ namespace Pix {
 
 		static unsigned int compileShader(unsigned int type, const std::string &source);
 
-		static unsigned int
-		loadShader(const std::string &vertexShader, const std::string &fragementShader);
+		static unsigned int loadShader(const std::string &vertexShader, const std::string &fragementShader);
 
 		static unsigned int loadShader(const std::string &filename);
 
@@ -41,7 +40,8 @@ namespace Pix {
 
 		static GLuint getGlTexture(GLuint glChannel);
 
-		static GLuint loadTexture(Pix::Drawable *img, GLuint texId = NO_TEXTURE, bool repeat = false);
+		static GLuint loadTexture(Pix::Drawable *img, GLuint texId = NO_TEXTURE, bool repeat = false, GLuint sampleMode = GL_LINEAR);
+
 	};
 
 }

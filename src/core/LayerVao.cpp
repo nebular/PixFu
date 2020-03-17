@@ -102,6 +102,7 @@ namespace Pix {
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+//		glEnable(GL_CULL_FACE);
 		if (DBG) OpenGlUtils::glError("bind mesh");
 
 	}
@@ -119,6 +120,7 @@ namespace Pix {
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 		glBindVertexArray(0);
+//		glDisable(GL_CULL_FACE);
 		if (DBG) OpenGlUtils::glError("unbind");
 	}
 
@@ -133,7 +135,7 @@ namespace Pix {
 		}
 
 		if (DBG) LogV(TAG, "deinit");
-		if (DBG) OpenGlUtils::glError("Layerao deinit");
+		if (DBG) OpenGlUtils::glError("LayerVao deinit");
 	}
 
 }
